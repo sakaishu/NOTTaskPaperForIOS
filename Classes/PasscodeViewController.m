@@ -12,7 +12,7 @@
 #import "ApplicationViewController.h"
 #import "ApplicationController.h"
 
-@interface PasscodeViewController(/*Private*/)
+@interface PasscodeViewController() <UITextFieldDelegate>
 
 - (void)close;
 - (void)onFourthInput:(NSString *)fourthString;
@@ -26,12 +26,10 @@
 
 @implementation PasscodeViewController
 
-@synthesize viewState;
-
 - (void)setViewState:(PasscodeViewState)aViewState {
-	viewState = aViewState;
+	_viewState = aViewState;
 	
-	switch (viewState) {
+	switch (_viewState) {
 		case PasscodeSetNewPasscode: {
 			self.title = NSLocalizedString(@"Set Passcode", nil);
 			self.descriptionLabel.text = NSLocalizedString(@"Enter a passcode", nil);
@@ -61,15 +59,6 @@
 			break;
 	}
 }
-
-@synthesize passcodeTextField1 = _passcodeTextField1;
-@synthesize passcodeTextField2 = _passcodeTextField2;
-@synthesize passcodeTextField3 = _passcodeTextField3;
-@synthesize passcodeTextField4 = _passcodeTextField4;
-@synthesize hiddenTextField = _hiddenTextField;
-@synthesize descriptionLabel = _descriptionLabel;
-@synthesize descriptionLabel2 = _descriptionLabel2;
-@synthesize theNewPasscode = _theNewPasscode;
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
@@ -251,21 +240,5 @@
 	[self clearTextFeilds];
 	[self dismissModalViewControllerAnimated:NO];
 }
-
-- (void)dealloc {
-	_passcodeTextField1 = nil;
-	_passcodeTextField2 = nil;
-	_passcodeTextField3 = nil;
-	_passcodeTextField4 = nil;
-
-	_hiddenTextField.delegate = nil;
-	_hiddenTextField = nil;
-	_descriptionLabel = nil;
-	_descriptionLabel2 = nil;	
-	
-	_theNewPasscode = nil;
-
-}
-
 
 @end

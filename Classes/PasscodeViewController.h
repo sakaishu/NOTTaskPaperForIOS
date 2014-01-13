@@ -15,17 +15,7 @@ typedef enum {
 } PasscodeViewState;
 
 
-@interface PasscodeViewController : UIViewController <UITextFieldDelegate> {
-	UITextField *_passcodeTextField1;
-	UITextField *_passcodeTextField2;
-	UITextField *_passcodeTextField3;
-	UITextField *_passcodeTextField4;
-	UITextField *_hiddenTextField;
-	UILabel *_descriptionLabel;
-	UILabel *_descriptionLabel2;
-	PasscodeViewState viewState;
-	NSString *_theNewPasscode;
-}
+@interface PasscodeViewController : UIViewController
 
 @property (nonatomic, strong) IBOutlet UITextField *passcodeTextField1;
 @property (nonatomic, strong) IBOutlet UITextField *passcodeTextField2;
