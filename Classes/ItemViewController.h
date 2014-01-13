@@ -13,7 +13,7 @@
 
 @interface ItemViewController : ViewController <PathViewControllerDelegate> {
 	PathViewController *pathViewController;
-	SearchViewController *__weak searchViewController;
+	SearchViewController *searchViewController;
 	NSDate *lastModificationDate;
 }
 
@@ -27,7 +27,7 @@
 @property (nonatomic, readonly) BOOL isFileViewController;
 @property (nonatomic, readonly) BOOL isFolderViewController;
 @property (nonatomic, readonly) PathViewController *pathViewController;
-@property (weak, nonatomic, readonly) SearchViewController *searchViewController;
+@property (nonatomic, readonly) SearchViewController *searchViewController;
 
 #pragma mark -
 #pragma mark Actions
