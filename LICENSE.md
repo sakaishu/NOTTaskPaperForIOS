@@ -1,3 +1,10 @@
+
+
+---
+
+The following is the license included with jessegrosjean/NOTTaskPaperForIOS,
+the basis of this project:
+
 This is free and unencumbered software released into the public domain
 unless otherwise specified in the file's header. (Some parts come from
 third party libs with different licenses)
