@@ -46,10 +46,10 @@
 // unquotedString			= nonReservedWord+
 
 @interface QueryParser ()
-@property (nonatomic, retain) NSArray *logicKeywords;
-@property (nonatomic, retain) NSArray *relationKeywords;
-@property (nonatomic, retain) NSArray *attributeKeywords;
-@property (nonatomic, retain) PKToken *nonReservedWordFence;
+@property (nonatomic, strong) NSArray *logicKeywords;
+@property (nonatomic, strong) NSArray *relationKeywords;
+@property (nonatomic, strong) NSArray *attributeKeywords;
+@property (nonatomic, strong) PKToken *nonReservedWordFence;
 - (void)boldRange:(NSRange)aRange attributedString:(id)string;
 - (void)blackRange:(NSRange)aRange attributedString:(id)string;
 @end
@@ -82,28 +82,6 @@
 	return self;
 }
 
-- (void)dealloc {
-	self.expressionParser = nil;
-	self.termParser = nil;
-	self.orTermParser = nil;
-	self.notFactorParser = nil;
-	self.andNotFactorParser = nil;
-	self.primaryExpressionParser = nil;
-	self.predicateParser = nil;
-	self.completePredicateParser = nil;
-	self.attributeValuePredicateParser = nil;
-	self.attributePredicateParser = nil;
-	self.relationValuePredicateParser = nil;
-	self.valuePredicateParser = nil;
-	self.attributeParser = nil;
-	self.relationParser = nil;
-	self.valueParser = nil;
-	self.quotedStringParser = nil;
-	self.unquotedStringParser = nil;
-	self.reservedWordParser = nil;
-	self.nonReservedWordParser = nil;
-	[super dealloc];
-}
 
 - (NSPredicate *)parse:(NSString *)s highlight:(id *)attributedString {
 	PKAssembly *assembly = [self assemblyFromString:s];
@@ -431,7 +409,7 @@
         [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
         
         NSNumber *maybeNumberValue = [numberFormatter numberFromString:value];
-		NSMutableString *tagsPredicateFormat = [[[NSMutableString alloc] init] autorelease];
+		NSMutableString *tagsPredicateFormat = [[NSMutableString alloc] init];
         if (maybeNumberValue) {
             [tagsPredicateFormat appendString:@"SUBQUERY(tags, $tag, $tag.name =[cd] %@ AND $tag.numberValue "];
             [tagsPredicateFormat appendString:relation];
@@ -450,7 +428,7 @@
 		
 		if ([attribute isEqualToString:@"project"]) {
 			 NSNumber *projectType = [NSNumber numberWithUnsignedInteger:TaskPaperSectionTypeProject];
-			 NSMutableString *projectPredicateFormat = [[[NSMutableString alloc] init] autorelease];
+			 NSMutableString *projectPredicateFormat = [[NSMutableString alloc] init];
 			 [projectPredicateFormat appendFormat:@"(type = %%@ AND content %@ %%@)", relation, nil];
 			 [projectPredicateFormat appendString:@" OR "];
 			 [projectPredicateFormat appendFormat:@"SUBQUERY(ancestors.allObjects, $ancestor, $ancestor.type = %%@ AND $ancestor.content %@ %%@).@count > 0", relation, nil];

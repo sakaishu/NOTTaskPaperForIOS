@@ -13,7 +13,7 @@
 @implementation Toolbar
 
 + (UIView *)flexibleSpace {
-	UIView *result = [[[UIView alloc] init] autorelease];
+	UIView *result = [[UIView alloc] init];
 	result.hidden = YES;
 	result.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 	return result;
@@ -25,10 +25,6 @@
 	return self;
 }
 
-- (void)dealloc {
-	[toolbarItems release];
-	[super dealloc];
-}
 
 @synthesize toolbarItems;
 
@@ -37,8 +33,7 @@
 		[toolbarItems makeObjectsPerformSelector:@selector(removeFromSuperview)];
 	}
 	
-	[toolbarItems autorelease];
-	toolbarItems = [items retain];
+	toolbarItems = items;
 	
 	if (toolbarItems) {
 		for (UIButton *each in toolbarItems) {

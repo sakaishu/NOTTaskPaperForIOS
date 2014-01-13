@@ -16,8 +16,7 @@
 - (void)refreshFromDefaults {
 	UIColor *newTintInkColor = [APP_VIEW_CONTROLLER inkColorByPercent:0.5];
 	if (![lastTintInkColor isEqual:newTintInkColor]) {
-		[lastTintInkColor release];
-		lastTintInkColor = [newTintInkColor retain];
+		lastTintInkColor = newTintInkColor;
 		self.image = [UIImage colorizeImage:[UIImage imageNamed:@"pressIndicator.png"] color:[APP_VIEW_CONTROLLER inkColorByPercent:0.5]];
 	}
 }
@@ -29,10 +28,6 @@
 	return self;
 }
 
-- (void)dealloc {
-	[lastTintInkColor release];
-	[super dealloc];
-}
 
 - (void)willMoveToWindow:(UIWindow *)newWindow {
 	[super willMoveToWindow:newWindow];

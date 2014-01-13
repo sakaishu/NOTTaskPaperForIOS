@@ -13,10 +13,7 @@
 @implementation ViewController
 
 - (void)dealloc {
-	[view release];
-	[title release];
 	parentViewController = nil;
-	[super dealloc];
 }
 
 @synthesize view;
@@ -32,8 +29,7 @@
 
 - (void)setTitle:(NSString *)aTitle {
 	if (![title isEqualToString:aTitle]) {
-		[title autorelease];
-		title = [aTitle retain];
+		title = aTitle;
 		self.browserViewController.title = title;
 	}
 }
@@ -56,7 +52,7 @@
 }
 
 - (void)loadView {
-	self.view = [[[UIView alloc] init] autorelease];
+	self.view = [[UIView alloc] init];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

@@ -34,11 +34,6 @@
 	return self;
 }
 
-- (void)dealloc {
-	[pathOperations release];
-	[childSyncError release];
-	[super dealloc];
-}
 
 - (BOOL)validateLocalPath {
 	if ([pathController.localRoot isEqualToString:localPath]) {
@@ -77,7 +72,7 @@
         return;
     }
 
-	[[[pathOperations copy] autorelease] makeObjectsPerformSelector:@selector(cancel)];
+	[[pathOperations copy] makeObjectsPerformSelector:@selector(cancel)];
 	needsCleanupSync = NO;
 	updatedLastSyncHashOnFinish = NO;
 	
@@ -94,7 +89,6 @@
 - (void)finishIfSyncOperationsAreFinished {
 	if ([pathOperations count] == 0 && !schedulingOperations) {
 		if (needsCleanupSync) {
-			[childSyncError release];
 			childSyncError = nil;
 			needsCleanupSync = NO;
 			[self main];
@@ -127,7 +121,7 @@
 	ShadowMetadata *finishedShadowMetadata = [aPathOperation shadowMetadata:NO];
 	
 	if (childSyncError == nil && (finishedShadowMetadata.pathState == SyncErrorPathState && finishedShadowMetadata.pathError != nil)) {
-		childSyncError = [finishedShadowMetadata.pathError retain];
+		childSyncError = finishedShadowMetadata.pathError;
 	}
 	aPathOperation.folderSyncPathOperation = nil;
 	aPathOperation.pathController = nil;

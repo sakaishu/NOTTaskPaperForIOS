@@ -27,10 +27,6 @@
 	}
 }
 
-- (void)dealloc {
-    [pulldownButton release];
-    [super dealloc];
-}
 
 - (id)init {
 	self = [super initWithFrame:CGRectZero];

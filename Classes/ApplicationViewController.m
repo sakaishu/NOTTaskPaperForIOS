@@ -224,18 +224,14 @@ void DrawFadeFunction(CGContextRef context, CGRect bounds, CGColorRef background
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[inkColorByPercentDictionary release];
-	[primaryBrowser release];
-	[secondaryBrowser release];
-	[super dealloc];
 }
 
 - (UIFont *)font {
 	if (!font) {
 		NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-		font = [[UIFont fontWithName:[userDefaults stringForKey:FontNameDefaultsKey] size:[userDefaults floatForKey:FontSizeDefaultsKey]] retain];
+		font = [UIFont fontWithName:[userDefaults stringForKey:FontNameDefaultsKey] size:[userDefaults floatForKey:FontSizeDefaultsKey]];
 		if (!font) {
-			font = [[UIFont systemFontOfSize:[userDefaults floatForKey:FontSizeDefaultsKey]] retain];
+			font = [UIFont systemFontOfSize:[userDefaults floatForKey:FontSizeDefaultsKey]];
 		}
 	}
 	return font;
@@ -248,30 +244,18 @@ void DrawFadeFunction(CGContextRef context, CGRect bounds, CGColorRef background
 
     if (!projectFont) {
         projectFont = [UIFont fontWithName:[fontName stringByAppendingString:@"-Bold"] size:projectFontSize];
-        if (projectFont) {
-            [projectFont retain];
-        }
     }
     
     if (!projectFont) {
         projectFont = [UIFont fontWithName:[fontName stringByAppendingString:@"-BoldMT"] size:projectFontSize];
-        if (projectFont) {
-            [projectFont retain];
-        }
     }
     
     if (!projectFont) {
         projectFont = [UIFont fontWithName:[fontName stringByAppendingString:@"Bold"] size:projectFontSize];
-        if (projectFont) {
-            [projectFont retain];
-        }
     }
     
     if (!projectFont) {
         projectFont = [UIFont fontWithName:[fontName stringByAppendingString:@"BoldMT"] size:projectFontSize];
-        if (projectFont) {
-            [projectFont retain];
-        }
     }
     
     if (!projectFont) {
@@ -294,15 +278,12 @@ void DrawFadeFunction(CGContextRef context, CGRect bounds, CGColorRef background
                 projectFont = [UIFont fontWithName:[familyName stringByAppendingString:@"BoldMT"] size:projectFontSize];
             }
             
-            if (projectFont) {
-                [projectFont retain];
-            }
         }
     }
 
     if (!projectFont) {
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        projectFont = [[UIFont fontWithName:[userDefaults stringForKey:FontNameDefaultsKey] size:projectFontSize] retain];
+        projectFont = [UIFont fontWithName:[userDefaults stringForKey:FontNameDefaultsKey] size:projectFontSize];
     }
         
     return projectFont;
@@ -310,9 +291,9 @@ void DrawFadeFunction(CGContextRef context, CGRect bounds, CGColorRef background
 
 - (UIFont *)menuFont {
 	if (!menuFont) {
-		menuFont = [[UIFont fontWithName:@"Georgia-Italic" size:18] retain];
+		menuFont = [UIFont fontWithName:@"Georgia-Italic" size:18];
 		if (!menuFont) {
-			menuFont = [[UIFont boldSystemFontOfSize:15] retain];
+			menuFont = [UIFont boldSystemFontOfSize:15];
 		}
 	}
 	return menuFont;
@@ -342,9 +323,9 @@ void DrawFadeFunction(CGContextRef context, CGRect bounds, CGColorRef background
 
 - (UIColor *)inkColor {
 	if (!inkColor) {
-		inkColor = [[NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:InkColorDefaultsKey]] retain];
+		inkColor = [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:InkColorDefaultsKey]];
 		if (!inkColor) {
-			inkColor = [[UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:1.0] retain];
+			inkColor = [UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:1.0];
 		}
 	}
 	return inkColor;
@@ -352,9 +333,9 @@ void DrawFadeFunction(CGContextRef context, CGRect bounds, CGColorRef background
 
 - (UIColor *)paperColor {
 	if (!paperColor) {
-		paperColor = [[NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:PaperColorDefaultsKey]] retain];
+		paperColor = [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:PaperColorDefaultsKey]];
 		if (!paperColor) {
-			paperColor = [[UIColor colorWithRed:252.0/255.0 green:251.0/255.0 blue:250.0/255.0 alpha:1.0] retain];
+			paperColor = [UIColor colorWithRed:252.0/255.0 green:251.0/255.0 blue:250.0/255.0 alpha:1.0];
 		}
 	}
 	return paperColor;
@@ -366,14 +347,14 @@ void DrawFadeFunction(CGContextRef context, CGRect bounds, CGColorRef background
 
 - (UIImage *)gradientLine {
     if (!gradientLine) {
-        gradientLine = [[UIImage colorizeImage:[UIImage imageNamed:@"gradientline.png"] color:[APP_VIEW_CONTROLLER inkColorByPercent:0.50]] retain];
+        gradientLine = [UIImage colorizeImage:[UIImage imageNamed:@"gradientline.png"] color:[APP_VIEW_CONTROLLER inkColorByPercent:0.50]];
     }
     return gradientLine;
 }
 
 - (UIImage *)bullet {
     if (!bullet) {
-        bullet = [[UIImage colorizeImage:[UIImage imageNamed:@"handle.png"] color:[APP_VIEW_CONTROLLER inkColor]] retain];
+        bullet = [UIImage colorizeImage:[UIImage imageNamed:@"handle.png"] color:[APP_VIEW_CONTROLLER inkColor]];
     }
     return bullet;
 }
@@ -407,17 +388,11 @@ void DrawFadeFunction(CGContextRef context, CGRect bounds, CGColorRef background
 
 - (void)clearDefaultsCaches:(BOOL)andRefreshResponders {
 	[inkColorByPercentDictionary removeAllObjects];
-	[font release];
 	font = nil;
-    [projectFont release];
     projectFont = nil;
-	[inkColor release];
 	inkColor = nil;
-	[paperColor release];
 	paperColor = nil;
-    [gradientLine release];
     gradientLine = nil;
-    [bullet release];
     bullet = nil;
 	lineHeightMultiple = 0;
 	tintCursor = [[NSUserDefaults standardUserDefaults] boolForKey:TintCursorDefaultsKey];
@@ -464,8 +439,8 @@ void DrawFadeFunction(CGContextRef context, CGRect bounds, CGColorRef background
 	static UIImage *original = nil;
 	
 	if (!original) {
-		UITextView *tv = [[[UITextView alloc] init] autorelease];
-		original = [[tv performSelector:@selector(selectionDragDotImage)] retain];
+		UITextView *tv = [[UITextView alloc] init];
+		original = [tv performSelector:@selector(selectionDragDotImage)];
 	}
 	
 	if (tintCursor) {
@@ -656,7 +631,7 @@ void DrawFadeFunction(CGContextRef context, CGRect bounds, CGColorRef background
 - (void)loadView {
 	CGRect frame = [[UIScreen mainScreen] bounds];
 	
-	ApplicationView *applicationView = [[[ApplicationView alloc] initWithFrame:frame] autorelease];
+	ApplicationView *applicationView = [[ApplicationView alloc] initWithFrame:frame];
 	
 	applicationView.autoresizingMask = 18;
 	
@@ -826,7 +801,7 @@ void DrawFadeFunction(CGContextRef context, CGRect bounds, CGColorRef background
 			for (NSString *each in pathComponentsToPush) {
 				if (![each isEqualToString:@"/"]) {
 					commonPrefix = [commonPrefix stringByAppendingPathComponent:each];
-					[primaryBrowser push:[[[FolderViewController alloc] initWithPath:commonPrefix] autorelease] animated:animated];
+					[primaryBrowser push:[[FolderViewController alloc] initWithPath:commonPrefix] animated:animated];
 				}
 			}
 			
@@ -848,7 +823,7 @@ void DrawFadeFunction(CGContextRef context, CGRect bounds, CGColorRef background
 					[secondaryBrowser pop:NO];
 				}
 #ifdef TASKPAPER
-				[secondaryBrowser push:[[[TaskViewController alloc] initWithPath:aPath] autorelease] animated:NO];                
+				[secondaryBrowser push:[[TaskViewController alloc] initWithPath:aPath] animated:NO];                
 #else
 				[secondaryBrowser push:[[[FileViewController alloc] initWithPath:aPath] autorelease] animated:NO];
 #endif
@@ -856,7 +831,7 @@ void DrawFadeFunction(CGContextRef context, CGRect bounds, CGColorRef background
 			} else {
 				[primaryBrowser beginUpdates];
 #ifdef TASKPAPER
-                [primaryBrowser push:[[[TaskViewController alloc] initWithPath:aPath] autorelease] animated:animated];
+                [primaryBrowser push:[[TaskViewController alloc] initWithPath:aPath] animated:animated];
 #else
 				[primaryBrowser push:[[[FileViewController alloc] initWithPath:aPath] autorelease] animated:animated];
 #endif
@@ -918,7 +893,6 @@ void DrawFadeFunction(CGContextRef context, CGRect bounds, CGColorRef background
 	if (error) {
 		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:[error localizedDescription] delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles:nil];
 		[alertView show];
-		[alertView release];
 	}
 }
 

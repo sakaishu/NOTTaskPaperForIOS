@@ -27,15 +27,15 @@ typedef enum {
 	NSString *_theNewPasscode;
 }
 
-@property (nonatomic, retain) IBOutlet UITextField *passcodeTextField1;
-@property (nonatomic, retain) IBOutlet UITextField *passcodeTextField2;
-@property (nonatomic, retain) IBOutlet UITextField *passcodeTextField3;
-@property (nonatomic, retain) IBOutlet UITextField *passcodeTextField4;
-@property (nonatomic, retain) IBOutlet UITextField *hiddenTextField;
-@property (nonatomic, retain) IBOutlet UILabel *descriptionLabel;
-@property (nonatomic, retain) IBOutlet UILabel *descriptionLabel2;
+@property (nonatomic, strong) IBOutlet UITextField *passcodeTextField1;
+@property (nonatomic, strong) IBOutlet UITextField *passcodeTextField2;
+@property (nonatomic, strong) IBOutlet UITextField *passcodeTextField3;
+@property (nonatomic, strong) IBOutlet UITextField *passcodeTextField4;
+@property (nonatomic, strong) IBOutlet UITextField *hiddenTextField;
+@property (nonatomic, strong) IBOutlet UILabel *descriptionLabel;
+@property (nonatomic, strong) IBOutlet UILabel *descriptionLabel2;
 @property (nonatomic, assign) PasscodeViewState viewState;
-@property (nonatomic, retain) NSString *theNewPasscode;
+@property (nonatomic, strong) NSString *theNewPasscode;
 
 - (NSString *)passcode;
 

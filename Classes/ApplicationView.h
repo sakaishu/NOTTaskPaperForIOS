@@ -20,8 +20,8 @@
 	NSInteger ignoreNextkeyboardHideShowIfKeyboardIsShowingCount;
 }
 
-@property (nonatomic, retain) BrowserView *primaryView;
-@property (nonatomic, retain) BrowserView *secondaryView;
+@property (nonatomic, strong) BrowserView *primaryView;
+@property (nonatomic, strong) BrowserView *secondaryView;
 @property (nonatomic, assign) BOOL ignoreNextkeyboardHideShowIfKeyboardIsShowing;
 
 - (void)setHUDBackgroundView:(HUDBackgroundView *)aHUDBackgroundView;

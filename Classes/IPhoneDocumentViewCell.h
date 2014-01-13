@@ -21,8 +21,8 @@
 
 + (CGRect)textRectForSection:(Section *)aSection inBounds:(CGRect)aRect;
 
-@property(retain, nonatomic) RowData *rowData;
-@property(retain, nonatomic) Section *section;
+@property(strong, nonatomic) RowData *rowData;
+@property(strong, nonatomic) Section *section;
 @property(assign, nonatomic) BOOL selected;
 @property(assign, nonatomic) BOOL secondarySelected;
 @property(assign, nonatomic) BOOL edited;

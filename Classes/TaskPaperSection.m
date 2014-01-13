@@ -85,7 +85,6 @@
 	
 	// Tags
 	NSRange trailingTagsRange = [Tag parseTrailingTagsRangeInString:newSectionString inRange:contentRange];
-	[tags release];
 	tags = nil;
 	if (trailingTagsRange.location != NSNotFound) {
 		contentRange.length -= trailingTagsRange.length; // trim trailing tags for type detection... they will be added to content after that.
@@ -123,16 +122,14 @@
 	
 	// Content
 	[self willChangeValueForKey:@"content"];
-	[content release];
 	if (trailingTagsRange.location != NSNotFound) {
-		content = [[[newSectionString substringWithRange:contentRange] stringByAppendingString:[newSectionString substringWithRange:trailingTagsRange]] retain];
+		content = [[newSectionString substringWithRange:contentRange] stringByAppendingString:[newSectionString substringWithRange:trailingTagsRange]];
 	} else {
-		content = [[newSectionString substringWithRange:contentRange] retain];
+		content = [newSectionString substringWithRange:contentRange];
 	}
 	[self didChangeValueForKey:@"content"];
 	
 	
-	[selfString release];
 	selfString = nil;
 	
 	if (newLevel != level) {

@@ -55,8 +55,7 @@
 		uniqueIDsToSections = [[NSMutableDictionary alloc] init];
 		trackedLocations = [[NSMutableDictionary alloc] init];
 		self.textContent = aString;
-        [commitedTextContent autorelease];
-		commitedTextContent = [self.textContent retain];
+		commitedTextContent = self.textContent;
 		commitedTextContentPatches = [anArray mutableCopy];
 		[self commitCurrentPatch:NSLocalizedString(@"External Changes", nil)];
 		undoManager = [[TreeUndoManager alloc] init];
@@ -73,18 +72,6 @@
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[undoManager release];
-	[rootSection release];
-	[insertedSections release];
-	[updatedSections release];
-	[deletedSections release];
-	[uniqueIDsToSections release];
-	[textContent release];
-    [uncommitedTextContentPatch release];
-	[commitedTextContent release];
-	[commitedTextContentPatches release];
-	[trackedLocations release];
-	[super dealloc];
 }
 
 #pragma mark Properties
@@ -186,13 +173,11 @@
 
 - (void)beginChangingSections {
 	changingSections++;
-	[textContent release];
 	textContent = nil;
 }
 
 - (void)endChangingSections {
 	changingSections--;
-	[textContent release];
 	textContent = nil;
 	if (changingSections == 0) {		
         if (uncommitedTextContentPatch == nil && undoManager != nil) {
@@ -202,7 +187,7 @@
 			[undoManager registerUndoWithTarget:self selector:@selector(undoPatch:) object:uncommitedTextContentPatch];
         }
         
-		[[NSNotificationCenter defaultCenter] postNotificationName:TreeChanged object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[[insertedSections copy] autorelease], InsertedSectionsKey, [[updatedSections copy] autorelease], UpdatedSectionsKey, [[deletedSections copy] autorelease], DeletedSectionsKey, nil]];
+		[[NSNotificationCenter defaultCenter] postNotificationName:TreeChanged object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[insertedSections copy], InsertedSectionsKey, [updatedSections copy], UpdatedSectionsKey, [deletedSections copy], DeletedSectionsKey, nil]];
 		
 
 		[insertedSections removeAllObjects];
@@ -304,7 +289,7 @@
 
 - (NSString *)textContent {
 	if (!textContent) {
-		textContent = [[Section sectionsToString:rootSection.descendants includeTags:YES] retain];
+		textContent = [Section sectionsToString:rootSection.descendants includeTags:YES];
 	}
 	return textContent;
 }
@@ -312,8 +297,7 @@
 - (void)setTextContent:(NSString *)newTextContents {
 	[self beginChangingSections];
 	[rootSection performSelector:@selector(setTree:) withObject:nil];
-	[rootSection autorelease];
-	rootSection = [[Section rootSectionFromString:newTextContents] retain];
+	rootSection = [Section rootSectionFromString:newTextContents];
 	[rootSection performSelector:@selector(setTree:) withObject:self];
 	[self endChangingSections];
 }
@@ -338,14 +322,14 @@
 }
 
 - (NSArray *)calculatePatchFromCurrentTextToNewText:(NSString *)newText {
-	DiffMatchPatch *dmp = [[[DiffMatchPatch alloc] init] autorelease];
+	DiffMatchPatch *dmp = [[DiffMatchPatch alloc] init];
 	return [dmp patch_makeFromOldString:self.textContent andNewString:newText];
 }
 
 
 - (NSArray *)applyPatch:(NSMutableArray *)diffs actionName:(NSString *)actionName {
 	[self beginChangingSections];
-	DiffMatchPatch *dmp = [[[DiffMatchPatch alloc] init] autorelease];
+	DiffMatchPatch *dmp = [[DiffMatchPatch alloc] init];
 	NSArray *results = [dmp patch_apply:diffs toString:self.textContent delegate:self selector:@selector(replaceTextContentCharactersInRange:withString:)];
 	[self endChangingSections];
 	[self commitCurrentPatch:actionName];
@@ -354,7 +338,7 @@
 
 - (void)commitCurrentPatch:(NSString *)actionName {
 	if (uncommitedTextContentPatch) {
-        NSMutableArray *patches = [[[[DiffMatchPatch alloc] init] autorelease] patch_makeFromOldString:commitedTextContent andNewString:self.textContent];
+        NSMutableArray *patches = [[[DiffMatchPatch alloc] init] patch_makeFromOldString:commitedTextContent andNewString:self.textContent];
         [uncommitedTextContentPatch setDiffs:patches];
 		if ([patches count] > 0) {
 			[commitedTextContentPatches addObject:uncommitedTextContentPatch];
@@ -365,9 +349,7 @@
 		}
 		[undoManager endUndoGrouping];
         //NSLog(@"endUndoGrouping: %@", actionName);
-		[commitedTextContent autorelease];
-		commitedTextContent = [self.textContent retain];
-		[uncommitedTextContentPatch release];
+		commitedTextContent = self.textContent;
 		uncommitedTextContentPatch = nil;		
 	}
 }
@@ -400,7 +382,7 @@
 @implementation TrackedLocation
 
 + (id)trackedLocationWithSection:(Section *)section offset:(NSUInteger)offset {
-	return [[[TrackedLocation alloc] initWithSection:section offset:offset] autorelease];
+	return [[TrackedLocation alloc] initWithSection:section offset:offset];
 }
 
 - (id)initWithSection:(Section *)section offset:(NSUInteger)offset {
@@ -412,9 +394,7 @@
 }
 
 - (void)dealloc {
-	[sectionID release];
 	tree = nil;
-	[super dealloc];
 }
 
 - (void)setTree:(Tree *)aTree {
@@ -430,8 +410,7 @@
 - (void)setSectionID:(NSString *)newSectionID {
 	Tree *savedTreeReference = tree;
 	[tree removeTrackedLocation:self];
-	[sectionID release];
-	sectionID = [newSectionID retain];
+	sectionID = newSectionID;
 	[savedTreeReference addTrackedLocation:self];
 }
 

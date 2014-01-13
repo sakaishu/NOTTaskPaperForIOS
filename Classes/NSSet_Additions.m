@@ -12,19 +12,19 @@
 @implementation NSSet (Additions)
 
 - (NSMutableSet *)setMinusSet:(NSSet *)aSet {
-	NSMutableSet *result = [[self mutableCopy] autorelease];
+	NSMutableSet *result = [self mutableCopy];
 	[result minusSet:aSet];
 	return result;
 }
 
 - (NSMutableSet *)setIntersectingSet:(NSSet *)aSet {
-	NSMutableSet *result = [[self mutableCopy] autorelease];
+	NSMutableSet *result = [self mutableCopy];
 	[result intersectSet:aSet];
 	return result;
 }
 
 - (NSMutableSet *)setFilteredUsingPredicate:(NSPredicate *)aPredicate {
-	NSMutableSet *result = [[self mutableCopy] autorelease];
+	NSMutableSet *result = [self mutableCopy];
 	[result filterUsingPredicate:aPredicate];
 	return result;
 }
@@ -38,7 +38,7 @@
 	NSString *extension = [name pathExtension];
 	
 	if (includeMessage) {
-		NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+		NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 		[dateFormatter setDateFormat:@"yyyy-MM-dd"];
 		base = [base stringByAppendingFormat:@" (%@'s conflicted copy %@)", [[UIDevice currentDevice] name], [dateFormatter stringFromDate:[NSDate date]], nil]; // use dropbox style
 	}

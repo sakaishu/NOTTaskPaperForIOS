@@ -29,10 +29,10 @@
 
 		NSMutableString *sectionText = [NSMutableString string];
 
-		subheaders = [[NSMutableArray array] retain];
-		subheaderPrefix = [aPrefix retain];
+		subheaders = [NSMutableArray array];
+		subheaderPrefix = aPrefix;
         
-		for (NSString *each in [htmlTextContent componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]]) {
+		for (__strong NSString *each in [htmlTextContent componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]]) {
 			if ([each hasPrefix:subheaderPrefix]) {
 				each = [each substringFromIndex:4];
 				each = [each substringToIndex:[each length] - 5];
@@ -49,7 +49,7 @@
 			}
 		}
 
-		sectionText = [[[sectionText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] mutableCopy] autorelease];
+		sectionText = [[sectionText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] mutableCopy];
 		
 		if ([sectionText length] > 0) {
 			NSString *helpTemplatePath = [[NSBundle mainBundle] pathForResource:@"HelpPageTemplate" ofType:@"html"];
@@ -87,11 +87,6 @@
 	self.tableView.delegate = nil;
 	self.tableView.dataSource = nil;
 	sectionWebView.delegate = nil;
-	[sectionWebView release];
-	[subheaderPrefix release];
-	[subheaders release];
-	[sectionWebViewTableViewCell release];
-    [super dealloc];
 }
 
 - (void)loadView {	
@@ -102,7 +97,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", nil) style:UIBarButtonItemStyleDone target:self action:@selector(dismissModalViewControllerAction:)] autorelease];		
+	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", nil) style:UIBarButtonItemStyleDone target:self action:@selector(dismissModalViewControllerAction:)];		
 	[super viewWillAppear:animated];
 }
 
@@ -133,7 +128,7 @@
 	if (sectionWebView && indexPath.row == 0) {
 		sectionWebViewTableViewCell.frame = tableView.frame;
 		NSString *offsetHeight = [sectionWebView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"];
-		return [[[[[NSNumberFormatter alloc] init] autorelease] numberFromString:offsetHeight] integerValue] - 36;
+		return [[[[NSNumberFormatter alloc] init] numberFromString:offsetHeight] integerValue] - 36;
 	}
 	return tableView.rowHeight;
 }
@@ -147,7 +142,7 @@
 		UITableViewCell *cell = (id) [tableView dequeueReusableCellWithIdentifier:HeaderCellIdentifier];
 		
 		if (cell == nil) {
-			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:HeaderCellIdentifier] autorelease];
+			cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:HeaderCellIdentifier];
 		}
 		
 		if (sectionWebViewTableViewCell) {
@@ -179,9 +174,9 @@
 	}
 	
 	if ([subheaderPrefix isEqualToString:@"<h1>"]) {
-		[self.navigationController pushViewController:[[[HelpSectionController alloc] initWithTitle:[selection objectForKey:@"title"] subheaderPrefix:@"<h2>" htmlTextContent:[selection objectForKey:@"htmlText"]] autorelease] animated:YES];
+		[self.navigationController pushViewController:[[HelpSectionController alloc] initWithTitle:[selection objectForKey:@"title"] subheaderPrefix:@"<h2>" htmlTextContent:[selection objectForKey:@"htmlText"]] animated:YES];
 	} else {
-		[self.navigationController pushViewController:[[[HelpSectionController alloc] initWithTitle:[selection objectForKey:@"title"] subheaderPrefix:@"none" htmlTextContent:[selection objectForKey:@"htmlText"]] autorelease] animated:YES];
+		[self.navigationController pushViewController:[[HelpSectionController alloc] initWithTitle:[selection objectForKey:@"title"] subheaderPrefix:@"none" htmlTextContent:[selection objectForKey:@"htmlText"]] animated:YES];
 	}
 }
 

@@ -34,7 +34,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", nil) style:UIBarButtonItemStyleDone target:self action:@selector(dismissModalViewControllerAction:)] autorelease];		
+	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", nil) style:UIBarButtonItemStyleDone target:self action:@selector(dismissModalViewControllerAction:)];		
 	[self setToolbarItems:[NSArray arrayWithObject:[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Sync All Now", nil) style:UIBarButtonItemStyleBordered target:PATH_CONTROLLER action:@selector(beginFullSync)]] animated:NO];
 	[super viewWillAppear:animated];
 }
@@ -50,29 +50,29 @@
 	NSString *dropboxInfo = nil;
     
 	if (isLinked) {
-		IFButtonCellController *dropboxStatusCell = [[[IFButtonCellController alloc] initWithLabel:NSLocalizedString(@"Dropbox Status", nil) withAction:@selector(dropboxStatus) onTarget:self] autorelease];
+		IFButtonCellController *dropboxStatusCell = [[IFButtonCellController alloc] initWithLabel:NSLocalizedString(@"Dropbox Status", nil) withAction:@selector(dropboxStatus) onTarget:self];
 		dropboxStatusCell.textAlignment = UITextAlignmentLeft;
 		dropboxStatusCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		[groupOneCells addObject:dropboxStatusCell];	
 		
-		IFSwitchCellController *syncAutomaticallyCell = [[[IFSwitchCellController alloc] initWithLabel:NSLocalizedString(@"Sync Automatically", nil) atKey:SyncAutomaticallyDefaultsKey inModel:self.model] autorelease];
+		IFSwitchCellController *syncAutomaticallyCell = [[IFSwitchCellController alloc] initWithLabel:NSLocalizedString(@"Sync Automatically", nil) atKey:SyncAutomaticallyDefaultsKey inModel:self.model];
 		[groupOneCells addObject:syncAutomaticallyCell];
 		
 		// Group Two
-		IFButtonCellController *buttonCell = [[[IFButtonCellController alloc] initWithLabel:@"Unlink from Dropbox Account" withAction:@selector(unlink:) onTarget:self] autorelease];
+		IFButtonCellController *buttonCell = [[IFButtonCellController alloc] initWithLabel:@"Unlink from Dropbox Account" withAction:@selector(unlink:) onTarget:self];
 		[groupTwoCells addObject:buttonCell];
 		
 		dropboxInfo = NSLocalizedString(@"Unlink to change which file types are synced and which Dropbox folder is linked.", nil);
 	} else {		
-		IFTextCellController *linkedFolder = [[[IFTextCellController alloc] initWithLabel:NSLocalizedString(@"Link Folder", nil) andPlaceholder:processName atKey:ServerRootDefaultsKey inModel:self.model] autorelease];
+		IFTextCellController *linkedFolder = [[IFTextCellController alloc] initWithLabel:NSLocalizedString(@"Link Folder", nil) andPlaceholder:processName atKey:ServerRootDefaultsKey inModel:self.model];
 		linkedFolder.autocorrectionType = UITextAutocorrectionTypeNo;
 		linkedFolder.autocapitalizationType = UITextAutocapitalizationTypeNone;
 		linkedFolder.updateAction = @selector(dropboxFolderFieldUpdated:);
 		linkedFolder.updateTarget = self;
 		[groupOneCells addObject:linkedFolder];
 		
-		id<IFCellModel> fileExtensionsModel = [[[IFTemporaryModel alloc] initWithDictionary:[NSDictionary dictionaryWithObject:[[NSUserDefaults standardUserDefaults] stringForKey:TextFileExtensionsDefaultsKey] forKey:TextFileExtensionsDefaultsKey]] autorelease];
-		IFTextCellController *textFileExtensions = [[[IFTextCellController alloc] initWithLabel:NSLocalizedString(@"Sync File Types", nil) andPlaceholder:nil atKey:TextFileExtensionsDefaultsKey inModel:fileExtensionsModel] autorelease];
+		id<IFCellModel> fileExtensionsModel = [[IFTemporaryModel alloc] initWithDictionary:[NSDictionary dictionaryWithObject:[[NSUserDefaults standardUserDefaults] stringForKey:TextFileExtensionsDefaultsKey] forKey:TextFileExtensionsDefaultsKey]];
+		IFTextCellController *textFileExtensions = [[IFTextCellController alloc] initWithLabel:NSLocalizedString(@"Sync File Types", nil) andPlaceholder:nil atKey:TextFileExtensionsDefaultsKey inModel:fileExtensionsModel];
 		textFileExtensions.autocorrectionType = UITextAutocorrectionTypeNo;
 		textFileExtensions.autocapitalizationType = UITextAutocapitalizationTypeNone;
 		textFileExtensions.updateAction = @selector(fileExtensionsFieldUpdated:);
@@ -80,15 +80,15 @@
 		[groupOneCells addObject:textFileExtensions];
 		
 		// Group Two
-		IFButtonCellController *buttonCell = [[[IFButtonCellController alloc] initWithLabel:@"Link to Dropbox Account" withAction:@selector(link:) onTarget:self] autorelease];
+		IFButtonCellController *buttonCell = [[IFButtonCellController alloc] initWithLabel:@"Link to Dropbox Account" withAction:@selector(link:) onTarget:self];
 		[groupTwoCells addObject:buttonCell];			
 		
 		dropboxInfo = NSLocalizedString(@"Dropbox is software that syncs your files online and across your computers. http://www.dropbox.com", nil);
 	}
 	
-	tableGroups = [[NSArray arrayWithObjects: groupOneCells, groupTwoCells, nil] retain];
-	tableHeaders = [[NSArray arrayWithObjects:@"", @"", nil] retain];	
-	tableFooters = [[NSArray arrayWithObjects:@"", dropboxInfo, nil] retain];	
+	tableGroups = [NSArray arrayWithObjects: groupOneCells, groupTwoCells, nil];
+	tableHeaders = [NSArray arrayWithObjects:@"", @"", nil];	
+	tableFooters = [NSArray arrayWithObjects:@"", dropboxInfo, nil];	
 }
 
 - (IBAction)dropboxFolderFieldUpdated:(id)sender {
@@ -97,11 +97,11 @@
 		UITextField *textField = sender;
 		if (![[textField text] isEqualToString:linkFolder]) {
 			[textField setText:linkFolder];
-			UIAlertView *unlinkAlertView = [[[UIAlertView alloc] initWithTitle:nil
+			UIAlertView *unlinkAlertView = [[UIAlertView alloc] initWithTitle:nil
 																	   message:NSLocalizedString(@"The link folder can only be changed before linking to Dropbox. Please unlink Dropbox and then try again.", nil)
 																	  delegate:nil
 															 cancelButtonTitle:NSLocalizedString(@"OK", nil)
-															 otherButtonTitles:nil] autorelease];
+															 otherButtonTitles:nil];
 			[unlinkAlertView show];
 		}
 	} else {
@@ -121,11 +121,11 @@
 }
 
 - (IBAction)unlink:(id)sender {
-	UIAlertView *unlinkAlertView = [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Unlink Dropbox?", nil)
+	UIAlertView *unlinkAlertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Unlink Dropbox?", nil)
 															   message:NSLocalizedString(@"This will unlink your Dropbox account and remove all synced documents from this device.", nil)
 															  delegate:self
 													 cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
-													 otherButtonTitles:NSLocalizedString(@"Unlink", nil), nil] autorelease];
+													 otherButtonTitles:NSLocalizedString(@"Unlink", nil), nil];
 	[unlinkAlertView show];
 }
 
@@ -143,11 +143,10 @@
 #pragma mark DBSessionDelegate methods
 
 - (void)sessionDidReceiveAuthorizationFailure:(DBSession*)session userId:(NSString *)userId {
-	relinkUserId = [userId retain];
-	[[[[UIAlertView alloc]
+	relinkUserId = userId;
+	[[[UIAlertView alloc]
 	   initWithTitle:@"Dropbox Session Ended" message:@"Do you want to relink?" delegate:self
 	   cancelButtonTitle:@"Cancel" otherButtonTitles:@"Relink", nil]
-	  autorelease]
 	 show];
 }
 
@@ -160,7 +159,6 @@
         if (buttonIndex != alertView.cancelButtonIndex) {
             [[DBSession sharedSession] linkUserId:relinkUserId fromController:self];
         }
-        [relinkUserId release];
         relinkUserId = nil;
     } else {
         if (buttonIndex == 1) {

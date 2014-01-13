@@ -16,9 +16,9 @@
 - (id)initWithLabel:(NSString *)newLabel minValue:(CGFloat)aMinValue maxValue:(CGFloat)aMaxValue atKey:(NSString *)newKey inModel:(id<IFCellModel>)newModel {
 	self = [super init];
 	if (self != nil) {
-		label = [newLabel retain];
-		key = [newKey retain];
-		model = [newModel retain];
+		label = newLabel;
+		key = newKey;
+		model = newModel;
 		enabled = YES;
 		minValue = aMinValue;
 		maxValue = aMaxValue;
@@ -26,19 +26,13 @@
 	return self;
 }
 
-- (void)dealloc {
-	[label release];
-	[key release];
-	[model release];
-	[super dealloc];
-}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	static NSString *cellIdentifier = @"SliderDataCell";
 	
 	IFControlTableViewCell *cell = (IFControlTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
 	if (cell == nil) {
-		cell = [[[IFControlTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] autorelease];		
+		cell = [[IFControlTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];		
 	}
 	
 	cell.textLabel.text = label;
@@ -53,7 +47,6 @@
 	[sliderControl setValue:[value floatValue]];
 	sliderControl.enabled = enabled;
 	cell.view = sliderControl;
-	[sliderControl release];
 	
 	return cell;
 }

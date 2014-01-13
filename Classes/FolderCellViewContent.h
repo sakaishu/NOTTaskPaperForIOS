@@ -11,7 +11,7 @@
 	UIColor *color;
 }
 
-@property (nonatomic, retain) NSString *name;
-@property (nonatomic, retain) UIColor *color;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) UIColor *color;
 
 @end

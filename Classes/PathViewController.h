@@ -26,7 +26,7 @@
 }
 
 @property (nonatomic, readonly) NSString *path;
-@property (nonatomic, readonly) PathViewWrapper *pathViewWrapper;
+@property (weak, nonatomic, readonly) PathViewWrapper *pathViewWrapper;
 
 - (void)setPath:(NSString *)aPath isDirectory:(BOOL)isDirectory;
 

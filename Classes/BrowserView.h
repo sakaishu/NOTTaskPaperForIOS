@@ -45,13 +45,13 @@
 #pragma mark Attributes
 
 @property (nonatomic, assign) UIEdgeInsets padding;
-@property (nonatomic, retain) Titlebar *titlebar;
-@property (nonatomic, retain) Searchbar *searchbar;
+@property (nonatomic, strong) Titlebar *titlebar;
+@property (nonatomic, strong) Searchbar *searchbar;
 @property (nonatomic, assign) BOOL headerBarsScroll;
-@property (nonatomic, retain) Toolbar *toolbar;
-@property (nonatomic, readonly) UILabel *statusLabel;
-@property (nonatomic, retain) UIScrollView *contentView;
-@property (nonatomic, readonly) UIScrollView *activeScrollView;
+@property (nonatomic, strong) Toolbar *toolbar;
+@property (weak, nonatomic, readonly) UILabel *statusLabel;
+@property (nonatomic, strong) UIScrollView *contentView;
+@property (weak, nonatomic, readonly) UIScrollView *activeScrollView;
 @property (nonatomic, assign) BOOL isPrimaryBrowser;
 @property (nonatomic, readonly) BOOL performingScrollAnimation;
 

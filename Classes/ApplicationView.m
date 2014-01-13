@@ -28,7 +28,7 @@
 - (id)initWithFrame:(CGRect)aFrame {
 	self = [super initWithFrame:aFrame];
 	self.autoresizesSubviews = YES;
-	dividerView = [[[UIView alloc] init] autorelease];
+	dividerView = [[UIView alloc] init];
 	[self addSubview:dividerView];
 
 #if !defined(WRITEROOM) && !defined(TASKPAPER)
@@ -68,7 +68,6 @@
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[super dealloc];
 }
 
 - (IBAction)toggleDocumentFocusMode:(id)sender {
@@ -123,8 +122,7 @@
 	if (primaryView) {
 		[primaryView removeFromSuperview];
 	}
-	[primaryView autorelease];
-	primaryView = [aView retain];
+	primaryView = aView;
 	if (primaryView) {
 		[self addSubview:primaryView];
 	}
@@ -135,8 +133,7 @@
 	if (secondaryView) {
 		[secondaryView removeFromSuperview];
 	}
-	[secondaryView autorelease];
-	secondaryView = [aView retain];
+	secondaryView = aView;
 	if (secondaryView) {
 		[self addSubview:secondaryView];
 	}

@@ -30,8 +30,8 @@ typedef enum _HUDViewPosition {
     CGRect hudViewFrame;
 }
 
-@property(readonly, nonatomic) UIView *hudView;
-@property(retain, nonatomic) UIView *anchorView;
+@property(weak, readonly, nonatomic) UIView *hudView;
+@property(strong, nonatomic) UIView *anchorView;
 @property(assign, nonatomic) HUDAnchorRelativePosition anchorRelativePosition;
 @property(assign, nonatomic) CGPoint offsetPosition;
 @property(assign, nonatomic) CGSize borderInset;

@@ -82,17 +82,13 @@
 		self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 		self.borderInset = CGSizeMake(-10, -10);
 		//self.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.5];
-		hudBorderView = [[[HUDBorderView alloc] init] autorelease];
+		hudBorderView = [[HUDBorderView alloc] init];
 		[self addSubview:hudBorderView];
 		[self addSubview:self.hudView];
     }
     return self;
 }
 
-- (void)dealloc {
-	[anchorView release];
-    [super dealloc];
-}
 
 @synthesize anchorRelativePosition;
 @synthesize offsetPosition;
@@ -174,7 +170,7 @@
 
 - (void)layoutSubviews {
 	if (!anchorView) {
-		anchorView = [[APP_VIEW_CONTROLLER view] retain];
+		anchorView = [APP_VIEW_CONTROLLER view];
 	}
 	
 	CGRect anchoreBounds = [self convertRect:[anchorView convertRect:anchorView.bounds toView:nil] fromView:nil];

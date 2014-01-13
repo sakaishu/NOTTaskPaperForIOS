@@ -9,8 +9,8 @@
 
 
 int main(int argc, char *argv[]) {
-    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-	int retVal = UIApplicationMain(argc, argv, NSStringFromClass([[NSBundle mainBundle] principalClass]), @"ApplicationController");
-    [pool release];
+    @autoreleasepool {
+		int retVal = UIApplicationMain(argc, argv, NSStringFromClass([[NSBundle mainBundle] principalClass]), @"ApplicationController");
     return retVal;
+    }
 }

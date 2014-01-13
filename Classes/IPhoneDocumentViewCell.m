@@ -23,7 +23,7 @@ static UIColor *DEFAULT_COLOR = nil;
 @implementation IPhoneDocumentViewCell
 
 + (void)initialize {
-	DEFAULT_COLOR = [[UIColor grayColor] retain];
+	DEFAULT_COLOR = [UIColor grayColor];
 }
 
 - (void)refreshFromDefaults {
@@ -56,17 +56,13 @@ static UIColor *DEFAULT_COLOR = nil;
 	if (rowData) {
 		[rowData setValue:nil forKey:@"cell"];
 	}
-	[rowData release];
-	[section release];
-	[super dealloc];
 }
 
 @synthesize rowData;
 @synthesize section;
 
 - (void)setSection:(Section *)aSection {
-	[section autorelease];
-	section = [aSection retain];
+	section = aSection;
 	[self setNeedsLayout];
 	[self setNeedsDisplay];
 }

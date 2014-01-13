@@ -12,18 +12,18 @@
 @class TreeViewTheme;
 
 @interface Section : NSObject {
-	Tree *tree;
+	Tree *__weak tree;
 	NSString *uniqueID;
 	NSInteger level;
 	NSString *content;
 	NSUInteger type;
 	NSArray *tags;
 	NSString *selfString;
-	Section *parent;
-	Section *previousSibling;
-	Section *nextSibling;
-	Section *firstChild;
-	Section *lastChild;
+	Section *__weak parent;
+	Section *__weak previousSibling;
+	Section *__weak nextSibling;
+	Section *__weak firstChild;
+	Section *__weak lastChild;
 	NSUInteger countOfChildren;
 }
 
@@ -34,29 +34,29 @@
 
 #pragma mark Attributes
 
-@property(readonly) Tree *tree;
+@property(weak, readonly) Tree *tree;
 @property(readonly) NSString *uniqueID;
 @property (nonatomic, assign) NSUInteger type;
-@property(readonly) NSString *typeAsString;
+@property(weak, readonly) NSString *typeAsString;
 @property(readonly) BOOL isBlank;
 @property(nonatomic, assign) NSInteger level;
 - (void)setLevel:(NSInteger)newLevel includeChildren:(BOOL)includeChildren;
-@property(readonly) NSString *levelAsString;
+@property(weak, readonly) NSString *levelAsString;
 @property(readonly) NSInteger index;
-@property(readonly) NSString *indexAsString;
-@property(nonatomic, retain) NSString *content;
+@property(weak, readonly) NSString *indexAsString;
+@property(nonatomic, strong) NSString *content;
 
 - (void)replaceContentInRange:(NSRange)aRange withString:(NSString *)aString;
 
 #pragma mark SelfString 
 
 @property(readonly) NSUInteger selfStringLength;
-@property(retain) NSString *selfString;
+@property(strong) NSString *selfString;
 - (void)noteSelfStringChanged;
 
 #pragma mark Tags
 
-@property(readonly) NSArray *tags;
+@property(weak, readonly) NSArray *tags;
 - (Tag *)tagWithName:(NSString *)name;
 - (Tag *)tagWithName:(NSString *)name createIfNeccessary:(BOOL)createIfNeccessary;
 - (Tag *)tagWithOnlyName:(NSString *)name;
@@ -66,44 +66,44 @@
 #pragma mark Tree
 
 @property(readonly) BOOL isRoot;
-@property(readonly) RootSection *root;
-@property(readonly) Section *treeOrderPrevious;
-@property(readonly) Section *treeOrderNext;
-@property(readonly) Section *treeOrderNextSkippingInterior;
-@property(readonly) NSIndexPath *treeIndexPath;
+@property(weak, readonly) RootSection *root;
+@property(weak, readonly) Section *treeOrderPrevious;
+@property(weak, readonly) Section *treeOrderNext;
+@property(weak, readonly) Section *treeOrderNextSkippingInterior;
+@property(weak, readonly) NSIndexPath *treeIndexPath;
 
 #pragma mark Ancestors
 
 - (BOOL)isAncestor:(Section *)section;
-@property(readonly) NSEnumerator *ancestors;
-@property(readonly) NSEnumerator *ancestorsWithSelf;
-@property(readonly) Section *rootLevelAncestor;
+@property(weak, readonly) NSEnumerator *ancestors;
+@property(weak, readonly) NSEnumerator *ancestorsWithSelf;
+@property(weak, readonly) Section *rootLevelAncestor;
 
 #pragma mark Headers
 
 @property(readonly) NSUInteger headerType;
-@property(readonly) Section *topLevelHeader;
-@property(readonly) Section *containingHeader;
-@property(readonly) Section *headerOrSelf;
+@property(weak, readonly) Section *topLevelHeader;
+@property(weak, readonly) Section *containingHeader;
+@property(weak, readonly) Section *headerOrSelf;
 
 #pragma mark Decendents
 
 - (BOOL)isDecendent:(Section *)section;
-@property(readonly) NSEnumerator *descendants;
-@property(readonly) NSEnumerator *descendantsWithSelf;
-@property(readonly) NSString *descendantsAsString;
-@property(readonly) Section *leftmostDescendantOrSelf;
-@property(readonly) Section *rightmostDescendantOrSelf;
+@property(weak, readonly) NSEnumerator *descendants;
+@property(weak, readonly) NSEnumerator *descendantsWithSelf;
+@property(weak, readonly) NSString *descendantsAsString;
+@property(weak, readonly) Section *leftmostDescendantOrSelf;
+@property(weak, readonly) Section *rightmostDescendantOrSelf;
 
 #pragma mark Children
 
-@property(readonly) Section *parent;
-@property(readonly) Section *previousSibling;
-@property(readonly) Section *nextSibling;
-@property(readonly) Section *firstChild;
-@property(readonly) Section *lastChild;
+@property(weak, readonly) Section *parent;
+@property(weak, readonly) Section *previousSibling;
+@property(weak, readonly) Section *nextSibling;
+@property(weak, readonly) Section *firstChild;
+@property(weak, readonly) Section *lastChild;
 @property(readonly) NSUInteger countOfChildren;
-@property(readonly) NSEnumerator *enumeratorOfChildren;
+@property(weak, readonly) NSEnumerator *enumeratorOfChildren;
 
 - (id)initWithString:(NSString *)aString;
 

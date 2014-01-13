@@ -35,9 +35,9 @@
     BOOL clearDefaultsCaches;
 }
 
-@property (nonatomic, assign)	id<CMFontSelectTableViewControllerDelegate>	delegate;
-@property (nonatomic, retain)	NSArray				*fontFamilyNames;
-@property (nonatomic, retain)	UIFont				*selectedFont;
+@property (nonatomic, weak)	id<CMFontSelectTableViewControllerDelegate>	delegate;
+@property (nonatomic, strong)	NSArray				*fontFamilyNames;
+@property (nonatomic, strong)	UIFont				*selectedFont;
 @property (nonatomic, assign) BOOL clearDefaultsCaches;
 
 @end

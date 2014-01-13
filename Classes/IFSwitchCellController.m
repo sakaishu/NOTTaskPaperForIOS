@@ -24,9 +24,9 @@
 	self = [super init];
 	if (self != nil)
 	{
-		label = [newLabel retain];
-		key = [newKey retain];
-		model = [newModel retain];
+		label = newLabel;
+		key = newKey;
+		model = newModel;
 		enabled = YES;
 	}
 	return self;
@@ -37,14 +37,6 @@
 //
 // Releases instance memory.
 //
-- (void)dealloc
-{
-	[label release];
-	[key release];
-	[model release];
-	
-	[super dealloc];
-}
 
 //
 // tableView:cellForRowAtIndexPath:
@@ -58,7 +50,7 @@
 	IFControlTableViewCell *cell = (IFControlTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
 	if (cell == nil)
 	{
-		cell = [[[IFControlTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] autorelease];		
+		cell = [[IFControlTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];		
 	}
 	
 	cell.textLabel.text = label;
@@ -71,7 +63,6 @@
 	[switchControl setOn:[value boolValue]];
 	switchControl.enabled = enabled;
 	cell.view = switchControl;
-	[switchControl release];
 
 	return cell;
 }

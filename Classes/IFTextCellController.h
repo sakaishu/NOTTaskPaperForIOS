@@ -21,7 +21,7 @@
 	NSString *key;
 	
 	SEL updateAction;
-	id updateTarget;
+	id __weak updateTarget;
 
 	UIKeyboardType keyboardType;
 	UIReturnKeyType returnKeyType;
@@ -33,7 +33,7 @@
 }
 
 @property (nonatomic, assign) SEL updateAction;
-@property (nonatomic, assign) id updateTarget;
+@property (nonatomic, weak) id updateTarget;
 
 @property (nonatomic, assign) BOOL enabled;
 @property (nonatomic, assign) BOOL numericValues;

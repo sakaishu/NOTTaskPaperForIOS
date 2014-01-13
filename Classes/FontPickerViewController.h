@@ -7,9 +7,9 @@
 @end
 
 @interface FontPickerViewController : UITableViewController {
-	id<FontPickerViewControllerDelegate> delegate;
+	id<FontPickerViewControllerDelegate> __weak delegate;
 }
 
-@property(nonatomic,assign)	id<FontPickerViewControllerDelegate> delegate;
+@property(nonatomic,weak)	id<FontPickerViewControllerDelegate> delegate;
 
 @end

@@ -59,13 +59,13 @@ static float initialOffsetY;
 + (UIColor *)selectionColor {
 	static UIColor *selectionColor = nil;
 	if (!selectionColor) {
-		selectionColor = [[UIColor colorWithRed:56.0/255.0 green:117.0/255.0 blue:215.0/255.0 alpha:1.0] retain];
+		selectionColor = [UIColor colorWithRed:56.0/255.0 green:117.0/255.0 blue:215.0/255.0 alpha:1.0];
 	}
 	return selectionColor;
 }
 
 - (void)commonInit {
- 	rowDatas = [[RowData rowDatasWithCapacity:[self numberOfRows]] retain];
+ 	rowDatas = [RowData rowDatasWithCapacity:[self numberOfRows]];
 	rowsToInsert = [[NSMutableIndexSet alloc] init];
 	rowsToReload = [[NSMutableIndexSet alloc] init];
 	rowsToRemove = [[NSMutableIndexSet alloc] init];
@@ -97,29 +97,16 @@ static float initialOffsetY;
 - (void)dealloc {
 	[NSObject cancelPreviousPerformRequestsWithTarget:self];
     [fieldEditorTextExpander setNextDelegate:nil];
-	[fieldEditorTextExpander release];
-    [placeHolderLabel release];
-	[rowDatas release];
-	[rowsToInsert release];
-	[rowsToReload release];
-	[rowsToRemove release];
-	[reusableCells release];
-	[animatingCells release];
-	[dragIndicatorView release];
-	[selectedRows release];
-	[selectedRowsCover release];
 	[autoscrollTimer invalidate];
-	[autoscrollTimer release];
-	[super dealloc];
 }
 
 - (IPhoneDocumentViewCell *)dequeueReusableCell {
 	if ([reusableCells count] > 0) {
-		IPhoneDocumentViewCell *result = [[[reusableCells lastObject] retain] autorelease];
+		IPhoneDocumentViewCell *result = [reusableCells lastObject];
 		[reusableCells removeLastObject];
 		return result;
 	}
-	return [[[IPhoneDocumentViewCell alloc] init] autorelease];
+	return [[IPhoneDocumentViewCell alloc] init];
 }
 
 - (NSString *)placeholderText {
@@ -818,8 +805,7 @@ static float initialOffsetY;
 		[each.cell removeFromSuperview];
 	}
 	
-	[rowDatas release];
-	rowDatas = [[RowData rowDatasWithCapacity:[self numberOfRows]] retain];
+	rowDatas = [RowData rowDatasWithCapacity:[self numberOfRows]];
 	
 	[selectedRows removeAllIndexes];
 	[selectedRowsCover removeAllIndexes];
@@ -952,17 +938,15 @@ static float initialOffsetY;
     
     if (autoscrollDistance == 0) {
 		[autoscrollTimer invalidate];
-		[autoscrollTimer release];
 		autoscrollTimer = nil;
 	} else if (!autoscrollTimer) {
-		autoscrollTimer = [[NSTimer scheduledTimerWithTimeInterval:1.0/60.0 target:self selector:@selector(autoscrollTimerFired:) userInfo:nil repeats:YES] retain];
+		autoscrollTimer = [NSTimer scheduledTimerWithTimeInterval:1.0/60.0 target:self selector:@selector(autoscrollTimerFired:) userInfo:nil repeats:YES];
 	}
 }
 
 - (void)stopAutoscroll {
 	autoscrollDistance = 0;
 	[autoscrollTimer invalidate];
-	[autoscrollTimer release];
 	autoscrollTimer = nil;
 }
 
@@ -1296,7 +1280,7 @@ static float initialOffsetY;
 + (NSMutableArray *)rowDatasWithCapacity:(NSUInteger)capacity {
 	NSMutableArray *rowDatas = [NSMutableArray arrayWithCapacity:capacity];
 	for (NSUInteger i = 0; i < capacity; i++) {
-		[rowDatas addObject:[[[RowData alloc] init] autorelease]];
+		[rowDatas addObject:[[RowData alloc] init]];
 	}
 	return rowDatas;
 }
@@ -1311,7 +1295,6 @@ static float initialOffsetY;
 
 - (void)dealloc {
 	cell.rowData = nil;
-	[super dealloc];
 }
 
 @synthesize cell;

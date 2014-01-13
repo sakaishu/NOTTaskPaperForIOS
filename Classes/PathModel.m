@@ -43,7 +43,6 @@
 				}
 				
 				[results addObject:eachPathModel];
-				[eachPathModel release];
 			}
 		}
 		
@@ -57,20 +56,12 @@
 
 - (id)initWithParent:(NSString *)aParentPath name:(NSString *)aName isDirectory:(BOOL)aBool {
 	self = [super init];
-	parent = [aParentPath retain];
-	name = [aName retain];
+	parent = aParentPath;
+	name = aName;
 	isDirectory = aBool;
 	return self;
 }
 
-- (void)dealloc {
-	[parent release];
-	[name release];
-	[path release];
-	[created release];
-	[modified release];
-	[super dealloc];
-}
 
 - (NSString *)description {
 	return [[super description] stringByAppendingFormat:@" %@", name];
@@ -92,7 +83,7 @@
 
 - (NSString *)path {
 	if (!path) {
-		path = [[parent stringByAppendingPathComponent:name] retain];
+		path = [parent stringByAppendingPathComponent:name];
 	}
 	return path;
 }
@@ -106,10 +97,8 @@
 	
 	struct stat fileInfo;
 	if (0 == lstat(pathFileSystemRepresentation, &fileInfo)) {
-		[modified release];
-		modified = [[NSDate dateWithTimeIntervalSince1970:fileInfo.st_mtime] retain];
-		[created release];
-		created = [[NSDate dateWithTimeIntervalSince1970:fileInfo.st_ctime] retain];
+		modified = [NSDate dateWithTimeIntervalSince1970:fileInfo.st_mtime];
+		created = [NSDate dateWithTimeIntervalSince1970:fileInfo.st_ctime];
 	}
 }
 

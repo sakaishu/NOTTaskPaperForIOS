@@ -10,5 +10,5 @@
 
 
 @interface ShadowMetadataTextBlob : NSManagedObject { }
-@property(nonatomic, retain) NSString *text;
+@property(nonatomic, strong) NSString *text;
 @end

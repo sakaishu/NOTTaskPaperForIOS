@@ -19,11 +19,11 @@
 	CGRect rowRect;
 	CGRect lastRowRect;
 @protected
-	IPhoneDocumentViewCell *cell;
+	IPhoneDocumentViewCell *__weak cell;
 }
 
 + (NSMutableArray *)rowDatasWithCapacity:(NSUInteger)capacity;
-@property(assign, nonatomic) IPhoneDocumentViewCell *cell;
+@property(weak, nonatomic) IPhoneDocumentViewCell *cell;
 - (void)invalidateCachedRowRect;
 @end
 
@@ -62,13 +62,13 @@
 	CGFloat autoscrollDistance;
 	UILabel *placeHolderLabel;
     
-    id<TaskViewDelegate> taskDelegate;
+    id<TaskViewDelegate> __weak taskDelegate;
 }
 
 + (UIColor *)selectionColor;
 - (IPhoneDocumentViewCell *)dequeueReusableCell;
 
-@property(retain, nonatomic) NSString *placeholderText;
+@property(strong, nonatomic) NSString *placeholderText;
 
 - (void)processDrag;
 
@@ -81,7 +81,7 @@
 - (Section *)sectionForRow:(NSUInteger)row;
 - (IPhoneDocumentViewCell *)cellForRow:(NSUInteger)row;
 
-@property (nonatomic, assign) id<TaskViewDelegate> taskDelegate;
+@property (nonatomic, weak) id<TaskViewDelegate> taskDelegate;
 
 #pragma mark Rows
 
@@ -89,14 +89,14 @@
 
 #pragma mark Selection
 
-@property(retain, nonatomic) NSIndexSet *selectedRows;
+@property(strong, nonatomic) NSIndexSet *selectedRows;
 @property(readonly) NSIndexSet *selectedRowsCover;
-@property(readonly) NSArray *selectedSections;
+@property(weak, readonly) NSArray *selectedSections;
 
 #pragma mark Editing
 
 @property(assign, nonatomic) NSUInteger editedRow;
-@property(assign, nonatomic) Section *editedSection;
+@property(weak, nonatomic) Section *editedSection;
 
 #pragma mark FieldEditor
 

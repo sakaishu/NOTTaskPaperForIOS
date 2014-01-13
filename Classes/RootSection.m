@@ -193,7 +193,6 @@
 
 	// 5. Add to tree.
 	[insertedSection setTree:tree];
-	[insertedSection retain];
 	
 	[tree endChangingSections];
 }
@@ -231,7 +230,7 @@
 		if (!validStart) validStart = tree.rootSection;
 		
 		// 2. Locations		
-		effectedLocations = [[[tree trackedLocationsFor:removedSection] copy] autorelease];
+		effectedLocations = [[tree trackedLocationsFor:removedSection] copy];
 		
 		// 3. Remove, removed, also temporarily removes all children from tree.
 		[RootSection parent:removedSection->parent removeChild:removedSection];

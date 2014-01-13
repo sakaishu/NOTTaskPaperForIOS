@@ -27,8 +27,8 @@
 
 - (id)initWithLabel:(NSString *)newLabel usingController:(IFGenericTableViewController *)newController inModel:(id<IFCellModel>)newModel;
 
-@property (nonatomic, retain) NSString *choice;
-@property (nonatomic, retain) UIImage *image;
+@property (nonatomic, strong) NSString *choice;
+@property (nonatomic, strong) UIImage *image;
 @property (nonatomic, readonly) IFGenericTableViewController *controller;
 
 @end

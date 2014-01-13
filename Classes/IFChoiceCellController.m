@@ -29,11 +29,11 @@
 	self = [super init];
 	if (self != nil)
 	{
-		label = [newLabel retain];
-		choices = [newChoices retain];
-		choiceValues = [newChoiceValues retain];
-		key = [newKey retain];
-		model = [newModel retain];
+		label = newLabel;
+		choices = newChoices;
+		choiceValues = newChoiceValues;
+		key = newKey;
+		model = newModel;
 
 		footerNote = nil;
 		
@@ -47,18 +47,6 @@
 //
 // Releases instance memory.
 //
-- (void)dealloc
-{
-	[label release];
-	[choices release];
-	[choiceValues release];
-	[key release];
-	[model release];
-	
-	[footerNote release];
-	
-	[super dealloc];
-}
 
 //
 // tableView:didSelectRowAtIndexPath:
@@ -79,7 +67,6 @@
 	choiceTableViewController.updateAction = updateAction;
 	choiceTableViewController.footerNote = footerNote;
 	[tableViewController.navigationController pushViewController:choiceTableViewController animated:YES];
-	[choiceTableViewController release];
 
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -96,7 +83,7 @@
 	IFControlTableViewCell *cell = (IFControlTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
 	if (cell == nil)
 	{
-		cell = [[[IFControlTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] autorelease];
+		cell = [[IFControlTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
 		
 	}
 	
@@ -149,7 +136,6 @@
 			[choiceLabel setTextAlignment:UITextAlignmentRight];
 			[choiceLabel setTextColor:[UIColor colorWithRed:0.20f green:0.31f blue:0.52f alpha:1.0f]];
 			cell.view = choiceLabel;
-			[choiceLabel release];
 		}
 		else if ([choice isKindOfClass:[IFNamedImage class]])
 		{
@@ -162,7 +148,6 @@
 			[choiceLabel setTextAlignment:UITextAlignmentRight];
 			[choiceLabel setTextColor:[UIColor colorWithRed:0.20f green:0.31f blue:0.52f alpha:1.0f]];
 			cell.view = choiceLabel;
-			[choiceLabel release];
 		}
 	}
 	

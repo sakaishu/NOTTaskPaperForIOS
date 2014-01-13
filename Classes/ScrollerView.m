@@ -41,10 +41,6 @@
 #pragma mark -
 #pragma mark Dealloc
 
-- (void)dealloc {
-	[thumbImageView release];
-	[super dealloc];
-}
 
 #pragma mark -
 #pragma mark Scrolling

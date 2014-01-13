@@ -24,7 +24,7 @@
 	NSMutableDictionary *trackedLocations;
 	NSString *textContent;
     
-    id<TreeDelegate> delegate;
+    id<TreeDelegate> __weak delegate;
     
     Patch *uncommitedTextContentPatch;
 	NSString *commitedTextContent;
@@ -37,20 +37,20 @@
 
 - (id)initWithPatchHistory:(NSArray *)anArray textContent:(NSString *)aString;
 
-@property (nonatomic, assign) id<TreeDelegate> delegate;
+@property (nonatomic, weak) id<TreeDelegate> delegate;
 
 #pragma mark Properties
 
-@property(readonly, nonatomic) NSArray *allTagNames;
+@property(weak, readonly, nonatomic) NSArray *allTagNames;
 @property(readonly, nonatomic) NSUndoManager *undoManager;
 
 #pragma mark Sections (Reading)
 
-@property(readonly, nonatomic) RootSection *rootSection;
-@property(readonly, nonatomic) Section *firstSection;
-@property(readonly, nonatomic) Section *lastSection;
-@property(readonly, nonatomic) NSEnumerator *topLevelSections;
-@property(readonly, nonatomic) NSEnumerator *enumeratorOfSubtreeSections;
+@property(weak, readonly, nonatomic) RootSection *rootSection;
+@property(weak, readonly, nonatomic) Section *firstSection;
+@property(weak, readonly, nonatomic) Section *lastSection;
+@property(weak, readonly, nonatomic) NSEnumerator *topLevelSections;
+@property(weak, readonly, nonatomic) NSEnumerator *enumeratorOfSubtreeSections;
 @property(assign, nonatomic) BOOL skipSave;
 
 - (Section *)valueInSectionsWithID:(NSString *)uniqueID;
@@ -78,7 +78,7 @@
 - (void)removeTrackedLocation:(TrackedLocation *)aTrackedLocation;
 
 #pragma mark Text API
-@property (retain, nonatomic) NSString *textContent;
+@property (strong, nonatomic) NSString *textContent;
 @property (readonly, nonatomic) NSString *commitedTextContent;
 @property (readonly, nonatomic) NSArray *commitedTextContentPatches;
 
@@ -102,8 +102,8 @@
 
 - (id)initWithSection:(Section *)section offset:(NSUInteger)offset;
 
-@property(readonly, nonatomic) Section *section;
-@property(retain, nonatomic) NSString *sectionID;
+@property(weak, readonly, nonatomic) Section *section;
+@property(strong, nonatomic) NSString *sectionID;
 @property(assign, nonatomic) NSUInteger sectionOffset;
 
 @end

@@ -26,10 +26,10 @@
 	self = [super init];
 	if (self != nil)
 	{
-		label = [newLabel retain];
-		placeholder = [newPlaceholder retain];
-		key = [newKey retain];
-		model = [newModel retain];
+		label = newLabel;
+		placeholder = newPlaceholder;
+		key = newKey;
+		model = newModel;
 
 		enabled = YES;
 		numericValues = NO;
@@ -48,15 +48,6 @@
 //
 // Releases instance memory.
 //
-- (void)dealloc
-{
-	[label release];
-	[placeholder release];
-	[key release];
-	[model release];
-	
-	[super dealloc];
-}
 
 //
 // tableView:cellForRowAtIndexPath:
@@ -70,7 +61,7 @@
 	IFControlTableViewCell *cell = (IFControlTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
 	if (cell == nil)
 	{
-		cell = [[[IFControlTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] autorelease];
+		cell = [[IFControlTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
 	}
 	
 	cell.textLabel.text = label;
@@ -111,7 +102,6 @@
 		textField.textAlignment = UITextAlignmentRight;
 	}	
 	cell.view = textField;
-	[textField release];
 	
 	[cell layoutSubviews];
 
@@ -120,7 +110,7 @@
 
 - (void)updateValue:(id)sender {
 	if (numericValues) {
-		[model setObject:[[[[NSNumberFormatter alloc] init] autorelease] numberFromString:[sender text]] forKey:key];		
+		[model setObject:[[[NSNumberFormatter alloc] init] numberFromString:[sender text]] forKey:key];		
 	} else {
 		[model setObject:[sender text] forKey:key];
 	}

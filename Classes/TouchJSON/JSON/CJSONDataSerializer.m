@@ -39,7 +39,7 @@ static NSData *kTrue = NULL;
 
 + (void)initialize
 {
-NSAutoreleasePool *thePool = [[NSAutoreleasePool alloc] init];
+@autoreleasepool {
 
 @synchronized(@"CJSONDataSerializer")
 	{
@@ -51,12 +51,12 @@ NSAutoreleasePool *thePool = [[NSAutoreleasePool alloc] init];
 		kTrue = [[NSData alloc] initWithBytesNoCopy:"true" length:4 freeWhenDone:NO];
 	}
 
-[thePool release];
+}
 }
 
 + (id)serializer
 {
-return([[[self alloc] init] autorelease]);
+return([[self alloc] init]);
 }
 
 - (NSData *)serializeObject:(id)inObject;
@@ -85,7 +85,7 @@ else if ([inObject isKindOfClass:[NSDictionary class]])
 	}
 else if ([inObject isKindOfClass:[NSData class]])
 	{
-	NSString *theString = [[[NSString alloc] initWithData:inObject encoding:NSUTF8StringEncoding] autorelease];
+	NSString *theString = [[NSString alloc] initWithData:inObject encoding:NSUTF8StringEncoding];
 	theResult = [self serializeString:theString];
 	}
 else if ([inObject isKindOfClass:[CSerializedJSONData class]])
@@ -145,7 +145,7 @@ return(theResult);
 
 - (NSData *)serializeString:(NSString *)inString
 {
-NSMutableString *theMutableCopy = [[inString mutableCopy] autorelease];
+NSMutableString *theMutableCopy = [inString mutableCopy];
 [theMutableCopy replaceOccurrencesOfString:@"\\" withString:@"\\\\" options:0 range:NSMakeRange(0, [theMutableCopy length])];
 [theMutableCopy replaceOccurrencesOfString:@"\"" withString:@"\\\"" options:0 range:NSMakeRange(0, [theMutableCopy length])];
 [theMutableCopy replaceOccurrencesOfString:@"/" withString:@"\\/" options:0 range:NSMakeRange(0, [theMutableCopy length])];

@@ -211,7 +211,7 @@ NSString * const DirectoryLocationDomain = @"DirectoryLocationDomain";
 - (NSString *)readOnlyInboxDirectory {
 	static NSString *readOnlyInboxDirectory = nil;
 	if (!readOnlyInboxDirectory) {
-		readOnlyInboxDirectory = [[[self documentDirectory] stringByAppendingPathComponent:@"Inbox"] retain];
+		readOnlyInboxDirectory = [[self documentDirectory] stringByAppendingPathComponent:@"Inbox"];
 	}
 	return readOnlyInboxDirectory;
 }

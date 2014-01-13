@@ -19,14 +19,12 @@
 - (void)removeTempUploadPath {
 	if (tempUploadPath) {
 		[[NSFileManager defaultManager] removeItemAtPath:tempUploadPath error:NULL];
-		[tempUploadPath release];
 		tempUploadPath = nil;
 	}
 }
 
 - (void)dealloc {
 	[self removeTempUploadPath];
-	[super dealloc];
 }
 
 - (void)main {
@@ -45,7 +43,7 @@
 			[self updatePathActivity:PutPathActivity];
 			[self.client createFolder:serverPath];
 		} else {
-			tempUploadPath = [[fileManager tempDirectoryUnusedPath] retain];
+			tempUploadPath = [fileManager tempDirectoryUnusedPath];
 			if ([fileManager copyItemAtPath:localPath toPath:tempUploadPath error:&error]) {
 				[self updatePathActivity:PutPathActivity];
                 [self.client uploadFile:[serverPath lastPathComponent] toPath:[serverPath stringByDeletingLastPathComponent] fromPath:tempUploadPath];

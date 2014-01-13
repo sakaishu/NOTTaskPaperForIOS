@@ -16,6 +16,6 @@
 + (IPhoneDocumentViewFieldEditor *)sharedInstance;
 
 @property(assign, nonatomic) BOOL uncommitedChanges;
-@property(retain, nonatomic) NSString *placeholderText;
+@property(strong, nonatomic) NSString *placeholderText;
 	
 @end

@@ -11,11 +11,11 @@
 @class TextFieldViewController;
 
 @interface TextFieldViewController : ViewController <UITextFieldDelegate> {
-	id delegate;
+	id __weak delegate;
 	SMTEDelegateController *textExpander;
 }
 
-@property (nonatomic, readonly) UITextField *textField;
-@property (nonatomic, assign) id delegate;
+@property (weak, nonatomic, readonly) UITextField *textField;
+@property (nonatomic, weak) id delegate;
 
 @end

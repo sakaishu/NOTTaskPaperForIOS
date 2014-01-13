@@ -15,7 +15,7 @@
 
 + (IFNamedImage *)image:(UIImage *)newImage withName:(NSString *)newName;
 {
-	return [[[IFNamedImage alloc] initWithImage:newImage andName:newName] autorelease];
+	return [[IFNamedImage alloc] initWithImage:newImage andName:newName];
 }
 
 - (id)initWithImage:(UIImage *)newImage andName:(NSString *)newName
@@ -23,18 +23,11 @@
 	self = [super init];
 	if (self != nil)
 	{
-		name = [newName retain];
-		image = [newImage retain];
+		name = newName;
+		image = newImage;
 	}
 	return self;
 }
 
-- (void)dealloc
-{
-	[name release];
-	[image release];
-	
-	[super dealloc];
-}
 
 @end

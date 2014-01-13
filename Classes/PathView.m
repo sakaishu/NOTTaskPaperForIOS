@@ -21,7 +21,7 @@
 	self.keyboardAppearance = [APP_VIEW_CONTROLLER keyboardAppearance];
 	self.contentMode = UIViewContentModeCenter;
 	self.placeholder = nil;
-	self.rightView = [[[UIImageView alloc] initWithImage:[UIImage colorizeImage:[UIImage imageNamed:@"pulldown.png"] color:[APP_VIEW_CONTROLLER inkColorByPercent:0.15]]] autorelease];
+	self.rightView = [[UIImageView alloc] initWithImage:[UIImage colorizeImage:[UIImage imageNamed:@"pulldown.png"] color:[APP_VIEW_CONTROLLER inkColorByPercent:0.15]]];
 	self.rightView.contentMode = UIViewContentModeCenter;
 	self.rightViewMode = UITextFieldViewModeUnlessEditing;
 	[self sizeToFit];
@@ -38,7 +38,6 @@
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[super dealloc];
 }
 
 - (void)allCapsHeadingsChangedNotification:(NSNotification *)aNotification {

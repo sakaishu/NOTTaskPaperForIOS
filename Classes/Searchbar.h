@@ -21,10 +21,10 @@
 	UIEdgeInsets originalLeftInsets;
 }
 
-@property (nonatomic, retain) SearchView *searchView;
+@property (nonatomic, strong) SearchView *searchView;
 
-@property (nonatomic, retain) UIButton *rightButton;
-@property (nonatomic, retain) UIButton *leftButton;
+@property (nonatomic, strong) UIButton *rightButton;
+@property (nonatomic, strong) UIButton *leftButton;
 
 
 @end

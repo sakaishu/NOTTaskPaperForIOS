@@ -8,7 +8,7 @@
 @class Section;
 
 @interface Tag : NSObject {
-	Section *section;
+	Section *__weak section;
 	NSString *name;
 	NSString *value;
 }
@@ -22,10 +22,10 @@
 
 - (id)initWithName:(NSString *)aName value:(NSString *)aValue;
 
-@property(assign, nonatomic) Section *section;
+@property(weak, nonatomic) Section *section;
 @property(readonly, nonatomic) NSString *name;
 @property(readonly, nonatomic) NSString *value;
-@property(retain, nonatomic) NSNumber *numberValue;
+@property(strong, nonatomic) NSNumber *numberValue;
 
 - (NSString *)contentByAddingTag:(NSString *)originalContent;
 - (NSString *)contentByRemovingTag:(NSString *)originalContent;

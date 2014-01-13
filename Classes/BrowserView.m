@@ -49,28 +49,28 @@
 	
 	[self refreshFromDefaults];
 	
-	contentWrapper = [[[UIView alloc] init] autorelease];
+	contentWrapper = [[UIView alloc] init];
 	contentWrapper.autoresizesSubviews = YES;
 	contentWrapper.clipsToBounds = YES;
 	contentWrapper.userInteractionEnabled = YES;
 	
 	[self addSubview:contentWrapper];
 
-    self.searchbar = [[[Searchbar alloc] init] autorelease];
-	self.titlebar = [[[Titlebar alloc] init] autorelease];
-	self.toolbar = [[[Toolbar alloc] init] autorelease];
+    self.searchbar = [[Searchbar alloc] init];
+	self.titlebar = [[Titlebar alloc] init];
+	self.toolbar = [[Toolbar alloc] init];
 	
 	toolbar.hidden = YES;
 	
-	headerBarsGradientFadeView = [[[GradientFadeView alloc] init] autorelease];
+	headerBarsGradientFadeView = [[GradientFadeView alloc] init];
 	[self addSubview:headerBarsGradientFadeView];
 	
-	toolbarGradientFadeView = [[[GradientFadeView alloc] init] autorelease];
+	toolbarGradientFadeView = [[GradientFadeView alloc] init];
 	toolbarGradientFadeView.flipped = YES;
 	[self addSubview:toolbarGradientFadeView];
 	
 	if (!scrollerView) {
-		scrollerView = [[[ScrollerView alloc] initWithFrame:self.bounds] autorelease];
+		scrollerView = [[ScrollerView alloc] initWithFrame:self.bounds];
 		[self addSubview:scrollerView];
 	}
     
@@ -104,12 +104,9 @@
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[originalContentViewDelegate release];
 	contentView.delegate = nil;
 	leftMarginScrollView.delegate = nil;
 	rightMarginScrollView.delegate = nil;
-	[contentView release];
-	[super dealloc];
 }
 
 #pragma mark -
@@ -153,12 +150,12 @@
 	toolbar = aToolbar;
 	[self addSubview:toolbar];
     
-    UISwipeGestureRecognizer *recognizer = [[[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRight:)] autorelease];
+    UISwipeGestureRecognizer *recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRight:)];
     recognizer.numberOfTouchesRequired = 1;
     [toolbar addGestureRecognizer:recognizer];
     
     
-    recognizer = [[[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeLeft:)] autorelease];
+    recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeLeft:)];
     [recognizer setDirection:UISwipeGestureRecognizerDirectionLeft];
     recognizer.numberOfTouchesRequired = 1;
     [toolbar addGestureRecognizer:recognizer];
@@ -167,7 +164,7 @@
 
 - (UILabel *)statusLabel {
 	if (!statusLabel) {
-		statusLabel = [[[UILabel alloc] init] autorelease];
+		statusLabel = [[UILabel alloc] init];
 		statusLabel.userInteractionEnabled = NO;
 		statusLabel.opaque = NO;
 		statusLabel.backgroundColor = nil;//[UIColor clearColor];
@@ -184,13 +181,11 @@
 - (void)setContentView:(UIScrollView *)aView {
 	contentView.delegate = originalContentViewDelegate;
 	[contentView removeFromSuperview];
-	[originalContentViewDelegate release];
 	originalContentViewDelegate = nil;	
-    [contentView autorelease];
-	contentView = [aView retain];
+	contentView = aView;
 	
 	if (contentView) {
-		originalContentViewDelegate = (id)[contentView.delegate retain];
+		originalContentViewDelegate = (id)contentView.delegate;
 		contentView.delegate = self;
 		contentView.showsVerticalScrollIndicator = NO;
 		contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -199,7 +194,7 @@
 		if (IS_IPAD) {
 			// Only created secondary scroll views on iPad, they hurt scrolling performance on iPhone.
 			if (!leftMarginScrollView) {
-				leftMarginScrollView = [[[MarginScrollView alloc] initWithFrame:self.bounds] autorelease];
+				leftMarginScrollView = [[MarginScrollView alloc] initWithFrame:self.bounds];
 				leftMarginScrollView.showsVerticalScrollIndicator = NO;
 				leftMarginScrollView.delegate = self;
 				if (DEBUG_DRAWING) {
@@ -212,7 +207,7 @@
 			leftMarginScrollView.alwaysBounceVertical = contentView.alwaysBounceVertical;
 			
 			if (!rightMarginScrollView) {
-				rightMarginScrollView = [[[MarginScrollView alloc] initWithFrame:self.bounds] autorelease];
+				rightMarginScrollView = [[MarginScrollView alloc] initWithFrame:self.bounds];
 				rightMarginScrollView.showsVerticalScrollIndicator = NO;
 				rightMarginScrollView.delegate = self;
 				if (DEBUG_DRAWING) {
@@ -264,7 +259,7 @@
 
 - (CATransition *)pushAnimation {
 	if (!pushAnimation) {
-		pushAnimation = [[CATransition animation] retain];
+		pushAnimation = [CATransition animation];
 		[pushAnimation setDuration:BROWSER_ANIMATION_DURATION];
 		[pushAnimation setType:kCATransitionPush];
 		[pushAnimation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
@@ -275,7 +270,7 @@
 
 - (CATransition *)popAnimation {
 	if (!popAnimation) {
-		popAnimation = [[CATransition animation] retain];
+		popAnimation = [CATransition animation];
 		[popAnimation setDuration:BROWSER_ANIMATION_DURATION];
 		[popAnimation setType:kCATransitionPush];
 		[popAnimation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
@@ -333,8 +328,7 @@
 		[[contentWrapper layer] addAnimation:animation forKey:@"SwitchContentView"];
 	}
 	
-	[currentViewController autorelease];
-	currentViewController = [aViewController retain];
+	currentViewController = aViewController;
 	[currentViewController saveOpenPathsState];
 
 	[self updateTitleBarDrawBottomDivider];
@@ -1060,10 +1054,10 @@
 
 + (void)load {
     if (self == [UIScrollView class]) {
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+		@autoreleasepool {
 		[UIScrollView replaceInstanceMethod:@selector(setContentOffset:animated:) withMethod:@selector(my_setContentOffset:animated:)];
 		[UIScrollView replaceInstanceMethod:@selector(scrollRectToVisible:animated:) withMethod:@selector(my_scrollRectToVisible:animated:)];
-		[pool release];
+		}
     }
 }
 

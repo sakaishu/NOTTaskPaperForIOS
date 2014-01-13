@@ -7,9 +7,9 @@
 
 
 @interface KeyboardAccessoryView : UIImageView {
-	UIResponder *target;
+	UIResponder *__weak target;
 }
 
-@property (nonatomic, assign) UIResponder *target;
+@property (nonatomic, weak) UIResponder *target;
 
 @end

@@ -11,11 +11,11 @@
 @class Button;
 
 @interface PathViewWrapper : UIView {
-	PathView *pathView;
-	Button *popupMenuButton;
+	PathView *__weak pathView;
+	Button *__weak popupMenuButton;
 }
 
-@property (nonatomic, readonly) PathView *pathView;
-@property (nonatomic, readonly) Button *popupMenuButton;
+@property (weak, nonatomic, readonly) PathView *pathView;
+@property (weak, nonatomic, readonly) Button *popupMenuButton;
 
 @end

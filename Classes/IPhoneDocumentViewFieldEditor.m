@@ -34,10 +34,6 @@
 	return self;
 }
 
-- (void)dealloc {
-	[placeholderText release];
-	[super dealloc];
-}
 
 /*
 - (id)undoManagerForWebView:(id)webView { // Hack to turn off default undo support in UITextView.
@@ -69,8 +65,7 @@
 @synthesize placeholderText;
 
 - (void)setPlaceholderText:(NSString *)aString {
-	[placeholderText release];
-	placeholderText = [aString retain];
+	placeholderText = aString;
 	[self setNeedsDisplay];
 }
 
@@ -91,7 +86,7 @@
 	UIView *hit = [super hitTest:point withEvent:event];
 	
 	if (!hit) { // UITextView Seems to ignore subviews that are outside of bounds... so force hit check against them.
-		for (UIView *each in self.subviews) {
+		for (__strong UIView *each in self.subviews) {
 			CGPoint p = [self convertPoint:point toView:each];
 			each = [each hitTest:p withEvent:event];
 			if (each) {

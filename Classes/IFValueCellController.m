@@ -25,9 +25,9 @@
 	self = [super init];
 	if (self != nil)
 	{
-		label = [newLabel retain];
-		key = [newKey retain];
-		model = [newModel retain];
+		label = newLabel;
+		key = newKey;
+		model = newModel;
 		
 		indentationLevel = 0;
 	}
@@ -39,14 +39,6 @@
 //
 // Releases instance memory.
 //
-- (void)dealloc
-{
-	[label release];
-	[key release];
-	[model release];
-	
-	[super dealloc];
-}
 
 //
 // tableView:didSelectRowAtIndexPath:
@@ -69,7 +61,7 @@
 	IFControlTableViewCell *cell = (IFControlTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
 	if (cell == nil)
 	{
-		cell = [[[IFControlTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] autorelease];
+		cell = [[IFControlTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
 		
 	}
 	
@@ -98,7 +90,6 @@
 		[valueLabel setTextAlignment:UITextAlignmentRight];
 		[valueLabel setTextColor:[UIColor colorWithRed:0.20f green:0.31f blue:0.52f alpha:1.0f]];
 		cell.view = valueLabel;
-		[valueLabel release];
 	}
 	else if ([value isKindOfClass:[NSNumber class]])
 	{
@@ -111,7 +102,6 @@
 		[valueLabel setTextAlignment:UITextAlignmentRight];
 		[valueLabel setTextColor:[UIColor colorWithRed:0.20f green:0.31f blue:0.52f alpha:1.0f]];
 		cell.view = valueLabel;
-		[valueLabel release];
 	}
 	else
 	{
@@ -124,7 +114,6 @@
 		[valueLabel setTextAlignment:UITextAlignmentRight];
 		[valueLabel setTextColor:[UIColor colorWithRed:0.20f green:0.31f blue:0.52f alpha:1.0f]];
 		cell.view = valueLabel;
-		[valueLabel release];
 	}
 	
 	return cell;

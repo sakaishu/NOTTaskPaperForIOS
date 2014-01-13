@@ -19,12 +19,12 @@
 	NSString *key;
 
 	SEL updateAction;
-	id updateTarget;
+	id __weak updateTarget;
 }
 
 @property (nonatomic, assign) BOOL enabled;
 @property (nonatomic, assign) SEL updateAction;
-@property (nonatomic, assign) id updateTarget;
+@property (nonatomic, weak) id updateTarget;
 
 - (id)initWithLabel:(NSString *)newLabel atKey:(NSString *)newKey inModel:(id<IFCellModel>)newModel;
 

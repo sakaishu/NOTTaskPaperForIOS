@@ -35,14 +35,14 @@ static NSMutableSet *shouldFailPathsForUnitTesting = nil;
 }
 
 + (PathOperation *)pathOperationWithPath:(NSString *)aLocalPath serverMetadata:(DBMetadata *)aServerMetadata {
-	return [[[[self class] alloc] initWithPath:aLocalPath serverMetadata:aServerMetadata] autorelease];
+	return [[[self class] alloc] initWithPath:aLocalPath serverMetadata:aServerMetadata];
 }
 
 - (id)initWithPath:(NSString *)aLocalPath serverMetadata:(DBMetadata *)aServerMetadata {
 	self = [super init];
 	successPathState = SyncedPathState;
-	localPath = [aLocalPath retain];
-	serverMetadata = [aServerMetadata retain];
+	localPath = aLocalPath;
+	serverMetadata = aServerMetadata;
 	retriesRemaining = RETRY_COUNT;
 	createShadowMetadataOnFinish = YES;
 	updatedLastSyncHashOnFinish = YES;
@@ -52,13 +52,7 @@ static NSMutableSet *shouldFailPathsForUnitTesting = nil;
 
 - (void)dealloc {
 	[NSObject cancelPreviousPerformRequestsWithTarget:self];
-	[pathController release];
-	[folderSyncPathOperation release];
-	[localPath release];
-	[serverMetadata release];
 	client.delegate = nil;
-	[client release];
-	[super dealloc];
 }
 
 - (NSString *)description {
@@ -88,8 +82,7 @@ static NSMutableSet *shouldFailPathsForUnitTesting = nil;
 @synthesize pathController;
 
 - (void)setPathController:(PathController *)aPathController {
-	[pathController autorelease];
-	pathController = [aPathController retain];
+	pathController = aPathController;
 	
 	if (pathController != nil && ![self validateLocalPath]) {
 		// Disconnect from path controller so no dammage can be done.

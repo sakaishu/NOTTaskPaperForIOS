@@ -18,28 +18,22 @@
 - (id)initWithLabel:(NSString *)newLabel atKey:(NSString *)newKey inModel:(id<IFCellModel>)newModel {
 	self = [super init];
 	if (self != nil) {
-		label = [newLabel retain];
-		key = [newKey retain];
-		model = [newModel retain];
+		label = newLabel;
+		key = newKey;
+		model = newModel;
 		enabled = YES;
 	}
 	return self;
 }
 
-- (void)dealloc {
-	[label release];
-	[key release];
-	[model release];
-	[super dealloc];
-}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	UITableViewController *tableViewController = (UITableViewController *)tableView.dataSource;
-	ColorPickerViewController *colorPickerViewController = [[[ColorPickerViewController alloc] initWithNibName:@"ColorPicker" bundle:nil tag:1 color:[NSKeyedUnarchiver unarchiveObjectWithData:[model objectForKey:key]]] autorelease];
+	ColorPickerViewController *colorPickerViewController = [[ColorPickerViewController alloc] initWithNibName:@"ColorPicker" bundle:nil tag:1 color:[NSKeyedUnarchiver unarchiveObjectWithData:[model objectForKey:key]]];
 	colorPickerViewController.navigationItem.title = label;
 	colorPickerViewController.delegate = self;
 	UIBarButtonItem *current = tableViewController.navigationItem.rightBarButtonItem;
-	colorPickerViewController.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:current.title style:current.style target:current.target action:current.action] autorelease];		
+	colorPickerViewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:current.title style:current.style target:current.target action:current.action];		
 	[tableViewController.navigationController pushViewController:colorPickerViewController animated:YES];
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -49,7 +43,7 @@
 	
 	IFControlTableViewCell *cell = (IFControlTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
 	if (cell == nil) {
-		cell = [[[IFControlTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] autorelease];		
+		cell = [[IFControlTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];		
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	}
 	

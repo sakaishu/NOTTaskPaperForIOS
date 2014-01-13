@@ -10,7 +10,7 @@
 @class PathViewWrapper;
 
 @interface Titlebar : Bar {
-	PathViewWrapper *pathViewWrapper;
+	PathViewWrapper *__weak pathViewWrapper;
 	UIButton *leftButton;
 	CGFloat originalLeftWidth;
 	UIEdgeInsets originalLeftInsets;
@@ -19,9 +19,9 @@
 	UIEdgeInsets originalRightInsets;
 }
 
-@property (nonatomic, readonly) PathViewWrapper *pathViewWrapper;
-@property (nonatomic, retain) UIButton *leftButton;
-@property (nonatomic, retain) UIButton *rightButton;
+@property (weak, nonatomic, readonly) PathViewWrapper *pathViewWrapper;
+@property (nonatomic, strong) UIButton *leftButton;
+@property (nonatomic, strong) UIButton *rightButton;
 
 - (void)setPathViewWrapper:(PathViewWrapper *)aPathViewWrapper becomeFirstResponder:(BOOL)becomeFirstResponder;
 

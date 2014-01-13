@@ -28,9 +28,9 @@
 	self = [super init];
 	if (self != nil)
 	{
-		label = [newLabel retain];
-		controller = [newController retain];
-		model = [newModel retain];
+		label = newLabel;
+		controller = newController;
+		model = newModel;
 	}
 	return self;
 }
@@ -43,15 +43,6 @@
 //
 // Releases instance memory.
 //
-- (void)dealloc
-{
-	[label release];
-	[choice release];
-	[image release];
-	[controller release];
-	[model release];
-	[super dealloc];
-}
 
 //
 // tableView:didSelectRowAtIndexPath:
@@ -82,7 +73,7 @@
 	IFControlTableViewCell *cell = (IFControlTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
 	if (cell == nil)
 	{
-		cell = [[[IFControlTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] autorelease];
+		cell = [[IFControlTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	}
 	
@@ -106,7 +97,6 @@
 		[choiceLabel setTextAlignment:UITextAlignmentRight];
 		[choiceLabel setTextColor:[UIColor colorWithRed:0.20f green:0.31f blue:0.52f alpha:1.0f]];
 		cell.view = choiceLabel;
-		[choiceLabel release];
 	}
 	
 	return cell;

@@ -15,11 +15,11 @@
 	self.multipleTouchEnabled = YES;
 	self.scrollsToTop = NO;
     
-    UISwipeGestureRecognizer *recognizer = [[[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRight:)] autorelease];
+    UISwipeGestureRecognizer *recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRight:)];
     recognizer.numberOfTouchesRequired = 1;
     [self addGestureRecognizer:recognizer];
     
-    recognizer = [[[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeLeft:)] autorelease];
+    recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeLeft:)];
     [recognizer setDirection:UISwipeGestureRecognizerDirectionLeft];
     recognizer.numberOfTouchesRequired = 1;
     [self addGestureRecognizer:recognizer];
@@ -27,9 +27,6 @@
 	return self;
 }
 
-- (void)dealloc {
-	[super dealloc];
-}
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
 	UITouch *touch = [touches anyObject];

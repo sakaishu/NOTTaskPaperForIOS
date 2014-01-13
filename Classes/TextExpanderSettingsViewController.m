@@ -16,13 +16,13 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", nil) style:UIBarButtonItemStyleDone target:self action:@selector(dismissModalViewControllerAction:)] autorelease];		
+	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", nil) style:UIBarButtonItemStyleDone target:self action:@selector(dismissModalViewControllerAction:)];		
 }
 
 - (void)constructTableGroups {
 	NSMutableArray *groupOneCells = [NSMutableArray array];
 	
-	IFSwitchCellController *switchCell = [[[IFSwitchCellController alloc] initWithLabel:NSLocalizedString(@"TextExpander", nil) atKey:TextExpanderEnabledDefaultsKey inModel:self.model] autorelease];
+	IFSwitchCellController *switchCell = [[IFSwitchCellController alloc] initWithLabel:NSLocalizedString(@"TextExpander", nil) atKey:TextExpanderEnabledDefaultsKey inModel:self.model];
 	switchCell.updateAction = @selector(enableTextExpanderUpdated:);
 	switchCell.updateTarget = self;
 	[groupOneCells addObject:switchCell];
@@ -41,9 +41,9 @@
 		footer = NSLocalizedString(@"TextExpander is a third party app that allows you to type short abbreviations that are expanded into long snippets.", nil);
 	}
 	
-	tableGroups = [[NSArray arrayWithObjects: groupOneCells, nil] retain];
-	tableHeaders = [[NSArray arrayWithObjects:@"", nil] retain];	
-	tableFooters = [[NSArray arrayWithObjects:footer, nil] retain];		
+	tableGroups = [NSArray arrayWithObjects: groupOneCells, nil];
+	tableHeaders = [NSArray arrayWithObjects:@"", nil];	
+	tableFooters = [NSArray arrayWithObjects:footer, nil];		
 }
 
 

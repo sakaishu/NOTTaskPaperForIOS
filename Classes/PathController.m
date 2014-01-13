@@ -44,7 +44,6 @@ NSInteger sortInPathOrder(NSString *a, NSString *b, void* context) {
     DBSession* session = 
     [[DBSession alloc] initWithAppKey:CONSUMERKEY appSecret:CONSUMERSECRET root:kDBRootDropbox];
 	[DBSession setSharedSession:session];
-    [session release];
     
 	[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
 															 [NSNumber numberWithBool:YES], SyncAutomaticallyDefaultsKey,
@@ -80,15 +79,14 @@ static NSString *textFileDefaultType = nil;
 
 + (NSString *)defaultTextFileType {
     if (!textFileDefaultType) {
-        textFileDefaultType = [[[NSUserDefaults standardUserDefaults] stringForKey:TextFileDefaultExtensionDefaultsKey] retain];
+        textFileDefaultType = [[NSUserDefaults standardUserDefaults] stringForKey:TextFileDefaultExtensionDefaultsKey];
     }
     return textFileDefaultType;
 }
 
 + (void)setDefaultTextFileType:(NSString *)newDefaultTextFileType {
     if (![newDefaultTextFileType isEqualToString:textFileDefaultType]) {
-        [textFileDefaultType release];
-        textFileDefaultType = [newDefaultTextFileType retain];
+        textFileDefaultType = newDefaultTextFileType;
         [[NSUserDefaults standardUserDefaults] setObject:textFileDefaultType forKey:TextFileDefaultExtensionDefaultsKey];
         if (![textFileTypes containsObject:textFileDefaultType]) {
             NSString *textFileTypesString = [[NSUserDefaults standardUserDefaults] stringForKey:TextFileExtensionsDefaultsKey];
@@ -101,7 +99,7 @@ static NSString *textFileDefaultType = nil;
 + (NSSet *)textFileTypes {
 	if (!textFileTypes) {
 		NSString *textFileTypesString = [[NSUserDefaults standardUserDefaults] stringForKey:TextFileExtensionsDefaultsKey];
-		textFileTypes = [[NSSet setWithArray:[textFileTypesString componentsSeparatedByString:@","]] retain];
+		textFileTypes = [NSSet setWithArray:[textFileTypesString componentsSeparatedByString:@","]];
 	}
 	return textFileTypes;
 }
@@ -110,7 +108,7 @@ static NSString *textFileDefaultType = nil;
 	textFileTypes = nil;
 	
 	NSMutableArray *cleanedExtensions = [NSMutableArray array];
-	for (NSString *each in [extensionsString componentsSeparatedByString:@","]) {
+	for (__strong NSString *each in [extensionsString componentsSeparatedByString:@","]) {
 		each = [each stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 		each = [each lowercaseString];
 		if (![cleanedExtensions containsObject:each]) {
@@ -174,7 +172,7 @@ static NSString *textFileDefaultType = nil;
 	[managedObjectContext setUndoManager:nil];
 	managedObjectContext.pathController = self;
 		
-	NSFetchRequest *fetchRequest = [[[NSFetchRequest alloc] init] autorelease];
+	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
 	NSEntityDescription *entity = [NSEntityDescription entityForName:@"ShadowMetadata" inManagedObjectContext:managedObjectContext];
 	[fetchRequest setEntity:entity];
 	for (ShadowMetadata *each in [managedObjectContext executeFetchRequest:fetchRequest error:NULL]) {
@@ -197,14 +195,13 @@ static NSString *textFileDefaultType = nil;
 	if (![fileManager fileExistsAtPath:aLocalRoot isDirectory:&isDirectory] || !isDirectory) {
 		if (![fileManager createDirectoryAtPath:aLocalRoot withIntermediateDirectories:YES attributes:nil error:&error]) {
 			LogError(@"Failed to create local directory for %@ %@", self, error);
-			[self release];
 			return nil;
 		}
 	}
 	
 	localRoot = aLocalRoot;
 	if (!localRoot) localRoot = [fileManager documentDirectory];
-	localRoot = [[localRoot precomposedStringWithCanonicalMapping] retain];
+	localRoot = [localRoot precomposedStringWithCanonicalMapping];
 	
 	getOperationQueue = [[NSOperationQueue alloc] init];
 	getOperationQueue.maxConcurrentOperationCount = 6;
@@ -220,12 +217,12 @@ static NSString *textFileDefaultType = nil;
 	if (!aServerRoot) aServerRoot = @"/";
 	self.serverRoot = aServerRoot;
 
-	if (!aPersistentStorePath) aPersistentStorePath = [[[[NSFileManager defaultManager] applicationSupportDirectory] stringByAppendingPathComponent:@"ShadowMetadata.sqlite"] retain];
-	persistentStorePath = [aPersistentStorePath retain];
+	if (!aPersistentStorePath) aPersistentStorePath = [[[NSFileManager defaultManager] applicationSupportDirectory] stringByAppendingPathComponent:@"ShadowMetadata.sqlite"];
+	persistentStorePath = aPersistentStorePath;
 	
-	dropboxAPIReachability = [[Reachability reachabilityWithHostName:kDBDropboxAPIHost] retain];
+	dropboxAPIReachability = [Reachability reachabilityWithHostName:kDBDropboxAPIHost];
 	[dropboxAPIReachability startNotifier];
-	dropboxAPIContentReachability = [[Reachability reachabilityWithHostName:kDBDropboxAPIContentHost] retain];
+	dropboxAPIContentReachability = [Reachability reachabilityWithHostName:kDBDropboxAPIContentHost];
 	[dropboxAPIContentReachability startNotifier];
 
 	[self initManagedObjectContext];
@@ -246,30 +243,12 @@ static NSString *textFileDefaultType = nil;
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[DBSession sharedSession].delegate = nil;
 	manualLinkClient.delegate = nil;
-	[localPathsToNormalizedPaths release];
-	[normalizedPathsToPathActivity release];
-	[normalizedPathsToShadowMetadatas release];
-	[pendingPathChangedNotificationUserInfo release];
 	[dropboxAPIReachability stopNotifier];
-	[dropboxAPIReachability release];
 	[dropboxAPIContentReachability stopNotifier];
-	[dropboxAPIContentReachability release];	
-	[manualLinkClient release];
-	[localRoot release];
-	[serverRoot release];
-	[persistentStorePath release];
 	[getOperationQueue cancelAllOperations];
-	[getOperationQueue release];
 	[putOperationQueue cancelAllOperations];
-	[putOperationQueue release];
 	[deleteOperationQueue cancelAllOperations];
-	[deleteOperationQueue release];
 	[folderSyncPathOperationOperationQueue cancelAllOperations];
-	[folderSyncPathOperationOperationQueue release];
- 	[managedObjectModel release];
-	[managedObjectContext release];
-    [persistentStoreCoordinator release];
-	[super dealloc];
 }
 
 - (void)reachabilityChanged:(NSNotification *)aNotification {
@@ -310,7 +289,6 @@ static NSString *textFileDefaultType = nil;
 	}
 
 	[fullSyncAlertView dismissWithClickedButtonIndex:0 animated:YES];
-	[fullSyncAlertView release];
 	fullSyncAlertView = nil;
 
 	[application setNetworkActivityIndicatorVisible:NO];		
@@ -329,8 +307,7 @@ static NSString *textFileDefaultType = nil;
 	aRoot = [aRoot stringByReplacingOccurrencesOfString:@";" withString:@""];
 	aRoot = [@"/" stringByAppendingPathComponent:aRoot];
 	
-	[serverRoot release];
-	serverRoot = [[aRoot precomposedStringWithCanonicalMapping] retain];
+	serverRoot = [aRoot precomposedStringWithCanonicalMapping];
 }
 
 - (NSString *)openFolderPath {
@@ -685,7 +662,7 @@ static NSString *textFileDefaultType = nil;
 		}
 	
 		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-		[folderSyncPathOperationOperationQueue addOperation:[[[FolderSyncPathOperation alloc] initWithPath:localPath pathController:self] autorelease]];
+		[folderSyncPathOperationOperationQueue addOperation:[[FolderSyncPathOperation alloc] initWithPath:localPath pathController:self]];
 	}
 }
 
@@ -719,7 +696,6 @@ static NSString *textFileDefaultType = nil;
 
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:errorTitle message:errorMessage delegate:nil cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:nil];
 	[alertView show];
-	[alertView release];
 }
 
 - (BOOL)isFullSyncInProgress {
@@ -762,7 +738,7 @@ static NSString *textFileDefaultType = nil;
 	[deleteOperationQueue cancelAllOperations];
 	[folderSyncPathOperationOperationQueue cancelAllOperations];
 	
-	for (NSString *each in contents) {
+	for (__strong NSString *each in contents) {
 		each = [localRoot stringByAppendingPathComponent:each];	
 		[self removeUnchangedItemsAtPath:each error:NULL removedAll:&removedAll];
 		[self deleteShadowMetadataForLocalPath:each];
@@ -775,11 +751,8 @@ static NSString *textFileDefaultType = nil;
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:managedObjectContext];
 	
-	[managedObjectContext release];
 	managedObjectContext = nil;
-	[persistentStoreCoordinator release];
 	persistentStoreCoordinator = nil;
-	[managedObjectModel release];
 	managedObjectModel = nil;
 
 	[normalizedPathsToPathActivity removeAllObjects];

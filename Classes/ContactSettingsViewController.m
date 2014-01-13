@@ -12,7 +12,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", nil) style:UIBarButtonItemStyleDone target:self action:@selector(dismissModalViewControllerAction:)] autorelease];		
+	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", nil) style:UIBarButtonItemStyleDone target:self action:@selector(dismissModalViewControllerAction:)];		
 }
 
 - (void)constructTableGroups {
@@ -20,43 +20,43 @@
 	NSMutableArray *groupTwoCells = [NSMutableArray array];
     
     //Group One
-	IFButtonCellController *emailDeveloperCell = [[[IFButtonCellController alloc] initWithLabel:@"Forums" withAction:@selector(forums) onTarget:self] autorelease];
+	IFButtonCellController *emailDeveloperCell = [[IFButtonCellController alloc] initWithLabel:@"Forums" withAction:@selector(forums) onTarget:self];
 	emailDeveloperCell.textAlignment = UITextAlignmentLeft;
 	[groupOneCells addObject:emailDeveloperCell];	
 
-	IFButtonCellController *followDeveloperCell = [[[IFButtonCellController alloc] initWithLabel:@"Twitter" withAction:@selector(twitter) onTarget:self] autorelease];
+	IFButtonCellController *followDeveloperCell = [[IFButtonCellController alloc] initWithLabel:@"Twitter" withAction:@selector(twitter) onTarget:self];
 	followDeveloperCell.textAlignment = UITextAlignmentLeft;
 	[groupOneCells addObject:followDeveloperCell];    
 
-	IFButtonCellController *visitCell = [[[IFButtonCellController alloc] initWithLabel:@"Website" withAction:@selector(website) onTarget:self] autorelease];
+	IFButtonCellController *visitCell = [[IFButtonCellController alloc] initWithLabel:@"Website" withAction:@selector(website) onTarget:self];
 	visitCell.textAlignment = UITextAlignmentLeft;
 	[groupOneCells addObject:visitCell];	
 
     //Group Two
 	
-	IFButtonCellController *bubblesCell = [[[IFButtonCellController alloc] initWithLabel:@"Bubbles iOS" withAction:@selector(bubbles) onTarget:self] autorelease];
+	IFButtonCellController *bubblesCell = [[IFButtonCellController alloc] initWithLabel:@"Bubbles iOS" withAction:@selector(bubbles) onTarget:self];
 	bubblesCell.textAlignment = UITextAlignmentLeft;
 	[groupTwoCells addObject:bubblesCell];	
 	
-	IFButtonCellController *markdownNoteCell = [[[IFButtonCellController alloc] initWithLabel:@"PlainText iOS" withAction:@selector(plainText) onTarget:self] autorelease];
+	IFButtonCellController *markdownNoteCell = [[IFButtonCellController alloc] initWithLabel:@"PlainText iOS" withAction:@selector(plainText) onTarget:self];
 	markdownNoteCell.textAlignment = UITextAlignmentLeft;
 	[groupTwoCells addObject:markdownNoteCell];	
 	
-	IFButtonCellController *taskPaperiOSCell = [[[IFButtonCellController alloc] initWithLabel:@"TaskPaper iOS+Mac" withAction:@selector(taskPaper) onTarget:self] autorelease];
+	IFButtonCellController *taskPaperiOSCell = [[IFButtonCellController alloc] initWithLabel:@"TaskPaper iOS+Mac" withAction:@selector(taskPaper) onTarget:self];
 	taskPaperiOSCell.textAlignment = UITextAlignmentLeft;
 	[groupTwoCells addObject:taskPaperiOSCell];	
     
-	IFButtonCellController *textileNoteCell = [[[IFButtonCellController alloc] initWithLabel:@"WriteRoom iOS+Mac" withAction:@selector(writeRoom) onTarget:self] autorelease];
+	IFButtonCellController *textileNoteCell = [[IFButtonCellController alloc] initWithLabel:@"WriteRoom iOS+Mac" withAction:@selector(writeRoom) onTarget:self];
 	textileNoteCell.textAlignment = UITextAlignmentLeft;
 	[groupTwoCells addObject:textileNoteCell];	
         
-	IFButtonCellController *quickCursorCell = [[[IFButtonCellController alloc] initWithLabel:@"QuickCursor Mac" withAction:@selector(quickCursor) onTarget:self] autorelease];
+	IFButtonCellController *quickCursorCell = [[IFButtonCellController alloc] initWithLabel:@"QuickCursor Mac" withAction:@selector(quickCursor) onTarget:self];
 	quickCursorCell.textAlignment = UITextAlignmentLeft;
 	[groupTwoCells addObject:quickCursorCell];	
     
-    tableGroups = [[NSArray arrayWithObjects: groupOneCells, groupTwoCells, nil] retain];
-	tableHeaders = [[NSArray arrayWithObjects:@"", @"Our Apps", nil] retain];	
-	tableFooters = [[NSArray arrayWithObjects:@"", @"", nil] retain];
+    tableGroups = [NSArray arrayWithObjects: groupOneCells, groupTwoCells, nil];
+	tableHeaders = [NSArray arrayWithObjects:@"", @"Our Apps", nil];	
+	tableFooters = [NSArray arrayWithObjects:@"", @"", nil];
 	
 }
 

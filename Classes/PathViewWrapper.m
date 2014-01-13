@@ -15,7 +15,7 @@
 - (id)init {
     self = [super init];
     if (self) {
-		pathView = [[[PathView alloc] init] autorelease];
+		pathView = [[PathView alloc] init];
 		[self addSubview:pathView];
 		popupMenuButton = [Button buttonWithTitle:@"" target:nil action:NULL edgeInsets:UIEdgeInsetsZero];
 		popupMenuButton.accessibilityLabel = NSLocalizedString(@"Popup Menu", nil);
@@ -62,8 +62,5 @@
 	popupMenuButton.frame = bounds;
 }
 
-- (void)dealloc {
-    [super dealloc];
-}
 
 @end

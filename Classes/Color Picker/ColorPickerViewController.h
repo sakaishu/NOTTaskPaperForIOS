@@ -25,7 +25,7 @@ struct rgbhsvColor  {
 @end
 
 @interface ColorPickerViewController : UIViewController {
-    id<ColorPickerDelegate> delegate;
+    id<ColorPickerDelegate> __weak delegate;
 	NSInteger userTag;                                      // identify in delegate method
 	UILabel *previewLabel;									// view for the color preview
 	UIImageView *twoComponentView,*oneComponentView;		// the two color picker views
@@ -35,15 +35,15 @@ struct rgbhsvColor  {
 	struct rgbhsvColor actualColor;                         // actual set color
 }
 
-@property (nonatomic, assign) id<ColorPickerDelegate> delegate;
+@property (nonatomic, weak) id<ColorPickerDelegate> delegate;
 
-@property (readonly) UIColor *color;
-@property (nonatomic, retain) IBOutlet UILabel *previewLabel;
-@property (nonatomic, retain) IBOutlet UIImageView *twoComponentView;
-@property (nonatomic, retain) IBOutlet UIImageView *oneComponentView;
-@property (nonatomic, retain) IBOutlet UIImageView *arrowParentView;
-@property (nonatomic, retain) IBOutlet UIImageView *circleView;
-@property (nonatomic, retain) IBOutlet UIImageView *arrowView;
+@property (weak, readonly) UIColor *color;
+@property (nonatomic, strong) IBOutlet UILabel *previewLabel;
+@property (nonatomic, strong) IBOutlet UIImageView *twoComponentView;
+@property (nonatomic, strong) IBOutlet UIImageView *oneComponentView;
+@property (nonatomic, strong) IBOutlet UIImageView *arrowParentView;
+@property (nonatomic, strong) IBOutlet UIImageView *circleView;
+@property (nonatomic, strong) IBOutlet UIImageView *arrowView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil tag:(NSInteger)tag color:(UIColor*)newColor;
 

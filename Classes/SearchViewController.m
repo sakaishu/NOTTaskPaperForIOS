@@ -27,7 +27,6 @@
 
 - (void)dealloc {
 	[NSObject cancelPreviousPerformRequestsWithTarget:self];
-	[super dealloc];
 }
 
 - (SearchView *)searchView {
@@ -39,9 +38,9 @@
 	
 	if (!beginSearchButton) {
         if ([self.searchView.text length] == 0) {
-            beginSearchButton = [[Button buttonWithImage:[UIImage imageNamed:@"search_small.png"] accessibilityLabel:NSLocalizedString(@"Search", nil) accessibilityHint:nil target:self action:@selector(beginSearch:) edgeInsets:UIEdgeInsetsMake(0, 15, 0, 15)] retain];
+            beginSearchButton = [Button buttonWithImage:[UIImage imageNamed:@"search_small.png"] accessibilityLabel:NSLocalizedString(@"Search", nil) accessibilityHint:nil target:self action:@selector(beginSearch:) edgeInsets:UIEdgeInsetsMake(0, 15, 0, 15)];
         } else {
-            beginSearchButton = [[Button buttonWithImage:[UIImage imageNamed:@"search_small_active.png"] accessibilityLabel:NSLocalizedString(@"Search", nil) accessibilityHint:nil target:self action:@selector(beginSearch:) edgeInsets:UIEdgeInsetsMake(0, 15, 0, 15)] retain];            
+            beginSearchButton = [Button buttonWithImage:[UIImage imageNamed:@"search_small_active.png"] accessibilityLabel:NSLocalizedString(@"Search", nil) accessibilityHint:nil target:self action:@selector(beginSearch:) edgeInsets:UIEdgeInsetsMake(0, 15, 0, 15)];            
         }
 	}
 	return beginSearchButton;
@@ -92,7 +91,7 @@
 #pragma mark View lifecycle
 
 - (void)loadView {    
-	SearchView *searchView = [[[SearchView alloc] init] autorelease];
+	SearchView *searchView = [[SearchView alloc] init];
 	searchView.delegate = self;
 	searchView.text = self.title;
 	self.view = searchView;

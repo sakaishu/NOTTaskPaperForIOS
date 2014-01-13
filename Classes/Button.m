@@ -110,7 +110,7 @@
 	UIWindow *window = self.window;
 	UIView *pressIndicator = [window viewWithTag:35];
 	if (!pressIndicator) {
-		pressIndicator = [[[PressIndicatorView alloc] init] autorelease];
+		pressIndicator = [[PressIndicatorView alloc] init];
 		pressIndicator.userInteractionEnabled = NO;
 		pressIndicator.tag = 35;
 		pressIndicator.alpha = 0.0;

@@ -33,8 +33,6 @@
 - (void)setPasscode:(NSString *)newPasscode
 {
 	if (_passcode != newPasscode) {
-		[newPasscode retain];
-		[_passcode release];
 		_passcode = newPasscode;
 		NSError *error;
 		if (newPasscode == nil) {
@@ -49,14 +47,12 @@
 {
 	NSError *error;
 	_passcode = [SFHFKeychainUtils getPasswordForUsername:@"kPasscode" andServiceName:@"PlainText" error:&error];
-	[_passcode retain];
 	return (self.passcode != nil);
 }
 
 - (void)dealloc
 {
-	[_passcode release], _passcode = nil;
-	[super dealloc];
+	_passcode = nil;
 }
 
 

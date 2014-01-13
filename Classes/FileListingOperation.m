@@ -29,11 +29,7 @@
 
 - (void)dealloc {
 	[NSObject cancelPreviousPerformRequestsWithTarget:self];
-	[path release];
-	[filter release];
-	[results release];
 	delegate = nil;
-	[super dealloc];
 }
 
 - (BOOL)isConcurrent {
@@ -71,46 +67,44 @@
 @synthesize results;
 
 - (void)listResultsAtPath:(NSString *)aPath {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	NSArray *contentsOfDirectory = [PathModel pathModelContentsOfDirectory:aPath prefetchAttributes:NO];
+	@autoreleasepool {
+		NSArray *contentsOfDirectory = [PathModel pathModelContentsOfDirectory:aPath prefetchAttributes:NO];
     	
-	if (filter != nil && [filter length] > 0) {
-		for (PathModel *each in contentsOfDirectory) {
-			if (self.isCancelled) {
-				[pool release];
-				return;
-			}
-			
-			NSStringCompareOptions filterOptions = NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch | NSWidthInsensitiveSearch;
-			
-			if ([each.name rangeOfString:filter options:filterOptions].location != NSNotFound) {
-				[results addObject:each];
-			} else if (!each.isDirectory) {
-				NSError *error;
-				NSStringEncoding stringEncoding;
-				NSString *fileContents = [[NSString alloc] initWithContentsOfFile:each.path usedEncoding:&stringEncoding error:&error];
-				
-				if (!fileContents) {
-					fileContents = [[NSString alloc] initWithContentsOfFile:each.path encoding:NSUTF8StringEncoding error:&error];
+		if (filter != nil && [filter length] > 0) {
+			for (PathModel *each in contentsOfDirectory) {
+				if (self.isCancelled) {
+					return;
 				}
 				
-				if (fileContents) {
-					if ([fileContents rangeOfString:filter options:filterOptions].location != NSNotFound) {
-						[results addObject:each];
+				NSStringCompareOptions filterOptions = NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch | NSWidthInsensitiveSearch;
+				
+				if ([each.name rangeOfString:filter options:filterOptions].location != NSNotFound) {
+					[results addObject:each];
+				} else if (!each.isDirectory) {
+					NSError *error;
+					NSStringEncoding stringEncoding;
+					NSString *fileContents = [[NSString alloc] initWithContentsOfFile:each.path usedEncoding:&stringEncoding error:&error];
+					
+					if (!fileContents) {
+						fileContents = [[NSString alloc] initWithContentsOfFile:each.path encoding:NSUTF8StringEncoding error:&error];
 					}
-					[fileContents release];
+					
+					if (fileContents) {
+						if ([fileContents rangeOfString:filter options:filterOptions].location != NSNotFound) {
+							[results addObject:each];
+						}
+					}
+				}
+				
+				if (isRecursive && each.isDirectory) {
+					[self listResultsAtPath:each.path];
 				}
 			}
-			
-			if (isRecursive && each.isDirectory) {
-				[self listResultsAtPath:each.path];
-			}
+		} else {
+			[results addObjectsFromArray:contentsOfDirectory];
 		}
-	} else {
-		[results addObjectsFromArray:contentsOfDirectory];
-	}
 
-	[pool release];
+	}
 } 
 
 - (void)notifiyDelegateOnMainThread {
@@ -119,24 +113,24 @@
 
 - (void)main {
 	@try {
-		NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+		@autoreleasepool {
 		
-		if (!self.isCancelled) {
-			[self listResultsAtPath:path];
-			
-			[self willChangeValueForKey:@"isFinished"];
-			[self willChangeValueForKey:@"isExecuting"];
-			
-			isExecuting = NO;
-			isFinished = YES;
-			
-			[self didChangeValueForKey:@"isExecuting"];
-			[self didChangeValueForKey:@"isFinished"];			
-			
-			[self performSelectorOnMainThread:@selector(notifiyDelegateOnMainThread) withObject:nil waitUntilDone:NO];
+			if (!self.isCancelled) {
+				[self listResultsAtPath:path];
+				
+				[self willChangeValueForKey:@"isFinished"];
+				[self willChangeValueForKey:@"isExecuting"];
+				
+				isExecuting = NO;
+				isFinished = YES;
+				
+				[self didChangeValueForKey:@"isExecuting"];
+				[self didChangeValueForKey:@"isFinished"];			
+				
+				[self performSelectorOnMainThread:@selector(notifiyDelegateOnMainThread) withObject:nil waitUntilDone:NO];
+			}
+		
 		}
-		
-		[pool release];
 	} @catch(...) {
 	}
 }

@@ -108,7 +108,7 @@
 		
 	static Class deleteButtonClass = nil;
 	if (!deleteButtonClass) {
-		deleteButtonClass = [NSClassFromString([@"UITableViewCellDelete" stringByAppendingString:@"ConfirmationControl"]) retain];
+		deleteButtonClass = NSClassFromString([@"UITableViewCellDelete" stringByAppendingString:@"ConfirmationControl"]);
 	}
 	
 	UIView *deleteButton = [self firstSubviewOfClass:deleteButtonClass];

@@ -32,7 +32,7 @@ NSString *const kFontPickerViewControllerCellIdentifier = @"FontPickerViewContro
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFontPickerViewControllerCellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kFontPickerViewControllerCellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kFontPickerViewControllerCellIdentifier];
     }
     
     NSString *familyName = [self _fontFamilyForSection:indexPath.section];

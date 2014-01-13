@@ -18,11 +18,9 @@
 	self.textColor = [APP_VIEW_CONTROLLER inkColor];
 	//self.placeholder = NSLocalizedString(@"Search", nil);
 
-	[searchWithNoDot release];
-	searchWithNoDot = [[Button buttonWithImage:[UIImage imageNamed:@"search_small.png"] accessibilityLabel:NSLocalizedString(@"Begin Search", nil) accessibilityHint:nil target:self action:@selector(becomeFirstResponder) edgeInsets:UIEdgeInsetsMake(0, 5, 0, 10)] retain];
+	searchWithNoDot = [Button buttonWithImage:[UIImage imageNamed:@"search_small.png"] accessibilityLabel:NSLocalizedString(@"Begin Search", nil) accessibilityHint:nil target:self action:@selector(becomeFirstResponder) edgeInsets:UIEdgeInsetsMake(0, 5, 0, 10)];
 
-	[searchWithDot release];
-	searchWithDot = [[Button buttonWithImage:[UIImage imageNamed:@"search_small_active.png"] accessibilityLabel:NSLocalizedString(@"Begin Search", nil) accessibilityHint:nil target:self action:@selector(becomeFirstResponder) edgeInsets:UIEdgeInsetsMake(0, 5, 0, 10)] retain];
+	searchWithDot = [Button buttonWithImage:[UIImage imageNamed:@"search_small_active.png"] accessibilityLabel:NSLocalizedString(@"Begin Search", nil) accessibilityHint:nil target:self action:@selector(becomeFirstResponder) edgeInsets:UIEdgeInsetsMake(0, 5, 0, 10)];
 
 	self.leftView = searchWithNoDot;
 	self.rightView = [Button buttonWithImage:[UIImage imageNamed:@"clear.png"] accessibilityLabel:NSLocalizedString(@"Clear", nil) accessibilityHint:nil target:self action:@selector(clearAndBecomeFirstResponder) edgeInsets:UIEdgeInsetsMake(0, 10, 0, 10)];
@@ -49,11 +47,6 @@
 	return self;
 }
 
-- (void)dealloc {
-	[searchWithDot release];
-	[searchWithNoDot release];
-	[super dealloc];
-}
 
 - (void)updateLeftRightViews {
 	if ([self.text length] > 0) {

@@ -71,7 +71,7 @@
 			[newSubpredicates addObject:[self rebuildWithNaturalComprisonPredicates:each]];
 		}
 			
-		return [[[NSCompoundPredicate alloc] initWithType:[compoundPredicate compoundPredicateType] subpredicates:newSubpredicates] autorelease];
+		return [[NSCompoundPredicate alloc] initWithType:[compoundPredicate compoundPredicateType] subpredicates:newSubpredicates];
 	} else if ([predicate isKindOfClass:[NSComparisonPredicate class]]) {
 		NSComparisonPredicate *comparisonPredicate = (id) predicate;
 		NSPredicateOperatorType predicateOperatorType = [comparisonPredicate predicateOperatorType];
@@ -84,19 +84,19 @@
 			predicateOperatorType == NSGreaterThanPredicateOperatorType ||
 			predicateOperatorType == NSGreaterThanOrEqualToPredicateOperatorType) {
 			
-			return [[[NaturalComparisonPredicate alloc]
+			return [[NaturalComparisonPredicate alloc]
 					 initWithLeftExpression:leftExpression
 					 rightExpression:rightExpression
 					 modifier:[comparisonPredicate comparisonPredicateModifier]
 					 type:[comparisonPredicate predicateOperatorType]
-					 options:[comparisonPredicate options]] autorelease];
+					 options:[comparisonPredicate options]];
 		} else {
-			return [[[NSComparisonPredicate alloc]
+			return [[NSComparisonPredicate alloc]
 					 initWithLeftExpression:leftExpression
 					 rightExpression:rightExpression
 					 modifier:[comparisonPredicate comparisonPredicateModifier]
 					 type:[comparisonPredicate predicateOperatorType]
-					 options:[comparisonPredicate options]] autorelease];
+					 options:[comparisonPredicate options]];
 		}
 	}
 	return predicate;

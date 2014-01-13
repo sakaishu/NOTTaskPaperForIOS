@@ -24,12 +24,12 @@
 
 	self.opaque = YES;
 	
-	topDivider = [[[UIView alloc] init] autorelease];
+	topDivider = [[UIView alloc] init];
 	topDivider.userInteractionEnabled = NO;
 	topDivider.hidden = YES;
 	[self addSubview:topDivider];
 	
-	bottomDivider = [[[UIView alloc] init] autorelease];
+	bottomDivider = [[UIView alloc] init];
 	bottomDivider.userInteractionEnabled = NO;
 	bottomDivider.hidden = YES;
 	[self addSubview:bottomDivider];

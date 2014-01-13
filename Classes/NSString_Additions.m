@@ -31,7 +31,7 @@
 	static NSCharacterSet *wordCSet = nil;
 	
 	if (!wordBreakCSet) {
-		NSMutableCharacterSet *m = [[[NSMutableCharacterSet alloc] init] autorelease];
+		NSMutableCharacterSet *m = [[NSMutableCharacterSet alloc] init];
 		[m formUnionWithCharacterSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 		[m formUnionWithCharacterSet:[NSCharacterSet punctuationCharacterSet]];
 		[m formUnionWithCharacterSet:[NSCharacterSet controlCharacterSet]];

@@ -43,7 +43,7 @@
 
 @property (nonatomic, assign) BOOL hasUnsavedChanges;
 @property (nonatomic, assign) BOOL saveToDiskWhenKeyboardDidHide;
-@property (nonatomic, retain) NSString *sectionSearchString;
+@property (nonatomic, strong) NSString *sectionSearchString;
 
 
 

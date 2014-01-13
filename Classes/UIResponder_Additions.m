@@ -31,7 +31,6 @@
 	generalPasteboard.items = items;
 	
 	// Free the items array we copied earlier.
-	[items release];
 }
 
 @end

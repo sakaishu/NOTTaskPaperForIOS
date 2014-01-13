@@ -18,9 +18,9 @@ void MyFaderLayoutFunction(UIScrollView *scrollView);
 
 + (void)load {
     if (self == [UITableView class]) {
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+		@autoreleasepool {
 		//[UITableView replaceMethod:@selector(layoutSubviews) withMethod:@selector(my_layoutSubviews)];
-		[pool release];
+		}
     }
 }
 
@@ -34,10 +34,10 @@ void MyFaderLayoutFunction(UIScrollView *scrollView);
 
 + (void)load {
     if (self == [UIScrollView class]) {
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+		@autoreleasepool {
 		//[UIScrollView replaceMethod:@selector(layoutSubviews) withMethod:@selector(my_layoutSubviews)];
 		//[UIScrollView replaceMethod:NSSelectorFromString([@"_adjustContent" stringByAppendingString:@"OffsetIfNecessary"]) withMethod:@selector(my_adjustContentOffsetIfNecessary)];		
-		[pool release];
+		}
     }
 }
 
@@ -63,7 +63,7 @@ void MyFaderLayoutFunction(UIScrollView *scrollView);
 - (void)installTopFaderWithHeight:(CGFloat)height {
 	GradientFadeView *topFader = (id) [self viewWithTag:300];
 	if (!topFader) {
-		topFader = [[[GradientFadeView alloc] initWithFrame:CGRectMake(0, 0, 0, height)] autorelease];
+		topFader = [[GradientFadeView alloc] initWithFrame:CGRectMake(0, 0, 0, height)];
 		topFader.tag = 300;
 		[self addSubview:topFader];
 	}
@@ -79,7 +79,7 @@ void MyFaderLayoutFunction(UIScrollView *scrollView);
 - (void)installBottomFaderWithHeight:(CGFloat)height {
 	GradientFadeView *bottomFader = (id) [self viewWithTag:301];
 	if (!bottomFader) {
-		bottomFader = [[[GradientFadeView alloc] initWithFrame:CGRectMake(0, 0, 0, height)] autorelease];
+		bottomFader = [[GradientFadeView alloc] initWithFrame:CGRectMake(0, 0, 0, height)];
 		bottomFader.tag = 301;
 		bottomFader.flipped = YES;
 		[self addSubview:bottomFader];

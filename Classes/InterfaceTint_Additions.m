@@ -15,14 +15,14 @@
 
 + (void)load {
     if (self == [UIColor class]) {
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+		@autoreleasepool {
 		[UIColor replaceClassMethod:@selector(selectionTintColor) withMethod:@selector(my_selectionTintColor)];
 		[UIColor replaceClassMethod:@selector(textCaretColor) withMethod:@selector(my_textCaretColor)];
 		//[UIColor replaceClassMethod:@selector(selectionCaretColor) withMethod:@selector(my_selectionCaretColor)];
 		//[UIColor replaceClassMethod:@selector(selectionHighlightColor) withMethod:@selector(my_selectionHighlightColor)];
 		//[NSClassFromString([@"UISelect" stringByAppendingString:@"ionGrabberDot"]) replaceInstanceMethod:@selector(drawRect:) withMethod:@selector(my_selectionGrabberDotDrawRect:)];
 		//[NSClassFromString([@"UIAutocor" stringByAppendingString:@"rectTextView"]) replaceInstanceMethod:@selector(drawRect:) withMethod:@selector(autocorrectTextView_drawRect:)];
-		[pool release];
+		}
     }
 }
 

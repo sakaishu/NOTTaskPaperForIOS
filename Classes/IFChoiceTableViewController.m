@@ -23,7 +23,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", nil) style:UIBarButtonItemStyleDone target:self action:@selector(dismissModalViewControllerAction:)] autorelease];		
+	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", nil) style:UIBarButtonItemStyleDone target:self action:@selector(dismissModalViewControllerAction:)];		
 }
 
 - (IBAction)dismissModalViewControllerAction:(id)sender {
@@ -79,7 +79,7 @@
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
 	if (cell == nil)
 	{
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] autorelease];
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
 	}
 	
 	NSUInteger row = [indexPath row];
@@ -166,17 +166,6 @@
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-- (void)dealloc
-{
-	[choices release];
-	[choiceValues release];
-	[model release];
-	[key release];
-	
-	[footerNote release];
-	
-	[super dealloc];
-}
 
 @end
 

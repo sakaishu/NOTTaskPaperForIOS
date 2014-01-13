@@ -31,7 +31,7 @@
 		NSMutableArray *tags = [NSMutableArray array];
 		NSArray *tagsArray = [string arrayOfCaptureComponentsMatchedByRegex:TagRegex];		
 		for (NSArray *matchedTagArray in tagsArray) {
-			[tags addObject:[[[Tag alloc] initWithName:[matchedTagArray objectAtIndex:1] value:[matchedTagArray objectAtIndex:2]] autorelease]];
+			[tags addObject:[[Tag alloc] initWithName:[matchedTagArray objectAtIndex:1] value:[matchedTagArray objectAtIndex:2]]];
 		}
 		return tags;
 	}
@@ -69,7 +69,7 @@
 }
 
 + (id)tagWithName:(NSString *)aName value:(NSString *)aValue {
-	return [[[self alloc] initWithName:aName value:aValue] autorelease];
+	return [[self alloc] initWithName:aName value:aValue];
 }
 
 + (NSString *)validateTagValue:(NSString *)aValue {
@@ -88,8 +88,7 @@
 			}
 		}
 		
-		[name autorelease];
-		name = [aName retain];
+		name = aName;
 		
 		if (aValue != nil && [aValue length] > 0) {
 			if ([aValue rangeOfRegex:TagValidValueRegex].length != [aValue length]) {
@@ -97,17 +96,11 @@
 			}
 		}
 		
-		[value autorelease];
-		value = [aValue retain];
+		value = aValue;
 	}
 	return self;
 }
 
-- (void)dealloc {
-	[name release];
-	[value release];
-	[super dealloc];
-}
 
 - (BOOL)isEqual:(id)anObject {
 	Tag *other = (Tag *)anObject;

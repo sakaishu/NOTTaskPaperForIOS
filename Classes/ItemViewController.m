@@ -32,9 +32,6 @@
 
 - (void)dealloc {
 	pathViewController.delegate = nil;
-	[lastModificationDate release];
-	[pathViewController release];
-	[super dealloc];
 }
 
 #pragma mark -
@@ -105,8 +102,7 @@
 
 - (void)syncViewWithDisk:(BOOL)animated {
 	NSError *error;
-	[lastModificationDate autorelease];
-	lastModificationDate = [[[[NSFileManager defaultManager] attributesOfItemAtPath:self.path error:&error] fileModificationDate] retain];
+	lastModificationDate = [[[NSFileManager defaultManager] attributesOfItemAtPath:self.path error:&error] fileModificationDate];
 }
 
 /*- (void)read:(BOOL)animated {

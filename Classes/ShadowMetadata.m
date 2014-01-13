@@ -28,8 +28,6 @@
 #pragma mark Dealloc
 
 - (void)didTurnIntoFault {
-	[pathError release];
-	[normalizedPath release];
 	[super didTurnIntoFault];
 }
 
@@ -59,8 +57,7 @@
 			aPath = [@"/" stringByAppendingPathComponent:self.normalizedName];
 			//normalizedPath = [[@"/" stringByAppendingPathComponent:self.normalizedName] retain];
 		}
-		[normalizedPath release];
-		normalizedPath = [aPath retain];
+		normalizedPath = aPath;
 	}
 	return normalizedPath;
 }
@@ -72,8 +69,7 @@
 @synthesize pathError;
 
 - (void)setPathError:(NSError *)anError {
-	[pathError autorelease];
-	pathError = [anError retain];
+	pathError = anError;
 }
 
 #pragma mark -

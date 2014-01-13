@@ -70,9 +70,9 @@ NSInteger sortInPathOrder(NSString *a, NSString *b, void* context);
 #pragma mark Paths
 
 @property(nonatomic, readonly) NSString *localRoot;
-@property(nonatomic, retain) NSString *serverRoot;
-@property (nonatomic, retain) NSString *openFolderPath;
-@property (nonatomic, retain) NSString *openFilePath;
+@property(nonatomic, strong) NSString *serverRoot;
+@property (nonatomic, strong) NSString *openFolderPath;
+@property (nonatomic, strong) NSString *openFilePath;
 
 - (NSString *)serverPathToLocal:(NSString *)serverPath;
 - (NSString *)localPathToServer:(NSString *)localPath;	
@@ -128,9 +128,9 @@ NSInteger sortInPathOrder(NSString *a, NSString *b, void* context);
 @end
 
 @interface PathControllerManagedObjectContext : NSManagedObjectContext {
-	PathController *pathController;
+	PathController *__weak pathController;
 }
-@property(nonatomic, assign) PathController *pathController;
+@property(nonatomic, weak) PathController *pathController;
 @end
 
 extern NSString *TextFileDefaultExtensionDefaultsKey;

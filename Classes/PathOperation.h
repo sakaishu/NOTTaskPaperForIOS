@@ -40,9 +40,9 @@
 @property (nonatomic, assign) BOOL createShadowMetadataOnFinish;;
 @property (nonatomic, assign) PathState successPathState;
 @property (nonatomic, readonly) DBRestClient *client;
-@property (nonatomic, retain) DBMetadata *serverMetadata;
-@property (nonatomic, retain) PathController *pathController;
-@property (nonatomic, retain) FolderSyncPathOperation *folderSyncPathOperation;
+@property (nonatomic, strong) DBMetadata *serverMetadata;
+@property (nonatomic, strong) PathController *pathController;
+@property (nonatomic, strong) FolderSyncPathOperation *folderSyncPathOperation;
 
 - (ShadowMetadata *)shadowMetadata:(BOOL)createIfNeccessary;
 - (void)updatePathActivity:(PathActivity)pathActivity;

@@ -14,6 +14,6 @@
 	SearchTextField *searchTextField;
 }
 
-@property(readonly, nonatomic) SearchTextField *searchTextField;
+@property(weak, readonly, nonatomic) SearchTextField *searchTextField;
 
 @end

@@ -17,41 +17,33 @@
 - (id)initWithLabel:(NSString *)newLabel stepValue:(CGFloat)aStepValue minValue:(CGFloat)aMinValue maxValue:(CGFloat)aMaxValue valueFormatter:(NSNumberFormatter *)aValueFormatter units:(NSString *)aUnits atKey:(NSString *)newKey inModel:(id<IFCellModel>)newModel {
 	self = [super init];
 	if (self != nil) {
-		label = [newLabel retain];
-		key = [newKey retain];
-		model = [newModel retain];
+		label = newLabel;
+		key = newKey;
+		model = newModel;
 		enabled = YES;
 		stepValue = aStepValue;
 		minValue = aMinValue;
 		maxValue = aMaxValue;
-		valueFormatter = [aValueFormatter retain];
-		units = [aUnits retain];
+		valueFormatter = aValueFormatter;
+		units = aUnits;
 	}
 	return self;
 }
 
-- (void)dealloc {
-	[label release];
-	[key release];
-	[model release];
-	[valueFormatter release];
-	[units release];
-	[super dealloc];
-}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	static NSString *cellIdentifier = @"UpDownDataCell";
 	
 	IFControlTableViewCell *cell = (IFControlTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
 	if (cell == nil) {
-		cell = [[[IFControlTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] autorelease];		
+		cell = [[IFControlTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];		
 	}
 	
 	cell.textLabel.text = label;
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
 	CGRect frame = CGRectMake(0.0, 0.0, 100.0, 70.0);
-	CMUpDownControl *upDownController = [[[CMUpDownControl alloc] initWithFrame:frame] autorelease];
+	CMUpDownControl *upDownController = [[CMUpDownControl alloc] initWithFrame:frame];
 	[upDownController addTarget:self action:@selector(upDownAction:) forControlEvents:UIControlEventValueChanged];
 	upDownController.opaque = NO;
 	upDownController.stepValue = stepValue;

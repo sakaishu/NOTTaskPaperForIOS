@@ -13,7 +13,7 @@
 	UITableView *menuItemsTableView;
 	NSMutableArray *selectedItems;
 	NSMutableArray *items;
-	id target;
+	id __weak target;
 	SEL action;
     SEL longPressAction;
     NSUInteger longPressItemIndex;
@@ -21,16 +21,16 @@
 
 + (id)sharedInstance;
 
-@property(nonatomic, readonly) UITableView *menuItemTableView;
-@property(nonatomic, retain) NSArray *selectedItems;
+@property(weak, nonatomic, readonly) UITableView *menuItemTableView;
+@property(nonatomic, strong) NSArray *selectedItems;
 @property(nonatomic, readonly) NSArray *items;
-@property(nonatomic, readonly) MenuViewItem *longPressItem;
+@property(weak, nonatomic, readonly) MenuViewItem *longPressItem;
 
 - (void)addItem:(MenuViewItem *)anItem;
 - (void)removeItemAtIndex:(NSUInteger)index;
 - (void)removeAllItems;
 
-@property(assign, nonatomic) id target;
+@property(weak, nonatomic) id target;
 @property(assign, nonatomic) SEL action;
 @property(assign, nonatomic) SEL longPressAction;
 
@@ -54,8 +54,8 @@
 @property(assign, nonatomic) BOOL enabled;
 @property(assign, nonatomic) BOOL checked;
 @property(assign, nonatomic) BOOL separator;
-@property(retain, nonatomic) NSString *text;
+@property(strong, nonatomic) NSString *text;
 @property(assign, nonatomic) NSInteger indentationLevel;
-@property(retain, nonatomic) id userData;
+@property(strong, nonatomic) id userData;
 
 @end

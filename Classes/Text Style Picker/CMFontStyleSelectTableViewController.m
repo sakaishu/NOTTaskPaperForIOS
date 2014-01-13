@@ -51,7 +51,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", nil) style:UIBarButtonItemStyleDone target:self action:@selector(dismissModalViewControllerAction:)] autorelease];		
+	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", nil) style:UIBarButtonItemStyleDone target:self action:@selector(dismissModalViewControllerAction:)];		
 }
 
 - (IBAction)dismissModalViewControllerAction:(id)sender {
@@ -78,20 +78,18 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 		
 		CGRect frame = CGRectMake(10.0, 5.0, 25.0, cell.frame.size.height-5.0);
 		UILabel *selectedLabel = [[UILabel alloc] initWithFrame:frame];
 		selectedLabel.tag = kSelectedLabelTag;
 		selectedLabel.font = [UIFont systemFontOfSize:24.0];
 		[cell.contentView addSubview:selectedLabel];
-		[selectedLabel release];
 		
 		frame = CGRectMake(35.0, 5.0, cell.frame.size.width-70.0, cell.frame.size.height-5.0);
 		UILabel *fontNameLabel = [[UILabel alloc] initWithFrame:frame];
 		fontNameLabel.tag = kFontNameLabelTag;
 		[cell.contentView addSubview:fontNameLabel];
-		[fontNameLabel release];
     }
     
 	NSString *fontName = [self.fontNames objectAtIndex:indexPath.row];
@@ -123,12 +121,6 @@
 #pragma mark -
 #pragma mark Memory management
 
-- (void)dealloc {
-	[fontFamilyName release];
-	[fontNames release];
-	[selectedFont release];
-    [super dealloc];
-}
 
 @end
 

@@ -13,7 +13,7 @@
 
 + (PasscodeManager *)sharedPasscodeManager;
 
-@property (nonatomic, retain) NSString *passcode;
+@property (nonatomic, strong) NSString *passcode;
 
 - (BOOL)hasPasscode;
 

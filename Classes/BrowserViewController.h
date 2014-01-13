@@ -19,8 +19,8 @@
 	NSUInteger updating;
 }
 
-@property (nonatomic, readonly) ItemViewController *topItemViewController;
-@property (nonatomic, readonly) ItemViewController *currentItemViewController;
+@property (weak, nonatomic, readonly) ItemViewController *topItemViewController;
+@property (weak, nonatomic, readonly) ItemViewController *currentItemViewController;
 
 - (BrowserView *)browserView;
 - (void)beginUpdates;

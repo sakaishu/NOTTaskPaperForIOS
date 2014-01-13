@@ -37,7 +37,7 @@
 @property (nonatomic, assign)	CGFloat		minimumAllowedValue;
 @property (nonatomic, assign)	CGFloat		stepValue;
 @property (nonatomic, assign)	CGFloat		value;
-@property (nonatomic, retain)	NSNumberFormatter	*valueFormatter;
-@property (nonatomic, retain)	NSString	*units;
+@property (nonatomic, strong)	NSNumberFormatter	*valueFormatter;
+@property (nonatomic, strong)	NSString	*units;
 
 @end

@@ -17,7 +17,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", nil) style:UIBarButtonItemStyleDone target:self action:@selector(dismissModalViewControllerAction:)] autorelease];		
+	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", nil) style:UIBarButtonItemStyleDone target:self action:@selector(dismissModalViewControllerAction:)];		
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -28,12 +28,12 @@
 - (void)constructTableGroups {
 	NSMutableArray *groupOneCells = [NSMutableArray array];
 	
-	IFSwitchCellController *extendedKeyboard = [[[IFSwitchCellController alloc] initWithLabel:NSLocalizedString(@"Extended Keyboard", nil) atKey:ExtendedKeyboardDefaultsKey inModel:self.model] autorelease];
+	IFSwitchCellController *extendedKeyboard = [[IFSwitchCellController alloc] initWithLabel:NSLocalizedString(@"Extended Keyboard", nil) atKey:ExtendedKeyboardDefaultsKey inModel:self.model];
 	extendedKeyboard.updateTarget = self;
 	extendedKeyboard.updateAction = @selector(extendedKeyboardChanged);
 	[groupOneCells addObject:extendedKeyboard];
 	
-	IFTextCellController *keysCellController = [[[IFTextCellController alloc] initWithLabel:NSLocalizedString(@"Extended Keyboard Keys", nil) andPlaceholder:nil atKey:ExtendedKeyboardKeysDefaultsKey inModel:self.model] autorelease];
+	IFTextCellController *keysCellController = [[IFTextCellController alloc] initWithLabel:NSLocalizedString(@"Extended Keyboard Keys", nil) andPlaceholder:nil atKey:ExtendedKeyboardKeysDefaultsKey inModel:self.model];
 	keysCellController.autocorrectionType = UITextAutocorrectionTypeNo;
 	keysCellController.autocapitalizationType = UITextAutocapitalizationTypeNone;
 	keysCellController.updateAction = @selector(extendedKeysUpdated:);
@@ -41,9 +41,9 @@
 	[groupOneCells addObject:keysCellController];
 
 	
-	tableGroups = [[NSArray arrayWithObjects: groupOneCells, nil] retain];
-	tableHeaders = [[NSArray arrayWithObjects:@"", nil] retain];	
-	tableFooters = [[NSArray arrayWithObjects:NSLocalizedString(@"Extended keyboard has room for a maximum of 9 characters.", nil), nil] retain];		
+	tableGroups = [NSArray arrayWithObjects: groupOneCells, nil];
+	tableHeaders = [NSArray arrayWithObjects:@"", nil];	
+	tableFooters = [NSArray arrayWithObjects:NSLocalizedString(@"Extended keyboard has room for a maximum of 9 characters.", nil), nil];		
 }
 
 - (void)extendedKeyboardChanged {

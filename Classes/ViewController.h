@@ -12,14 +12,14 @@
 	UIView *view;
 	NSString *title;
 	//NSArray *toolbarItems;
-	ViewController *parentViewController;
+	ViewController *__weak parentViewController;
 }
 
-@property (nonatomic, retain) UIView *view;
-@property (nonatomic, retain) NSString *title;
-@property (nonatomic, readonly) NSArray *toolbarItems;
-@property (nonatomic, assign) ViewController *parentViewController;
-@property (nonatomic, readonly) BrowserViewController *browserViewController;
+@property (nonatomic, strong) UIView *view;
+@property (nonatomic, strong) NSString *title;
+@property (weak, nonatomic, readonly) NSArray *toolbarItems;
+@property (nonatomic, weak) ViewController *parentViewController;
+@property (weak, nonatomic, readonly) BrowserViewController *browserViewController;
 
 - (void)loadView;
 - (void)viewWillAppear:(BOOL)animated;

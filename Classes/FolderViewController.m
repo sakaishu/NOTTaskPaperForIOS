@@ -72,9 +72,7 @@ typedef struct SortOptions SortOptions;
 	self.folderView.delegate = nil;
 	searchViewController.delegate = nil;
 	[fileListingOperation cancel];
-	[fileListingOperation release];
 	fileListingOperation = nil;
-	[super dealloc];
 }
 
 #pragma mark -
@@ -106,7 +104,7 @@ typedef struct SortOptions SortOptions;
 #pragma mark View lifecycle
 
 - (void)loadView {
-	FolderView *folderView = [[[FolderView alloc] init] autorelease];
+	FolderView *folderView = [[FolderView alloc] init];
 	folderView.delegate = self;
 	folderView.dataSource = self;	
 	folderView.accessibilityLabel = NSLocalizedString(@"Folder contents", nil);
@@ -245,7 +243,6 @@ NSInteger sort(PathModel *a, PathModel *b, void* context) {
 	[super syncViewWithDisk:animated];
 	animateViewUpdates = animated;	
 	[fileListingOperation cancel];
-	[fileListingOperation release];
 	fileListingOperation = [[FileListingOperation alloc] initWithPath:self.path isRecursive:YES filter:searchViewController.searchView.text delegate:self];
 	[fileListingOperation start];
 }
@@ -266,7 +263,7 @@ NSInteger sort(PathModel *a, PathModel *b, void* context) {
 		}		
 	}
 	
-	NSMutableArray *newItems = [[aFileListingOperation.results mutableCopy] autorelease];
+	NSMutableArray *newItems = [aFileListingOperation.results mutableCopy];
 	if (newItems) {		
 		SortOptions options;
 		options.sortBy = [APP_VIEW_CONTROLLER sortBy];
@@ -463,9 +460,9 @@ NSInteger sort(PathModel *a, PathModel *b, void* context) {
 	
 	FolderViewCell *cell = (id) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	if (cell == nil) {
-		cell = [[[FolderViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+		cell = [[FolderViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 		cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-		cell.selectedBackgroundView = [[[FolderViewCellSelectedBackground alloc] init] autorelease];
+		cell.selectedBackgroundView = [[FolderViewCellSelectedBackground alloc] init];
 	}
 	
 	ApplicationViewController *appViewController = APP_VIEW_CONTROLLER;
@@ -489,12 +486,12 @@ NSInteger sort(PathModel *a, PathModel *b, void* context) {
 	}
 	
 	if (showPathActivity) {
-		SyncSpinnerView *syncSpinnerView = [[[SyncSpinnerView alloc] init] autorelease];
+		SyncSpinnerView *syncSpinnerView = [[SyncSpinnerView alloc] init];
 		cell.accessoryView = syncSpinnerView;
 		[syncSpinnerView startAnimating];
 	} else {
 		if (item.isDirectory) {
-			cell.accessoryView = [[[FolderViewCellDirectoryAccessoryView alloc] init] autorelease];
+			cell.accessoryView = [[FolderViewCellDirectoryAccessoryView alloc] init];
 		} else {
 			cell.accessoryView = nil;
 		}
@@ -578,16 +575,16 @@ NSInteger sort(PathModel *a, PathModel *b, void* context) {
 				errorInfo = [NSString stringWithFormat:@"\n %@", [pathError localizedDescription]];
 			}
 			
-			[[[[UIAlertView alloc] initWithTitle:nil 
+			[[[UIAlertView alloc] initWithTitle:nil 
 										 message:[NSString stringWithFormat:NSLocalizedString(@"There was an error syncing “%@”. It may be out of date.%@", nil), item.name, errorInfo, nil]
 										delegate:nil 
-							   cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles:nil] autorelease] show];
+							   cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles:nil] show];
 			break;
 		}
 	}
 	
 	if (alertMessage) {
-		[[[[UIAlertView alloc] initWithTitle:nil message:alertMessage delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles:nil] autorelease] show];
+		[[[UIAlertView alloc] initWithTitle:nil message:alertMessage delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles:nil] show];
 	} else {
 		result = indexPath;		
 	}

@@ -24,7 +24,7 @@
 
 @property (nonatomic, assign) UITextAlignment textAlignment;
 @property (nonatomic, assign) UITableViewCellAccessoryType accessoryType;
-@property (nonatomic, assign) UIView *accessoryView;
+@property (nonatomic) UIView *accessoryView;
 
 - (id)initWithLabel:(NSString *)newLabel withAction:(SEL)newAction onTarget:(id)newTarget;
 - (id)initWithLabel:(NSString *)newLabel withAccessoryView:(UIView *)newAccessoryView withAction:(SEL)newAction onTarget:(id)newTarget;

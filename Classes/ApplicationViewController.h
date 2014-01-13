@@ -64,17 +64,17 @@ void DrawFadeFunction(CGContextRef context, CGRect bounds, CGColorRef background
     BOOL textRightToLeft;
 }
 
-@property (nonatomic, readonly) UIFont *font;
-@property (nonatomic, readonly) UIFont *menuFont;
-@property (nonatomic, readonly) UIFont *projectFont;
+@property (weak, nonatomic, readonly) UIFont *font;
+@property (weak, nonatomic, readonly) UIFont *menuFont;
+@property (weak, nonatomic, readonly) UIFont *projectFont;
 @property (nonatomic, readonly) CGFloat leading;
 @property (nonatomic, readonly) CGFloat unadjustedLeading;
-@property (nonatomic, readonly) UIColor *inkColor;
-@property (nonatomic, readonly) UIColor *paperColor;
-@property (nonatomic, readonly) UIColor *highlightColor;
+@property (weak, nonatomic, readonly) UIColor *inkColor;
+@property (weak, nonatomic, readonly) UIColor *paperColor;
+@property (weak, nonatomic, readonly) UIColor *highlightColor;
 @property (nonatomic, readonly) UIKeyboardAppearance keyboardAppearance;
-@property (nonatomic, readonly) UIImage *gradientLine;
-@property (nonatomic, readonly) UIImage *bullet;
+@property (weak, nonatomic, readonly) UIImage *gradientLine;
+@property (weak, nonatomic, readonly) UIImage *bullet;
 
 
 - (UIColor *)inkColorByPercent:(CGFloat)percent;
@@ -84,10 +84,10 @@ void DrawFadeFunction(CGContextRef context, CGRect bounds, CGColorRef background
 @property (nonatomic, readonly) BOOL lockOrientation;
 @property (nonatomic, readonly) UIInterfaceOrientation lockedOrientation;
 @property (nonatomic, assign) BOOL tintCursor;
-@property (nonatomic, readonly) UIImage *selectionDragDotImage;
-@property (nonatomic, readonly) UIColor *selectionHighlightColor;
-@property (nonatomic, readonly) UIColor *selectionBarColor;
-@property (nonatomic, readonly) UIColor *insertionPointColor;
+@property (weak, nonatomic, readonly) UIImage *selectionDragDotImage;
+@property (weak, nonatomic, readonly) UIColor *selectionHighlightColor;
+@property (weak, nonatomic, readonly) UIColor *selectionBarColor;
+@property (weak, nonatomic, readonly) UIColor *insertionPointColor;
 @property (nonatomic, assign) BOOL showFileExtensions;
 @property (nonatomic, assign) BOOL scrollsHeadings;
 @property (nonatomic, assign) BOOL allCapsHeadings;

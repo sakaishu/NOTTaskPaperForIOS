@@ -46,10 +46,6 @@
 - (void)dealloc {
 	menuItemsTableView.delegate = nil;
 	menuItemsTableView.dataSource = nil;
-	[items release];
-	[selectedItems release];
-	[menuItemsTableView release];
-	[super dealloc];
 }
 
 - (void)show {
@@ -177,7 +173,7 @@
 		cell = [tableView dequeueReusableCellWithIdentifier:SeparatorCellIdentifier];
 		
 		if (cell == nil) {
-			cell = [[[SeparatorMenuViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:SeparatorCellIdentifier] autorelease];
+			cell = [[SeparatorMenuViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:SeparatorCellIdentifier];
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;		
 		}
 		
@@ -186,10 +182,10 @@
 		cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		
 		if (cell == nil) {
-			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+			cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-			cell.selectedBackgroundView = [[[UIView alloc] initWithFrame:cell.frame] autorelease];
-            UILongPressGestureRecognizer *longPress = [[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)] autorelease];
+			cell.selectedBackgroundView = [[UIView alloc] initWithFrame:cell.frame];
+            UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
             [cell addGestureRecognizer:longPress];
 		}
 		
@@ -261,11 +257,11 @@
 }
 
 + (id)menuViewItem:(NSString *)aString indentationLevel:(NSInteger)aLevel enabled:(BOOL)aBool {
-	return [[[self alloc] initMenuViewItem:aString indentationLevel:aLevel enabled:aBool checked:NO userData:nil] autorelease];
+	return [[self alloc] initMenuViewItem:aString indentationLevel:aLevel enabled:aBool checked:NO userData:nil];
 }
 
 + (id)menuViewItem:(NSString *)aString indentationLevel:(NSInteger)aLevel enabled:(BOOL)anEnabled checked:(BOOL)aChecked userData:(id)aUserData {
-	return [[[self alloc] initMenuViewItem:aString indentationLevel:aLevel enabled:anEnabled checked:aChecked userData:aUserData] autorelease];
+	return [[self alloc] initMenuViewItem:aString indentationLevel:aLevel enabled:anEnabled checked:aChecked userData:aUserData];
 }
 
 - (id)initMenuViewItem:(NSString *)aString indentationLevel:(NSInteger)aLevel enabled:(BOOL)anEnabled checked:(BOOL)aChecked userData:(id)aUserData {
@@ -278,11 +274,6 @@
 	return self;
 }
 
-- (void)dealloc {
-	[text release];
-	[userData release];
-	[super dealloc];
-}
 
 @synthesize enabled;
 @synthesize checked;

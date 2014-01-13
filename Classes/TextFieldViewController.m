@@ -21,11 +21,9 @@
 	if (textExpander) {
 		[[NSNotificationCenter defaultCenter] removeObserver:textExpander];
 		[textExpander setNextDelegate:nil];
-		[textExpander release];
 		textExpander = nil;
 	}
 	self.textField.delegate = nil;
-	[super dealloc];
 }
 
 - (UITextField *)textField {
@@ -47,7 +45,6 @@
 		}
 		textField.delegate = self;
 		[textExpander setNextDelegate:nil];
-		[textExpander release];
 		textExpander = nil;
 	}
 	

@@ -28,7 +28,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", nil) style:UIBarButtonItemStyleDone target:self action:@selector(dismissModalViewControllerAction:)] autorelease];		
+	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", nil) style:UIBarButtonItemStyleDone target:self action:@selector(dismissModalViewControllerAction:)];		
 }
 
 - (void)constructTableGroups {
@@ -36,10 +36,10 @@
 	NSMutableArray *groupTwoCells = [NSMutableArray array];
 	NSMutableArray *groupThreeCells = [NSMutableArray array];
 	
-	CMFontSelectTableViewController *fontSelectViewController = [[[CMFontSelectTableViewController alloc] init] autorelease];
+	CMFontSelectTableViewController *fontSelectViewController = [[CMFontSelectTableViewController alloc] init];
 	////fontSelectViewController.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", nil) style:UIBarButtonItemStyleDone target:self action:@selector(dismissModalViewControllerAction:)] autorelease];		
 	fontSelectViewController.delegate = self;
-    linkCell = [[[IFLinkCellController alloc] initWithLabel:NSLocalizedString(@"Font", nil) usingController:(id)fontSelectViewController inModel:self.model] autorelease];
+    linkCell = [[IFLinkCellController alloc] initWithLabel:NSLocalizedString(@"Font", nil) usingController:(id)fontSelectViewController inModel:self.model];
 	linkCell.choice = [self.model objectForKey:FontNameDefaultsKey];
 	[groupOneCells addObject:linkCell];
 
@@ -50,8 +50,8 @@
 	//linkCell.choice = [self.model objectForKey:FontNameDefaultsKey];
 	//[groupOneCells addObject:linkCell];
 
-	NSNumberFormatter *pointFormatter = [[[NSNumberFormatter alloc] init] autorelease];
-	IFUpDownCellController *upDownCell = [[[IFUpDownCellController alloc] initWithLabel:NSLocalizedString(@"Font Size", nil) stepValue:1.0 minValue:8 maxValue:36 valueFormatter:pointFormatter units:@"pt" atKey:FontSizeDefaultsKey inModel:self.model] autorelease];
+	NSNumberFormatter *pointFormatter = [[NSNumberFormatter alloc] init];
+	IFUpDownCellController *upDownCell = [[IFUpDownCellController alloc] initWithLabel:NSLocalizedString(@"Font Size", nil) stepValue:1.0 minValue:8 maxValue:36 valueFormatter:pointFormatter units:@"pt" atKey:FontSizeDefaultsKey inModel:self.model];
 	upDownCell.updateTarget = self;
 	upDownCell.updateAction = @selector(refreshViewFromDefaults:);
 	[groupOneCells addObject:upDownCell];
@@ -65,34 +65,34 @@
 	[groupOneCells addObject:upDownCell];
 #endif
 	
-	IFColorCellController *colorCellController = [[[IFColorCellController alloc] initWithLabel:NSLocalizedString(@"Text Color", nil) atKey:InkColorDefaultsKey inModel:self.model] autorelease];
+	IFColorCellController *colorCellController = [[IFColorCellController alloc] initWithLabel:NSLocalizedString(@"Text Color", nil) atKey:InkColorDefaultsKey inModel:self.model];
 	colorCellController.updateTarget = self;
 	colorCellController.updateAction = @selector(textColorChanged:);
 	[groupTwoCells addObject:colorCellController];
 	
-	colorCellController = [[[IFColorCellController alloc] initWithLabel:NSLocalizedString(@"Background Color", nil) atKey:PaperColorDefaultsKey inModel:self.model] autorelease];
+	colorCellController = [[IFColorCellController alloc] initWithLabel:NSLocalizedString(@"Background Color", nil) atKey:PaperColorDefaultsKey inModel:self.model];
 	colorCellController.updateTarget = self;
 	colorCellController.updateAction = @selector(backgroundColorChanged:);
 	[groupTwoCells addObject:colorCellController];
 	
-	IFSwitchCellController *tintCursorCell = [[[IFSwitchCellController alloc] initWithLabel:NSLocalizedString(@"Tint Text Cursor", nil) atKey:TintCursorDefaultsKey inModel:self.model] autorelease];
+	IFSwitchCellController *tintCursorCell = [[IFSwitchCellController alloc] initWithLabel:NSLocalizedString(@"Tint Text Cursor", nil) atKey:TintCursorDefaultsKey inModel:self.model];
 	tintCursorCell.updateTarget = self;
 	tintCursorCell.updateAction = @selector(tintCursorChanged:);
 	[groupTwoCells addObject:tintCursorCell];
 	
-	IFSliderCellController *sliderCell = [[[IFSliderCellController alloc] initWithLabel:NSLocalizedString(@"Brightness", nil) minValue:0.2 maxValue:1.0 atKey:ScreenBrightnessDefaultsKey inModel:self.model] autorelease];
+	IFSliderCellController *sliderCell = [[IFSliderCellController alloc] initWithLabel:NSLocalizedString(@"Brightness", nil) minValue:0.2 maxValue:1.0 atKey:ScreenBrightnessDefaultsKey inModel:self.model];
 	sliderCell.updateTarget = self;
 	sliderCell.updateAction = @selector(screenBrightnessChanged:);
 	[groupThreeCells addObject:sliderCell];
 
-	sliderCell = [[[IFSliderCellController alloc] initWithLabel:NSLocalizedString(@"Interface Tint", nil) minValue:0.5 maxValue:3.0 atKey:SecondaryBrightnessDefaultsKey inModel:self.model] autorelease];
+	sliderCell = [[IFSliderCellController alloc] initWithLabel:NSLocalizedString(@"Interface Tint", nil) minValue:0.5 maxValue:3.0 atKey:SecondaryBrightnessDefaultsKey inModel:self.model];
 	sliderCell.updateTarget = self;
 	sliderCell.updateAction = @selector(secondaryBrightnessChanged:);
 	[groupThreeCells addObject:sliderCell];
 
-	tableGroups = [[NSArray arrayWithObjects:groupOneCells, groupTwoCells, groupThreeCells, nil] retain];
-	tableHeaders = [[NSArray arrayWithObjects:@"", @"", @"", nil] retain];	
-	tableFooters = [[NSArray arrayWithObjects:@"", @"", @"", nil] retain];	
+	tableGroups = [NSArray arrayWithObjects:groupOneCells, groupTwoCells, groupThreeCells, nil];
+	tableHeaders = [NSArray arrayWithObjects:@"", @"", @"", nil];	
+	tableFooters = [NSArray arrayWithObjects:@"", @"", @"", nil];	
 }
 
 - (void)refreshViewFromDefaults:(id)sender {

@@ -23,14 +23,12 @@
 - (void)removeTempDownloadPath {
 	if (tempDownloadPath) {
 		[[NSFileManager defaultManager] removeItemAtPath:tempDownloadPath error:NULL];
-		[tempDownloadPath release];
 		tempDownloadPath = nil;
 	}
 }
 
 - (void)dealloc {
 	[self removeTempDownloadPath];
-	[super dealloc];
 }
 
 - (void)main {
@@ -42,7 +40,7 @@
 	}
 	
 	[self updatePathActivity:GetPathActivity];
-	tempDownloadPath = [[[NSFileManager defaultManager] tempDirectoryUnusedPath] retain];
+	tempDownloadPath = [[NSFileManager defaultManager] tempDirectoryUnusedPath];
 	NSString *serverPath = [pathController localPathToServer:localPath];
 	[self.client loadFile:serverPath intoPath:tempDownloadPath];
 }
@@ -70,7 +68,7 @@
 	BOOL localExists = [fileManager fileExistsAtPath:localPath];
 
 	if (localExists) {
-		DiffMatchPatch *dmp = [[[DiffMatchPatch alloc] init] autorelease];
+		DiffMatchPatch *dmp = [[DiffMatchPatch alloc] init];
 		ShadowMetadata *shadowMetadata = [self shadowMetadata:NO];
 		NSString *shadowContent = shadowMetadata.lastSyncText.text;
 		NSString *serverContent = [NSString myStringWithContentsOfFile:tempDownloadPath usedEncoding:NULL error:NULL];

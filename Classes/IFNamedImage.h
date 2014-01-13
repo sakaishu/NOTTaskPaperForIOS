@@ -14,8 +14,8 @@
 	NSString *name;
 }
 
-@property (nonatomic, retain) UIImage *image;
-@property (nonatomic, retain) NSString *name;
+@property (nonatomic, strong) UIImage *image;
+@property (nonatomic, strong) NSString *name;
 
 + (IFNamedImage *)image:(UIImage *)newImage withName:(NSString *)newName;
 

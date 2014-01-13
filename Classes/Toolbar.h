@@ -18,7 +18,7 @@
 
 + (UIView *)flexibleSpace;
 
-@property (nonatomic, retain) NSArray *toolbarItems;
+@property (nonatomic, strong) NSArray *toolbarItems;
 
 - (void)setToolbarItems:(NSArray *)items animated:(BOOL)animated;
 

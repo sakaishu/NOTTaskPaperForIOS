@@ -111,10 +111,10 @@ static BOOL _showing;
 }
 
 + (UINavigationController *)viewControllerForDisplayingSettings {
-	UINavigationController *navigationController = [[[MyNavigationController alloc] init] autorelease];
-	SettingsViewController *settingsViewController = [[[SettingsViewController alloc] init] autorelease];
+	UINavigationController *navigationController = [[MyNavigationController alloc] init];
+	SettingsViewController *settingsViewController = [[SettingsViewController alloc] init];
 	
-	settingsViewController.model = [[[IFPreferencesModel alloc] init] autorelease];
+	settingsViewController.model = [[IFPreferencesModel alloc] init];
 	
 	navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
 	
@@ -131,7 +131,6 @@ static BOOL _showing;
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[super dealloc];
 }
 
 - (void)loadView {
@@ -141,7 +140,7 @@ static BOOL _showing;
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", nil) style:UIBarButtonItemStyleDone target:self action:@selector(dismissModalViewControllerAction:)] autorelease];		
+	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", nil) style:UIBarButtonItemStyleDone target:self action:@selector(dismissModalViewControllerAction:)];		
 }
 
 - (void)constructTableGroups {
@@ -154,32 +153,32 @@ static BOOL _showing;
 	// Group 1
     NSString *versionKey = (id)kCFBundleVersionKey;
 	NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:versionKey];
-	IFTemporaryModel *tempModel = [[[IFTemporaryModel alloc] initWithDictionary:[NSDictionary dictionaryWithObject:version forKey:@"version"]] autorelease];
-	IFTextCellController *textCell = [[[IFTextCellController alloc] initWithLabel:processName andPlaceholder:nil atKey:@"version" inModel:tempModel] autorelease];
+	IFTemporaryModel *tempModel = [[IFTemporaryModel alloc] initWithDictionary:[NSDictionary dictionaryWithObject:version forKey:@"version"]];
+	IFTextCellController *textCell = [[IFTextCellController alloc] initWithLabel:processName andPlaceholder:nil atKey:@"version" inModel:tempModel];
 	textCell.enabled = NO;
 	[groupOneCells addObject:textCell];
 	
 	// Group 2
 		
-	linkCell = [[[IFLinkCellController alloc] initWithLabel:NSLocalizedString(@"Dropbox", nil) usingController:[[[DropboxSettingsViewController alloc] init] autorelease] inModel:model] autorelease];
+	linkCell = [[IFLinkCellController alloc] initWithLabel:NSLocalizedString(@"Dropbox", nil) usingController:[[DropboxSettingsViewController alloc] init] inModel:model];
 	linkCell.image = [UIImage imageNamed:@"dropbox.png"];
 	[groupTwoCells addObject:linkCell];
 
 #if !defined(PLAINTEXT)
-	linkCell = [[[IFLinkCellController alloc] initWithLabel:NSLocalizedString(@"Fonts & Colors", nil) usingController:[[[FontAndColorSettingsViewController alloc] init] autorelease] inModel:model] autorelease];
+	linkCell = [[IFLinkCellController alloc] initWithLabel:NSLocalizedString(@"Fonts & Colors", nil) usingController:[[FontAndColorSettingsViewController alloc] init] inModel:model];
 	linkCell.image = [UIImage imageNamed:@"fonts_small.png"];
 	[groupTwoCells addObject:linkCell];
 #endif
 	
-	linkCell = [[[IFLinkCellController alloc] initWithLabel:NSLocalizedString(@"TextExpander", nil) usingController:[[[TextExpanderSettingsViewController alloc] init] autorelease] inModel:model] autorelease];
+	linkCell = [[IFLinkCellController alloc] initWithLabel:NSLocalizedString(@"TextExpander", nil) usingController:[[TextExpanderSettingsViewController alloc] init] inModel:model];
 	linkCell.image = [UIImage imageNamed:@"IconTEBarButton.png"];
 	[groupTwoCells addObject:linkCell];
 	
-	linkCell = [[[IFLinkCellController alloc] initWithLabel:NSLocalizedString(@"Advanced", nil) usingController:[[[AdvancedSettingsViewController alloc] init] autorelease] inModel:model] autorelease];
+	linkCell = [[IFLinkCellController alloc] initWithLabel:NSLocalizedString(@"Advanced", nil) usingController:[[AdvancedSettingsViewController alloc] init] inModel:model];
 	linkCell.image = [UIImage imageNamed:@"wand_small.png"];
 	[groupTwoCells addObject:linkCell];
 
-	linkCell = [[[IFLinkCellController alloc] initWithLabel:NSLocalizedString(@"Help", nil) usingController:[[[HelpSectionController alloc] init] autorelease] inModel:self.model] autorelease];
+	linkCell = [[IFLinkCellController alloc] initWithLabel:NSLocalizedString(@"Help", nil) usingController:[[HelpSectionController alloc] init] inModel:self.model];
 	linkCell.image = [UIImage imageNamed:@"question_small.png"];
 	[groupTwoCells addObject:linkCell];
 	
@@ -208,9 +207,9 @@ static BOOL _showing;
     [groupThreeCells addObject:privacyPolicyCell];
 #endif
 			
-	tableGroups = [[NSArray arrayWithObjects:groupOneCells, groupTwoCells, groupThreeCells, nil] retain];
-	tableHeaders = [[NSArray arrayWithObjects:@"", @"", @"", @"", nil] retain];
-	tableFooters = [[NSArray arrayWithObjects:NSLocalizedString(@"Created by SOMEBODY", nil), @"", @"", @"", nil] retain];
+	tableGroups = [NSArray arrayWithObjects:groupOneCells, groupTwoCells, groupThreeCells, nil];
+	tableHeaders = [NSArray arrayWithObjects:@"", @"", @"", @"", nil];
+	tableFooters = [NSArray arrayWithObjects:NSLocalizedString(@"Created by SOMEBODY", nil), @"", @"", @"", nil];
 }
 
 - (void)privacyPolicy {

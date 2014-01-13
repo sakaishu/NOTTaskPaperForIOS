@@ -15,7 +15,7 @@
 @interface IFChoiceTableViewController : UITableViewController
 {
 	SEL updateAction;
-	id updateTarget;
+	id __weak updateTarget;
 
 	NSString *footerNote;
 	
@@ -26,14 +26,14 @@
 }
 
 @property (nonatomic, assign) SEL updateAction;
-@property (nonatomic, assign) id updateTarget;
+@property (nonatomic, weak) id updateTarget;
 
-@property (nonatomic, retain) NSString *footerNote;
+@property (nonatomic, strong) NSString *footerNote;
 	
-@property (nonatomic, retain) NSArray *choices;
-@property (nonatomic, retain) NSArray *choiceValues;
-@property (nonatomic, retain) id<IFCellModel> model;
-@property (nonatomic, retain) NSString *key;
+@property (nonatomic, strong) NSArray *choices;
+@property (nonatomic, strong) NSArray *choiceValues;
+@property (nonatomic, strong) id<IFCellModel> model;
+@property (nonatomic, strong) NSString *key;
 
 @end
 

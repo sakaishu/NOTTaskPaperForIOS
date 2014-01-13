@@ -29,12 +29,9 @@
 	if (textExpander) {
 		[[NSNotificationCenter defaultCenter] removeObserver:textExpander];
 		[textExpander setNextDelegate:nil];
-		[textExpander release];
 		textExpander = nil;
 	}
 	self.pathViewWrapper.pathView.delegate = nil;
-	[path release];
-	[super dealloc];
 }
 
 - (void)showFileExtensionsChangedNotification:(NSNotification *)aNotification {
@@ -60,8 +57,7 @@
 		[(id)delegate pathViewWillChangePath:self from:oldPath to:aPath];
 	}
 	
-	[path autorelease];
-	path = [aPath retain];
+	path = aPath;
 	
 	self.title = [APP_VIEW_CONTROLLER displayNameForPath:aPath isDirectory:isDirectory];
 	
@@ -162,7 +158,6 @@
 		}
 		pathView.delegate = self;
 		[textExpander setNextDelegate:nil];
-		[textExpander release];
 		textExpander = nil;
 	}
 	
@@ -177,7 +172,7 @@
 }
 
 - (void)loadView {
-	PathViewWrapper *pathViewWrapper = [[[PathViewWrapper alloc] init] autorelease];
+	PathViewWrapper *pathViewWrapper = [[PathViewWrapper alloc] init];
 	pathViewWrapper.pathView.delegate = self;
 	pathViewWrapper.pathView.text = self.title;
 	[pathViewWrapper.popupMenuButton addTarget:self action:@selector(showPopupMenu:) forControlEvents:UIControlEventTouchUpInside];
@@ -219,11 +214,11 @@
 			}
 		}
 	} else {
-		UIAlertView *renameAlert = [[[UIAlertView alloc] initWithTitle:nil
+		UIAlertView *renameAlert = [[UIAlertView alloc] initWithTitle:nil
 															   message:[NSString stringWithFormat:NSLocalizedString(@"The name “%@” is already taken or invalid. Please choose a different name.", nil), newTitle]
 															  delegate:nil
 													 cancelButtonTitle:NSLocalizedString(@"OK", nil)
-													 otherButtonTitles:nil, nil] autorelease];
+													 otherButtonTitles:nil, nil];
 		[renameAlert show];
 		[self setPath:self.path isDirectory:isDirectory];
 	}

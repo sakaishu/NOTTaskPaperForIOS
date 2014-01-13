@@ -65,7 +65,7 @@ static Class sectionClass = nil;
 }
 
 + (Section *)sectionWithString:(NSString *)aString {
-	return [[[[self sectionClass] alloc] initWithString:aString] autorelease];
+	return [[[self sectionClass] alloc] initWithString:aString];
 }
 
 + (NSArray *)commonAncestorsForSections:(NSEnumerator *)sections {
@@ -93,7 +93,7 @@ static Class sectionClass = nil;
 - (id)initWithString:(NSString *)aString {
 	if (self = [super init]) {
 		static NSUInteger uniqueIDFactory = 0;
-		uniqueID = [[NSString stringWithFormat:@"n%i", uniqueIDFactory++] retain];
+		uniqueID = [NSString stringWithFormat:@"n%i", uniqueIDFactory++];
 		self.selfString = aString;
 	}
 	return self;
@@ -110,21 +110,13 @@ static Class sectionClass = nil;
 #pragma mark Dealloc
 
 - (void)dealloc {
-	[uniqueID release];
-	[content release];
-	tree = nil;
-	[tags release];
-	[selfString release];
-	parent = nil;
 	
 	Section *each = firstChild;
 	while (each) {
 		Section *next = each.nextSibling;
-		[each release];
 		each = next;
 	}
 	
-	[super dealloc];
 }
 
 #pragma mark Attributes
@@ -205,8 +197,7 @@ static Class sectionClass = nil;
 
 - (void)setContent:(NSString *)newContent { 
 	// Assign content without validation.
-	[content autorelease];
-	content = [newContent retain];
+	content = newContent;
 	// Then reparse entire string with validation.
 	NSMutableString *string = [NSMutableString string];
 	[self writeSelfToString:string includeTags:YES];
@@ -240,7 +231,6 @@ static Class sectionClass = nil;
 }
 
 - (void)noteSelfStringChanged {
-	[selfString release];
 	selfString = nil;
 	[tree sectionUpdated:self];
 }
@@ -249,7 +239,7 @@ static Class sectionClass = nil;
 
 - (NSArray *)tags {
 	if (!tags) {
-		tags = [[Tag parseTagsInString:content] retain];
+		tags = [Tag parseTagsInString:content];
 	}
 	return tags;
 }
@@ -381,11 +371,11 @@ static Class sectionClass = nil;
 }
 
 - (NSEnumerator *)ancestors {
-	return [[[AncestorEnumerator alloc] initWithStart:parent] autorelease];
+	return [[AncestorEnumerator alloc] initWithStart:parent];
 }
 
 - (NSEnumerator *)ancestorsWithSelf {
-	return [[[AncestorEnumerator alloc] initWithStart:self] autorelease];
+	return [[AncestorEnumerator alloc] initWithStart:self];
 }
 
 - (Section *)rootLevelAncestor {
@@ -438,11 +428,11 @@ static Class sectionClass = nil;
 }
 
 - (NSEnumerator *)descendants {
-	return [[[TreeOrderEnumerator alloc] initWithStart:firstChild end:lastChild.leftmostDescendantOrSelf] autorelease];
+	return [[TreeOrderEnumerator alloc] initWithStart:firstChild end:lastChild.leftmostDescendantOrSelf];
 }
 
 - (NSEnumerator *)descendantsWithSelf {
-	return [[[TreeOrderEnumerator alloc] initWithStart:self end:lastChild != nil ? lastChild.leftmostDescendantOrSelf : self] autorelease];
+	return [[TreeOrderEnumerator alloc] initWithStart:self end:lastChild != nil ? lastChild.leftmostDescendantOrSelf : self];
 }
 
 - (NSString *)descendantsAsString {
@@ -470,7 +460,7 @@ static Class sectionClass = nil;
 
 - (NSEnumerator *)enumeratorOfChildren {
 	if (countOfChildren > 0) {
-		return [[[SiblingEnumerator alloc] initWithStart:firstChild] autorelease];
+		return [[SiblingEnumerator alloc] initWithStart:firstChild];
 	}
 	return nil;
 }
@@ -505,7 +495,6 @@ static Class sectionClass = nil;
 		[root insertSubtreeSection:aChild after:afterChild != nil ? afterChild.leftmostDescendantOrSelf : self];
 	} else {
 		[RootSection parent:self insertChild:aChild afterSibling:afterChild];
-		[aChild retain];
 	}
 }
 
@@ -541,7 +530,7 @@ static Class sectionClass = nil;
 		[parsedSections addObject:[Section sectionWithString:@""]];
 	}
 	
-	RootSection *rootSection = [[[RootSection alloc] init] autorelease];
+	RootSection *rootSection = [[RootSection alloc] init];
 		
 	for (Section *each in parsedSections) {
 		[rootSection insertSubtreeSection:each before:nil]; // enshure added to end.
@@ -611,26 +600,19 @@ static Class sectionClass = nil;
 
 - (id)initWithStart:(Section *)aStart end:(Section *)anEnd {
 	if (self = [super init]) {
-		current = [aStart retain];
-		end = [anEnd retain];
+		current = aStart;
+		end = anEnd;
 	}
 	return self;
 }
 
-- (void)dealloc {
-	[current release];
-	[end release];
-	[super dealloc];
-}
 
 - (id)nextObject {
 	id result = current;
-	current = [current.treeOrderNext retain];
+	current = current.treeOrderNext;
 	
 	if (result == end) {
-		[current release];
 		current = nil;
-		[end release];
 		end = nil;
 	}
 	
@@ -643,20 +625,16 @@ static Class sectionClass = nil;
 
 - (id)initWithStart:(Section *)aSection {
 	if (self = [super init]) {
-		current = [aSection retain];
+		current = aSection;
 	}
 	return self;
 }
 
-- (void)dealloc {
-	[current release];
-	[super dealloc];
-}
 
 - (id)nextObject {
 	id result = current;
-	current = [current.nextSibling retain];
-	return [result autorelease];
+	current = current.nextSibling;
+	return result;
 }
 
 @end
@@ -665,20 +643,16 @@ static Class sectionClass = nil;
 
 - (id)initWithStart:(Section *)aSection {
 	if (self = [super init]) {
-		current = [aSection retain];
+		current = aSection;
 	}
 	return self;
 }
 
-- (void)dealloc {
-	[current release];
-	[super dealloc];
-}
 
 - (id)nextObject {
 	id result = current;
-	current = [current.parent retain];
-	return [result autorelease];
+	current = current.parent;
+	return result;
 }
 
 @end

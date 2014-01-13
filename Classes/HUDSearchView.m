@@ -19,13 +19,10 @@
     return self;
 }
 
-- (void)dealloc {
-    [super dealloc];
-}
 
 - (SearchTextField *)searchTextField {
 	if (!searchTextField) {
-		searchTextField = [[[SearchTextField alloc] init] autorelease];
+		searchTextField = [[SearchTextField alloc] init];
 	}
 	return searchTextField;
 }

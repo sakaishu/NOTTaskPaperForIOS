@@ -26,7 +26,7 @@
     BOOL clearDefaultsCaches;
 }
 
-@property (nonatomic, retain) NSObject<IFCellModel> *model;
+@property (nonatomic, strong) NSObject<IFCellModel> *model;
 @property (nonatomic, assign) BOOL clearDefaultsCaches;
 
 - (void)clearTableGroups;

@@ -253,19 +253,18 @@
 }
 
 - (void)dealloc {
-	[_passcodeTextField1 release], _passcodeTextField1 = nil;
-	[_passcodeTextField2 release], _passcodeTextField2 = nil;
-	[_passcodeTextField3 release], _passcodeTextField3 = nil;
-	[_passcodeTextField4 release], _passcodeTextField4 = nil;
+	_passcodeTextField1 = nil;
+	_passcodeTextField2 = nil;
+	_passcodeTextField3 = nil;
+	_passcodeTextField4 = nil;
 
 	_hiddenTextField.delegate = nil;
-	[_hiddenTextField release], _hiddenTextField = nil;
-	[_descriptionLabel release], _descriptionLabel = nil;
-	[_descriptionLabel2 release], _descriptionLabel2 = nil;	
+	_hiddenTextField = nil;
+	_descriptionLabel = nil;
+	_descriptionLabel2 = nil;	
 	
-	[_theNewPasscode release], _theNewPasscode = nil;
+	_theNewPasscode = nil;
 
-    [super dealloc];
 }
 
 

@@ -27,7 +27,7 @@
 	self = [super init];
 	if (self != nil)
 	{
-		label = [newLabel retain];
+		label = newLabel;
 		action = newAction;
 		target = newTarget;
 		
@@ -41,7 +41,7 @@
 {
 	self = [self initWithLabel:newLabel withAction:newAction onTarget:newTarget];
 	if (self != nil) {
-		accessoryView = [newAccessoryView retain];
+		accessoryView = newAccessoryView;
 	} 
 	return self;
 }
@@ -51,13 +51,6 @@
 //
 // Releases instance memory.
 //
-- (void)dealloc
-{
-	[label release];
-	[accessoryView release];
-
-	[super dealloc];
-}
 
 //
 // tableView:didSelectRowAtIndexPath:
@@ -89,7 +82,7 @@
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
 	if (cell == nil)
 	{
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] autorelease];
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
 	}
 	
 	cell.textLabel.text = label;

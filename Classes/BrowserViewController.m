@@ -44,8 +44,6 @@
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[itemViewControllers release];
-    [super dealloc];
 }
 
 - (IBAction)back:(id)sender {
@@ -57,7 +55,7 @@
 }
 
 - (void)loadView {
-	BrowserView *browserView = [[[BrowserView alloc] init] autorelease];
+	BrowserView *browserView = [[BrowserView alloc] init];
 	browserView.headerBarsScroll = APP_VIEW_CONTROLLER.scrollsHeadings;
 	browserView.autoresizingMask= UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	self.view = browserView;
@@ -115,7 +113,7 @@
 
 - (ItemViewController *)pop:(BOOL)animated {
 	[self beginUpdates];
-	ItemViewController *aViewController = [[[itemViewControllers lastObject] retain] autorelease];
+	ItemViewController *aViewController = [itemViewControllers lastObject];
 	[itemViewControllers removeLastObject];
 	aViewController.parentViewController = nil;
 	updatingIsPush = NO;

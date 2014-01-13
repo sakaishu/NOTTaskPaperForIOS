@@ -15,7 +15,7 @@
 	self = [super init];
 	if (self != nil)
 	{
-		_temporaryModel = [[NSMutableDictionary dictionary] retain];
+		_temporaryModel = [NSMutableDictionary dictionary];
 	}
 	return self;
 }
@@ -25,18 +25,12 @@
 	self = [super init];
 	if (self != nil)
 	{
-		_temporaryModel = [[NSMutableDictionary dictionaryWithDictionary:dictionary] retain];
+		_temporaryModel = [NSMutableDictionary dictionaryWithDictionary:dictionary];
 	}
 	return self;
 }
 
 
-- (void)dealloc
-{
-	[_temporaryModel release];
-
-	[super dealloc];
-}
 
 - (void)setObject:(id)value forKey:(NSString *)key
 {

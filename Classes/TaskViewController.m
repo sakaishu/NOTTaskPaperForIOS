@@ -105,10 +105,6 @@
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
     self.taskView.delegate = nil;
-    [sections release];
-    [sectionSearchString release];
-    [lineEnding release];
-	[super dealloc];
 }
 
 #pragma mark -
@@ -118,7 +114,7 @@
 }
 
 - (void)loadView {
-    TaskView *taskView = [[[TaskView alloc] init] autorelease];
+    TaskView *taskView = [[TaskView alloc] init];
     taskView.taskDelegate = self;
     
     pathViewController.view.accessibilityLabel = NSLocalizedString(@"Document title", nil);
@@ -201,7 +197,7 @@ static NSUInteger rotateRow;
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-	NSIndexSet *rotateRows = [[self.taskView.selectedRows copy] autorelease];
+	NSIndexSet *rotateRows = [self.taskView.selectedRows copy];
 	[self.taskView reloadData];
 	[self.taskView setSelectedRows:rotateRows];
 	if (rotateRow != NSNotFound) {
@@ -233,7 +229,7 @@ static NSUInteger rotateRow;
 	
 	if (tree != nil && [tree lastSection] == nil) {
         tree.skipSave = YES;
-		[tree addSubtreeSectionsObject:[[[TaskPaperSection alloc] initWithString:@":"] autorelease]];
+		[tree addSubtreeSectionsObject:[[TaskPaperSection alloc] initWithString:@":"]];
         [self.taskView performSelector:@selector(beginFieldEditorForRow:) withObject:0 afterDelay:0.1];
 	} else if ([tree lastSection] == [tree firstSection] && [[tree firstSection] isBlank]) {
         tree.skipSave = YES;
@@ -276,7 +272,6 @@ static NSUInteger rotateRow;
 			NSRange paragraphRange = [fileContents paragraphRangeForRange:NSMakeRange(0, [fileContents length])];
 			NSCharacterSet *newlineCharacterSet = [NSCharacterSet newlineCharacterSet];
 			
-			[lineEnding release];
 			lineEnding = nil;
 			
 			if (paragraphRange.length > 0) {
@@ -284,16 +279,16 @@ static NSUInteger rotateRow;
 				if ([newlineCharacterSet characterIsMember:c]) {
 					if (paragraphRange.length > 1 && c == '\n') {
 						if ([fileContents characterAtIndex:paragraphRange.length - 2] == '\r') {
-							lineEnding = [@"\r\n" retain];
+							lineEnding = @"\r\n";
 						}
 					} else {
-						lineEnding = [[NSString stringWithFormat:@"%C", c] retain];
+						lineEnding = [NSString stringWithFormat:@"%C", c];
 					}
 				}
 			}
 			
 			if (!lineEnding) {
-				lineEnding = [@"\n" retain];
+				lineEnding = @"\n";
 			}
             
             if ([lineEnding isEqualToString:@"\r\n"]) {
@@ -315,16 +310,15 @@ static NSUInteger rotateRow;
         }
         
         if ([contentInView isEqualToString:@""] && [fileContents isEqualToString:@""]) {
-            [tree autorelease];
             tree = [[Tree alloc] initWithPatchHistory:nil textContent:@""];
             tree.delegate = self;
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(treeChangedNotification:) name:TreeChanged object:tree];
-            sections = (id)[[tree.enumeratorOfSubtreeSections allObjects] retain];
+            sections = (id)[tree.enumeratorOfSubtreeSections allObjects];
             [self loadDocumentIntoView];	
             return;
         }
         
-        DiffMatchPatch *dmp = [[[DiffMatchPatch alloc] init] autorelease];
+        DiffMatchPatch *dmp = [[DiffMatchPatch alloc] init];
         NSMutableArray *filePatches = [dmp patch_makeFromOldString:lastFileContents == nil ? @"" : lastFileContents andNewString:fileContents];
         if ([filePatches count] > 0) {
             NSArray *patchResults = [dmp patch_apply:filePatches toString:contentInView];		
@@ -338,11 +332,10 @@ static NSUInteger rotateRow;
 				}
 			}
             
-            [tree autorelease];
             tree = [[Tree alloc] initWithPatchHistory:nil textContent:patchResultsText];
             tree.delegate = self;
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(treeChangedNotification:) name:TreeChanged object:tree];
-            sections = (id)[[tree.enumeratorOfSubtreeSections allObjects] retain];
+            sections = (id)[tree.enumeratorOfSubtreeSections allObjects];
             [self loadDocumentIntoView];	
             NSString *previousSectionSearchString = self.sectionSearchString;
             sectionSearchString = @"";
@@ -390,10 +383,8 @@ static NSUInteger rotateRow;
 			}			
 		}
 
-        [lastModificationDate autorelease];
-		lastModificationDate = [[[fileManager attributesOfItemAtPath:self.path error:NULL] fileModificationDate] retain];
-		[lastFileContents release];
-		lastFileContents = [tree.textContent retain];
+		lastModificationDate = [[fileManager attributesOfItemAtPath:self.path error:NULL] fileModificationDate];
+		lastFileContents = tree.textContent;
     }
 }
 
@@ -421,7 +412,7 @@ static NSUInteger rotateRow;
 		// selection cover can get messed up. For example select a project with one childen, and create new item. The projects original
 		// child would stay in selection cover if the above line wasn't in positions. Probably a better way to handle this!
 	}
-    Section *newSection = [[[TaskPaperSection alloc] init] autorelease];
+    Section *newSection = [[TaskPaperSection alloc] init];
 	Section *newSectionParent = nil;
 	Section *newSectionInsertAfter = nil;
     
@@ -467,7 +458,7 @@ static NSUInteger rotateRow;
 
 
 - (void)showWordCount {
-	NSNumberFormatter *numberFormatter = [[[NSNumberFormatter alloc] init] autorelease];
+	NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
 	[numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
 	NSUInteger paragraphCount;
 	NSUInteger wordCount;
@@ -482,7 +473,6 @@ static NSUInteger rotateRow;
                                                                 [numberFormatter stringFromNumber:[NSNumber numberWithUnsignedInteger:characterCount]],
                                                                 nil] delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles:nil];
     [alertView show];
-    [alertView release];
 }
 
 - (IBAction)print:(id)sender {
@@ -497,7 +487,7 @@ static NSUInteger rotateRow;
     NSString *printText = [[Section sectionsToString:[sections objectEnumerator] includeTags:YES] stringByReplacingOccurrencesOfString:@"\t" withString:@"    "] ;
     printText = [printText stringByReplacingOccurrencesOfString:@"\n" withString:@"\n\n"];
     
-    UISimpleTextPrintFormatter *formatter = [[[UISimpleTextPrintFormatter alloc] initWithText:printText] autorelease];
+    UISimpleTextPrintFormatter *formatter = [[UISimpleTextPrintFormatter alloc] initWithText:printText];
     formatter.startPage = 0;
     formatter.contentInsets = UIEdgeInsetsMake(72.0, 72.0, 72.0, 72.0); // 1 inch margins
     formatter.maximumContentWidth = 6 * 72.0;
@@ -572,9 +562,8 @@ static NSUInteger rotateRow;
 	if (![MFMailComposeViewController canSendMail]) {
 		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Can't send email", nil) message:NSLocalizedString(@"You must setup email on your phone before you can use this feature.", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles:nil];
 		[alertView show];
-		[alertView release];
 	} else {
-		MFMailComposeViewController *mailComposeViewController = [[[MFMailComposeViewController alloc] init] autorelease];
+		MFMailComposeViewController *mailComposeViewController = [[MFMailComposeViewController alloc] init];
 		[mailComposeViewController setSubject:[NSString stringWithFormat:@"[%@] %@", [[NSProcessInfo processInfo] processName], [self.path lastPathComponent]]];
         [mailComposeViewController setMessageBody:[[Section sectionsToString:[sections objectEnumerator] includeTags:YES] stringByReplacingOccurrencesOfString:@"\t" withString:@"    "] isHTML:NO];
 		mailComposeViewController.mailComposeDelegate = self;
@@ -593,7 +582,7 @@ static NSUInteger rotateRow;
         [tree beginChangingSections];
         
         if (!archiveProject) {
-            archiveProject = [[[TaskPaperSection alloc] initWithString:NSLocalizedString(@"Archive", nil)] autorelease];
+            archiveProject = [[TaskPaperSection alloc] initWithString:NSLocalizedString(@"Archive", nil)];
             archiveProject.type = TaskPaperSectionTypeProject;
             [tree addSubtreeSectionsObject:archiveProject];
         }
@@ -607,7 +596,7 @@ static NSUInteger rotateRow;
                     if (projects) {
                         [projects insertString:[NSString stringWithFormat:@"%@ / ", parent.content] atIndex:0];
                     } else {
-                        projects = [[[NSMutableString alloc] initWithString:parent.content] autorelease];
+                        projects = [[NSMutableString alloc] initWithString:parent.content];
                     }
                 }
                 parent = parent.parent;
@@ -631,14 +620,12 @@ static NSUInteger rotateRow;
     } else {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Nothing to Archive", nil) message:NSLocalizedString(@"There is nothing tagged with @done that needs to be archived.", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles:nil];
         [alertView show];
-        [alertView release];
     }
 }
 
 - (IBAction)deleteDocument:(id)sender {
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Delete Document", nil) message:[NSString stringWithFormat:NSLocalizedString(@"Are you sure that you want to delete \"%@\"?", nil), [APP_VIEW_CONTROLLER displayNameForPath:self.path isDirectory:NO]] delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:NSLocalizedString(@"Delete", nil), nil];
 	[alertView show];
-	[alertView release];
 }
 
 #pragma mark UIAlertView delegate
@@ -662,7 +649,6 @@ static NSUInteger rotateRow;
 	if (result == MFMailComposeResultFailed) {
 		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"Error Emailing Document", nil), nil] message:[error localizedDescription] delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
 		[alertView show];
-		[alertView release];		
 	}
 	[APP_VIEW_CONTROLLER dismissModalViewControllerAnimated:YES];
 }
@@ -672,8 +658,7 @@ static NSUInteger rotateRow;
 @synthesize sectionSearchString;
 - (void)setSectionSearchString:(NSString *)aString {
 	if (aString != sectionSearchString && ![aString isEqualToString:sectionSearchString]) {
-		[sectionSearchString release];
-		sectionSearchString = [aString retain];
+		sectionSearchString = aString;
 		
 		[self updateSearch];
 	}
@@ -684,16 +669,15 @@ static NSUInteger rotateRow;
         [self.taskView commitAndRemoveFieldEditor];
     }
     
- 	[sections release];
     if ([sectionSearchString length] > 0) {
-		sections = [[tree subtreeSectionsMatchingPredicate:[[QueryParser sharedInstance] parse:sectionSearchString highlight:nil] includeAncestors:YES includeDescendants:NO] retain];		
+		sections = [tree subtreeSectionsMatchingPredicate:[[QueryParser sharedInstance] parse:sectionSearchString highlight:nil] includeAncestors:YES includeDescendants:NO];		
 		if ([sections count] == 0) {
 			self.taskView.placeholderText = NSLocalizedString(@"No Results", nil);
 		} else {
 			self.taskView.placeholderText = nil;
 		}
 	} else {
-		sections = (id)[[tree.enumeratorOfSubtreeSections allObjects] retain];
+		sections = (id)[tree.enumeratorOfSubtreeSections allObjects];
 		self.taskView.placeholderText = nil;
 	}
     
@@ -727,7 +711,7 @@ static NSPredicate *projectsPredicate = nil;
 
 - (MenuView *)buildProjectsMenuView:(BOOL)isSearch {
 	if (!projectsPredicate) {		
-		projectsPredicate = [[[QueryParser sharedInstance] parse:@"type = \"project\"" highlight:nil] retain];
+		projectsPredicate = [[QueryParser sharedInstance] parse:@"type = \"project\"" highlight:nil];
 	}
 	
 	MenuView *menuView = [MenuView sharedInstance];
@@ -773,7 +757,7 @@ static NSPredicate *projectsPredicate = nil;
 
 - (MenuView *)buildTagsMenuView {
 	MenuView *menuView = [MenuView sharedInstance];
-	NSMutableArray *tags = [[tree.allTagNames mutableCopy] autorelease];
+	NSMutableArray *tags = [tree.allTagNames mutableCopy];
 	
 	for (NSString *eachTag in [[[NSUserDefaults standardUserDefaults] stringForKey:DefaultTagsKey] componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" ,"]]) {
 		if ([eachTag length] > 0) {
@@ -1084,7 +1068,7 @@ static NSPredicate *projectsPredicate = nil;
 	NSMutableIndexSet *insertedIndexes = nil;
 	NSMutableIndexSet *updatedIndexes = nil;
 	NSMutableIndexSet *deletedIndexes = nil;
-	NSArray *insertedSectionsSortedByTreeIndex = [[[userInfo objectForKey:InsertedSectionsKey] allObjects] sortedArrayUsingDescriptors:[NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"treeIndexPath" ascending:YES] autorelease]]];
+	NSArray *insertedSectionsSortedByTreeIndex = [[[userInfo objectForKey:InsertedSectionsKey] allObjects] sortedArrayUsingDescriptors:[NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"treeIndexPath" ascending:YES]]];
 	Section *editedSection = self.taskView.editedSection;
 	TrackedLocation *editLocation = editedSection == nil ? nil : [TrackedLocation trackedLocationWithSection:editedSection offset:0];
     
@@ -1176,7 +1160,7 @@ static NSPredicate *projectsPredicate = nil;
 	IPhoneDocumentViewCell *cell = [self.taskView dequeueReusableCell];
 	
 	if (!cell) {
-		cell = [[[IPhoneDocumentViewCell alloc] init] autorelease];
+		cell = [[IPhoneDocumentViewCell alloc] init];
 	}
     
 	cell.selected = [self.taskView.selectedRows containsIndex:row];
@@ -1191,7 +1175,7 @@ static NSPredicate *projectsPredicate = nil;
 }
 
 - (void)documentView:(TaskView *)aDocumentView touchAtPoint:(CGPoint)aPoint {
-	NSMutableIndexSet *selelectedRows = [[self.taskView.selectedRows mutableCopy] autorelease];
+	NSMutableIndexSet *selelectedRows = [self.taskView.selectedRows mutableCopy];
 	NSUInteger row = [self.taskView rowAtPoint:aPoint];
     
 	if (shiftKeyDown) {
@@ -1286,7 +1270,7 @@ static NSPredicate *projectsPredicate = nil;
         
 		NSString *remaining = [[fieldEditor.text substringToIndex:range.location] stringByAppendingString:[text substringToIndex:returnLocation]];
 		NSString *trailing = [fieldEditor.text substringFromIndex:NSMaxRange(range)];
-		NSMutableArray *lines = [[[text componentsSeparatedByString:@"\n"] mutableCopy] autorelease];
+		NSMutableArray *lines = [[text componentsSeparatedByString:@"\n"] mutableCopy];
 		[lines removeObjectAtIndex:0]; // already added to remainign
 		NSUInteger sectionIndex = self.taskView.editedRow;
 		Section *section = [sections objectAtIndex:sectionIndex];
@@ -1321,7 +1305,7 @@ static NSPredicate *projectsPredicate = nil;
 			[self.taskView commitFieldEditor];
             
 			if ([lines count] == 1) {
-				Section *newSection = [[[TaskPaperSection alloc] initWithString:[lines lastObject]] autorelease];
+				Section *newSection = [[TaskPaperSection alloc] initWithString:[lines lastObject]];
 				
 				switch (section.type) {
 					case TaskPaperSectionTypeProject:
@@ -1342,7 +1326,7 @@ static NSPredicate *projectsPredicate = nil;
 				insertCount++;
 			} else {
 				for (NSString *each in [lines objectEnumerator]) {
-					Section *newSection = [[[TaskPaperSection alloc] initWithString:each] autorelease];
+					Section *newSection = [[TaskPaperSection alloc] initWithString:each];
 					newSection.level += insertLevel;
 					[section.tree insertSubtreeSection:newSection after:insertAfterSection];
 					insertAfterSection = newSection;
@@ -1444,7 +1428,6 @@ static NSPredicate *projectsPredicate = nil;
 	}
 	
     NSArray *draggedSections = [Section sectionsFromString:sectionsAsStringOnDragging];
-    [sectionsAsStringOnDragging release];
     
 	[self.taskView beginUpdates];
 	[tree beginChangingSections];

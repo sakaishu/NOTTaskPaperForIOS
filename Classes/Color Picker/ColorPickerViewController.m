@@ -500,14 +500,5 @@ CGContextRef CreateARGBBitmapContext (CGImageRef inImage) {
 	if (oneComponentContext) CGContextRelease(oneComponentContext), oneComponentContext=nil; 
 }
 
-- (void)dealloc {
-	self.arrowParentView=nil;
-	self.oneComponentView=nil;
-	self.twoComponentView=nil;
-	self.previewLabel=nil;
-	self.arrowView=nil;
-	self.circleView=nil;
-	[super dealloc];
-}
 
 @end

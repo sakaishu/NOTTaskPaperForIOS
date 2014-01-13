@@ -21,25 +21,18 @@
 	return self;
 }
 
-- (void)dealloc {
-	[name release];
-	[color release];
-	[super dealloc];
-}
 
 @synthesize name;
 
 - (void)setName:(NSString *)aString {
-	[name autorelease];
-	name = [aString retain];
+	name = aString;
 	[self setNeedsDisplay];
 }
 
 @synthesize color;
 
 - (void)setColor:(UIColor *)aColor {
-	[color autorelease];
-	color = [aColor retain];
+	color = aColor;
 	[self setNeedsDisplay];
 }
 

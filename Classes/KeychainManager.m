@@ -21,15 +21,11 @@
     return manager;
 }
 
-- (void)dealloc {
-    [processName release];
-    [super dealloc];
-}
 
 - (id)init {
     self = [super init];
     if (self != nil) {
-        processName = [[[NSProcessInfo processInfo] processName] retain];
+        processName = [[NSProcessInfo processInfo] processName];
     }
     return self;
 }

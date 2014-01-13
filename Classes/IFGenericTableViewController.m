@@ -43,7 +43,7 @@
 //
 - (void)constructTableGroups
 {
-	tableGroups = [[NSArray arrayWithObject:[NSArray array]] retain];
+	tableGroups = [NSArray arrayWithObject:[NSArray array]];
 
 	tableHeaders = nil;
 	tableFooters = nil;
@@ -56,12 +56,9 @@
 //
 - (void)clearTableGroups
 {
-	[tableHeaders release];
 	tableHeaders = nil;
-	[tableFooters release];
 	tableFooters = nil;
 	
-	[tableGroups release];
 	tableGroups = nil;
 }
 
@@ -231,10 +228,8 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 #endif
 
-	self.model = nil;
 
 	[self clearTableGroups];
-	[super dealloc];
 }
 
 - (void)validate:(id)sender
@@ -252,7 +247,7 @@
 	// Since there is no style accessor on UITableViewController (to obtain the value passed in with the
 	// initWithStyle: method), the value is hard coded for this use case. Too bad.
 
-	self.view = [[[IFTextViewTableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped] autorelease];
+	self.view = [[IFTextViewTableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
 	[(IFTextViewTableView *)self.view setDelegate:self];
 	[(IFTextViewTableView *)self.view setDataSource:self];
 	[self.view setAutoresizesSubviews:YES];
@@ -276,7 +271,7 @@
         //fix: in iOS5, above line cause flickering
 	}
 
-	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissModalViewControllerAction:)] autorelease];	
+	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissModalViewControllerAction:)];	
 	
 	[super viewWillAppear:animated];
 }

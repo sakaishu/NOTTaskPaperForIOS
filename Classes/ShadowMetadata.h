@@ -24,28 +24,28 @@
 + (ShadowMetadata *)shadowMetadataWithNormalizedName:(NSString *)aNormalizedName managedObjectContext:(NSManagedObjectContext *)aManagedObjectContext;
 
 @property(nonatomic, readonly) BOOL isRoot;
-@property(nonatomic, readonly) NSString *normalizedName;
-@property(nonatomic, readonly) NSString *normalizedPath; // transient
-@property(nonatomic, readonly) PathController *pathController; // transient
-@property(nonatomic, retain) NSError *pathError; // transient
+@property(weak, nonatomic, readonly) NSString *normalizedName;
+@property(weak, nonatomic, readonly) NSString *normalizedPath; // transient
+@property(weak, nonatomic, readonly) PathController *pathController; // transient
+@property(nonatomic, strong) NSError *pathError; // transient
 
 #pragma mark -
 #pragma mark Children
 
-@property(nonatomic, readonly) ShadowMetadata* parent;
-@property(nonatomic, retain) NSSet* children;
-@property(nonatomic, readonly) NSSet* allDescendantsWithSelf;
+@property(weak, nonatomic, readonly) ShadowMetadata* parent;
+@property(nonatomic, strong) NSSet* children;
+@property(weak, nonatomic, readonly) NSSet* allDescendantsWithSelf;
 
 #pragma mark -
 #pragma mark Last Sync Metadata
 
 @property(nonatomic, assign) PathState pathState;
-@property(nonatomic, retain) NSString *lastSyncName;
-@property(nonatomic, retain) NSDate *lastSyncDate;
-@property(nonatomic, retain) NSString *lastSyncHash;
+@property(nonatomic, strong) NSString *lastSyncName;
+@property(nonatomic, strong) NSDate *lastSyncDate;
+@property(nonatomic, strong) NSString *lastSyncHash;
 @property(nonatomic, assign) BOOL lastSyncIsDirectory;
-@property(nonatomic, retain) NSDate *clientMTime;
-@property(nonatomic, retain) ShadowMetadataTextBlob *lastSyncText;
+@property(nonatomic, strong) NSDate *clientMTime;
+@property(nonatomic, strong) ShadowMetadataTextBlob *lastSyncText;
 
 @end
 

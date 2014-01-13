@@ -124,7 +124,7 @@
 		[left setTitleColor:[UIColor colorWithWhite:0.2 alpha:1.0] forState:UIControlStateNormal];
 		[self addSubview:left];
 		
-		UIImageView *separator = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"keydivider.png"]] autorelease];
+		UIImageView *separator = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"keydivider.png"]];
 		separator.contentStretch = CGRectMake(0.5, 0.5, 0, 0);
 		[self addSubview:separator];
 		
@@ -147,7 +147,6 @@
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[super dealloc];
 }
 
 - (void)setFrame:(CGRect)frame {

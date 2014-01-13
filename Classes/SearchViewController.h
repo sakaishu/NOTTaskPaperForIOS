@@ -19,8 +19,8 @@
 	Button *beginSearchButton;
 }
 
-@property (nonatomic, readonly) SearchView *searchView;
-@property (nonatomic, readonly) Button *beginSearchButton;
+@property (weak, nonatomic, readonly) SearchView *searchView;
+@property (weak, nonatomic, readonly) Button *beginSearchButton;
 
 - (void)updateSearchText:(NSString *)newSearchText;
 - (void)notifiySearchFieldChangedAfterDelay:(NSNumber *)delayNumber;

@@ -40,12 +40,6 @@
 	return self;
 }
 
-- (void)dealloc {
-	[pathController release];
-	[applicationViewController release];
-    [window release];
-    [super dealloc];
-}
 
 - (void)simulateMemoryWarning {
 	CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), (CFStringRef)@"UISimulatedMemoryWarningNotification", NULL, NULL, true);
@@ -62,7 +56,6 @@
 
 - (void)setBrightness:(CGFloat)brightness {
 	if (brightness == 1) {
-		[screenDimmerWindow release];
 		screenDimmerWindow = nil;
 	} else {
 		if (!screenDimmerWindow) {
@@ -121,14 +114,14 @@
     if ([[NSUserDefaults standardUserDefaults] boolForKey:PasscodeEnableDefaultsKey]) {
         if ([[PasscodeManager sharedPasscodeManager] hasPasscode]) {
             if (![self.applicationViewController.modalViewController isKindOfClass:[PasscodeViewController class]])  {
-                PasscodeViewController *passcodeViewController = [[[PasscodeViewController alloc] initWithNibName:@"PasscodeViewController" bundle:nil] autorelease];
+                PasscodeViewController *passcodeViewController = [[PasscodeViewController alloc] initWithNibName:@"PasscodeViewController" bundle:nil];
                 passcodeViewController.viewState = PasscodeCheck;
                 if (IS_IPAD) passcodeViewController.view.backgroundColor = [UIColor colorWithRed:224.0/255.0 green:227.0/255.0 blue:232.0/255.0 alpha:1.0];
                 if ([SettingsViewController showing]) {
                     [self.applicationViewController dismissModalViewControllerAnimated:NO];
                 }
                 [self.applicationViewController presentModalViewController:passcodeViewController animated:NO];
-                UIImageView *splashView = [[[UIImageView alloc] initWithFrame:window.bounds] autorelease];
+                UIImageView *splashView = [[UIImageView alloc] initWithFrame:window.bounds];
                 splashView.image = [UIImage imageNamed:@"Default.png"];
                 [window addSubview:splashView];
                 [window bringSubviewToFront:splashView];
@@ -152,8 +145,8 @@
 		UIMenuController *menuController = [UIMenuController sharedMenuController];
 		if ([menuController respondsToSelector:@selector(setMenuItems:)]) {
 			[menuController setMenuItems:[NSArray arrayWithObjects:
-										  [[[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"Word Count", nil) action:@selector(showWordCount:)] autorelease],
-										  [[[UIMenuItem alloc] initWithTitle:@"…" action:@selector(showInfo:)] autorelease],
+										  [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"Word Count", nil) action:@selector(showWordCount:)],
+										  [[UIMenuItem alloc] initWithTitle:@"…" action:@selector(showInfo:)],
 										  nil]];
 		}
 	}
@@ -308,7 +301,7 @@
         NSString *urlString = [url absoluteString];
         
         if ([urlString hasPrefix:[NSString stringWithFormat:@"%@://create", [url scheme]]]) {
-            NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
             [formatter setDateFormat:@"yyyy-MM-dd HHmmss"];
             
             NSString *newFilePath = [[PATH_CONTROLLER localRoot] stringByAppendingPathComponent:[NSString stringWithFormat:@"Untitled-%@", [formatter stringFromDate:[NSDate date]]]];

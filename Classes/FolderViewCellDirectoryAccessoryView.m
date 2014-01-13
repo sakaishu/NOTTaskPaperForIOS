@@ -17,7 +17,7 @@ UIImage *accessoryImage = nil;
 
 - (void)myRefreshFromDefaults {
 	if (!accessoryImage) {
-		accessoryImage = [[UIImage colorizeImage:[UIImage imageNamed:@"directoryAccessoryImage.png"] color:[APP_VIEW_CONTROLLER inkColorByPercent:0.15]] retain];
+		accessoryImage = [UIImage colorizeImage:[UIImage imageNamed:@"directoryAccessoryImage.png"] color:[APP_VIEW_CONTROLLER inkColorByPercent:0.15]];
 	}
 	self.image = accessoryImage;
 	[self sizeToFit];

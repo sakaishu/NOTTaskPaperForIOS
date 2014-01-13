@@ -32,11 +32,11 @@
 @interface CMFontStyleSelectTableViewController : UITableViewController {
 }
 
-@property (nonatomic, assign)	id<CMFontStyleSelectTableViewControllerDelegate>	delegate;
+@property (nonatomic, weak)	id<CMFontStyleSelectTableViewControllerDelegate>	delegate;
 
-@property (nonatomic, retain)	NSString			*fontFamilyName;
-@property (nonatomic, retain)	NSArray				*fontNames;
-@property (nonatomic, retain)	UIFont				*selectedFont;
+@property (nonatomic, strong)	NSString			*fontFamilyName;
+@property (nonatomic, strong)	NSArray				*fontNames;
+@property (nonatomic, strong)	UIFont				*selectedFont;
 
 @end
 

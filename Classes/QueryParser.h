@@ -40,25 +40,25 @@
 
 - (PKAssembly *)assemblyFromString:(NSString *)s;
 
-@property (nonatomic, retain) PKTokenizer *tokenizer;
-@property (nonatomic, retain) PKCollectionParser *expressionParser;
-@property (nonatomic, retain) PKCollectionParser *termParser;
-@property (nonatomic, retain) PKCollectionParser *orTermParser;
-@property (nonatomic, retain) PKCollectionParser *notFactorParser;
-@property (nonatomic, retain) PKCollectionParser *andNotFactorParser;
-@property (nonatomic, retain) PKCollectionParser *primaryExpressionParser;
-@property (nonatomic, retain) PKCollectionParser *predicateParser;
-@property (nonatomic, retain) PKCollectionParser *completePredicateParser;
-@property (nonatomic, retain) PKCollectionParser *attributeValuePredicateParser;
-@property (nonatomic, retain) PKCollectionParser *attributePredicateParser;
-@property (nonatomic, retain) PKCollectionParser *relationValuePredicateParser;
-@property (nonatomic, retain) PKCollectionParser *valuePredicateParser;
-@property (nonatomic, retain) PKPattern *attributeParser;
-@property (nonatomic, retain) PKCollectionParser *relationParser;
-@property (nonatomic, retain) PKCollectionParser *valueParser;
-@property (nonatomic, retain) PKParser *quotedStringParser;
-@property (nonatomic, retain) PKCollectionParser *unquotedStringParser;
-@property (nonatomic, retain) PKPattern *reservedWordParser;
-@property (nonatomic, retain) PKPattern *nonReservedWordParser;
+@property (nonatomic, strong) PKTokenizer *tokenizer;
+@property (nonatomic, strong) PKCollectionParser *expressionParser;
+@property (nonatomic, strong) PKCollectionParser *termParser;
+@property (nonatomic, strong) PKCollectionParser *orTermParser;
+@property (nonatomic, strong) PKCollectionParser *notFactorParser;
+@property (nonatomic, strong) PKCollectionParser *andNotFactorParser;
+@property (nonatomic, strong) PKCollectionParser *primaryExpressionParser;
+@property (nonatomic, strong) PKCollectionParser *predicateParser;
+@property (nonatomic, strong) PKCollectionParser *completePredicateParser;
+@property (nonatomic, strong) PKCollectionParser *attributeValuePredicateParser;
+@property (nonatomic, strong) PKCollectionParser *attributePredicateParser;
+@property (nonatomic, strong) PKCollectionParser *relationValuePredicateParser;
+@property (nonatomic, strong) PKCollectionParser *valuePredicateParser;
+@property (nonatomic, strong) PKPattern *attributeParser;
+@property (nonatomic, strong) PKCollectionParser *relationParser;
+@property (nonatomic, strong) PKCollectionParser *valueParser;
+@property (nonatomic, strong) PKParser *quotedStringParser;
+@property (nonatomic, strong) PKCollectionParser *unquotedStringParser;
+@property (nonatomic, strong) PKPattern *reservedWordParser;
+@property (nonatomic, strong) PKPattern *nonReservedWordParser;
 
 @end

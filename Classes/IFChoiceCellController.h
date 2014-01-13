@@ -22,7 +22,7 @@
 	NSString *key;
 
 	SEL updateAction;
-	id updateTarget;
+	id __weak updateTarget;
 
 	NSString *footerNote;
 	
@@ -30,9 +30,9 @@
 }
 
 @property (nonatomic, assign) SEL updateAction;
-@property (nonatomic, assign) id updateTarget;
+@property (nonatomic, weak) id updateTarget;
 
-@property (nonatomic, retain) NSString *footerNote;
+@property (nonatomic, strong) NSString *footerNote;
 	
 @property (nonatomic, assign) NSInteger indentationLevel;
 

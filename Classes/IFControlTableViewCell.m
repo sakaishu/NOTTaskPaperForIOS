@@ -27,7 +27,7 @@
 {
 	[view removeFromSuperview];
 
-	view = [newView retain];
+	view = newView;
 	[self.contentView addSubview:view];
 	
 	[self layoutSubviews];
@@ -54,11 +54,5 @@
 	view.frame = viewFrame;
 }
 
-- (void)dealloc
-{
-	[view release];
-	
-	[super dealloc];
-}
 
 @end
