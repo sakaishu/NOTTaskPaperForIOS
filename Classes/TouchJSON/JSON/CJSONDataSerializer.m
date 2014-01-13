@@ -207,7 +207,7 @@ NSEnumerator *theEnumerator = [theKeys objectEnumerator];
 NSString *theKey = NULL;
 while ((theKey = [theEnumerator nextObject]) != NULL)
 	{
-	id theValue = [inDictionary objectForKey:theKey];
+	id theValue = inDictionary[theKey];
 	
 	[theData appendData:[self serializeString:theKey]];
 	[theData appendBytes:":" length:1];

@@ -276,7 +276,7 @@ static Class sectionClass = nil;
             [self addTag:tag];            
         }
         if (parsedTags && parsedTags.count > 1) {
-            return [parsedTags objectAtIndex:0];
+            return parsedTags[0];
         }
 	}
 	

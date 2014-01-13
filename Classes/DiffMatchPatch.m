@@ -561,11 +561,11 @@ void splice(NSMutableArray *input, NSUInteger start, NSUInteger count, NSArray *
   if (hm != nil) {
     NSAutoreleasePool *splitPool = [NSAutoreleasePool new];
     // A half-match was found, sort out the return data.
-    NSString *text1_a = [hm objectAtIndex:0];
-    NSString *text1_b = [hm objectAtIndex:1];
-    NSString *text2_a = [hm objectAtIndex:2];
-    NSString *text2_b = [hm objectAtIndex:3];
-    NSString *mid_common = [hm objectAtIndex:4];
+    NSString *text1_a = hm[0];
+    NSString *text1_b = hm[1];
+    NSString *text2_a = hm[2];
+    NSString *text2_b = hm[3];
+    NSString *mid_common = hm[4];
     // Send both pairs off for separate processing.
     NSMutableArray *diffs_a = [self diff_mainOfOldString:text1_a andNewString:text2_a checkLines:checklines deadline:deadline];
     NSMutableArray *diffs_b = [self diff_mainOfOldString:text1_b andNewString:text2_b checkLines:checklines deadline:deadline];
@@ -604,9 +604,9 @@ void splice(NSMutableArray *input, NSUInteger start, NSUInteger count, NSArray *
 {
   // Scan the text on a line-by-line basis first.
   NSArray *b = [self diff_linesToCharsForFirstString:text1 andSecondString:text2];
-  text1 = (NSString *)[b objectAtIndex:0];
-  text2 = (NSString *)[b objectAtIndex:1];
-  NSMutableArray *linearray = (NSMutableArray *)[b objectAtIndex:2];
+  text1 = (NSString *)b[0];
+  text2 = (NSString *)b[1];
+  NSMutableArray *linearray = (NSMutableArray *)b[2];
 
   NSAutoreleasePool *recursePool = [NSAutoreleasePool new];
   NSMutableArray *diffs = [self diff_mainOfOldString:text1 andNewString:text2 checkLines:NO deadline:deadline];
@@ -629,14 +629,14 @@ void splice(NSMutableArray *input, NSUInteger start, NSUInteger count, NSArray *
   NSString *text_delete = @"";
   NSString *text_insert = @"";
   while (thisPointer < diffs.count) {
-    switch (((Diff *)[diffs objectAtIndex:thisPointer]).operation) {
+    switch (((Diff *)diffs[thisPointer]).operation) {
       case DIFF_INSERT:
         count_insert++;
-        text_insert = [text_insert stringByAppendingString:((Diff *)[diffs objectAtIndex:thisPointer]).text];
+        text_insert = [text_insert stringByAppendingString:((Diff *)diffs[thisPointer]).text];
         break;
       case DIFF_DELETE:
         count_delete++;
-        text_delete = [text_delete stringByAppendingString:((Diff *)[diffs objectAtIndex:thisPointer]).text];
+        text_delete = [text_delete stringByAppendingString:((Diff *)diffs[thisPointer]).text];
         break;
       case DIFF_EQUAL:
         // Upon reaching an equality, check for prior redundancies.
@@ -909,7 +909,7 @@ void splice(NSMutableArray *input, NSUInteger start, NSUInteger count, NSArray *
                                                                       (CFMutableArrayRef)lineArray,
                                                                       (CFMutableDictionaryRef)lineHash);
 
-  NSArray *result = [NSArray arrayWithObjects:chars1, chars2, lineArray, nil];
+  NSArray *result = @[chars1, chars2, lineArray];
 
   [chars1 release];
   [chars2 release];
@@ -931,7 +931,7 @@ void splice(NSMutableArray *input, NSUInteger start, NSUInteger count, NSArray *
     text = [NSMutableString string];
     for (NSUInteger y = 0; y < [diff.text length]; y++) {
       lineHash = (NSUInteger)[diff.text characterAtIndex:y];
-      [text appendString:[lineArray objectAtIndex:lineHash]];
+      [text appendString:lineArray[lineHash]];
     }
     diff.text = text;
   }
@@ -980,10 +980,10 @@ void splice(NSMutableArray *input, NSUInteger start, NSUInteger count, NSArray *
             commonlength = (NSUInteger)diff_commonPrefix((CFStringRef)text_insert, (CFStringRef)text_delete);
             if (commonlength != 0) {
               if ((thisPointer - count_delete - count_insert) > 0 &&
-                  ((Diff *)[diffs objectAtIndex:(thisPointer - count_delete - count_insert - 1)]).operation
+                  ((Diff *)diffs[(thisPointer - count_delete - count_insert - 1)]).operation
                   == DIFF_EQUAL) {
-                ((Diff *)[diffs objectAtIndex:(thisPointer - count_delete - count_insert - 1)]).text
-                    = [((Diff *)[diffs objectAtIndex:(thisPointer - count_delete - count_insert - 1)]).text
+                ((Diff *)diffs[(thisPointer - count_delete - count_insert - 1)]).text
+                    = [((Diff *)diffs[(thisPointer - count_delete - count_insert - 1)]).text
                        stringByAppendingString:[text_insert substringWithRange:NSMakeRange(0, commonlength)]];
               } else {
                 [diffs insertObject:[Diff diffWithOperation:DIFF_EQUAL
@@ -1211,7 +1211,7 @@ void splice(NSMutableArray *input, NSUInteger start, NSUInteger count, NSArray *
     if (thisDiff.operation == DIFF_EQUAL) {  // Equality found.
       if (thisDiff.text.length < Diff_EditCost && (post_ins || post_del)) {
         // Candidate found.
-        [equalities addObject:[NSNumber numberWithInteger:thisPointer]];
+        [equalities addObject:@(thisPointer)];
         pre_ins = post_ins;
         pre_del = post_del;
         lastequality = thisDiff.text;
@@ -1246,10 +1246,10 @@ void splice(NSMutableArray *input, NSUInteger start, NSUInteger count, NSArray *
         // Change second copy to insert.
         // Hash values for objects must not change while in a collection
         indexToChange = equalitiesLastValue + 1;
-        diffToChange = [[diffs objectAtIndex:indexToChange] retain];
-        [diffs replaceObjectAtIndex:indexToChange withObject:[NSNull null]];
+        diffToChange = [diffs[indexToChange] retain];
+        diffs[indexToChange] = [NSNull null];
         diffToChange.operation = DIFF_INSERT;
-        [diffs replaceObjectAtIndex:indexToChange withObject:diffToChange];
+        diffs[indexToChange] = diffToChange;
         [diffToChange release];
 
         [equalities removeLastObject];   // Throw away the equality we just deleted.
@@ -1407,9 +1407,7 @@ void splice(NSMutableArray *input, NSUInteger start, NSUInteger count, NSArray *
         param = [param diff_stringByReplacingPercentEscapesForEncodeUriCompatibility];
         if (param == nil) {
           if (error != NULL) {
-            errorDetail = [NSDictionary dictionaryWithObjectsAndKeys:
-                [NSString stringWithFormat:NSLocalizedString(@"Invalid character in diff_fromDelta: %@", @"Error"), param],
-                NSLocalizedDescriptionKey, nil];
+            errorDetail = @{NSLocalizedDescriptionKey: [NSString stringWithFormat:NSLocalizedString(@"Invalid character in diff_fromDelta: %@", @"Error"), param]};
             *error = [NSError errorWithDomain:@"DiffMatchPatchErrorDomain" code:99 userInfo:errorDetail];
           }
           return nil;
@@ -1422,17 +1420,13 @@ void splice(NSMutableArray *input, NSUInteger start, NSUInteger count, NSArray *
         n = [param integerValue];
         if (n == 0) {
           if (error != NULL) {
-            errorDetail = [NSDictionary dictionaryWithObjectsAndKeys:
-                [NSString stringWithFormat:NSLocalizedString(@"Invalid number in diff_fromDelta: %@", @"Error"), param],
-                NSLocalizedDescriptionKey, nil];
+            errorDetail = @{NSLocalizedDescriptionKey: [NSString stringWithFormat:NSLocalizedString(@"Invalid number in diff_fromDelta: %@", @"Error"), param]};
             *error = [NSError errorWithDomain:@"DiffMatchPatchErrorDomain" code:100 userInfo:errorDetail];
           }
           return nil;
         } else if (n < 0) {
           if (error != NULL) {
-            errorDetail = [NSDictionary dictionaryWithObjectsAndKeys:
-                [NSString stringWithFormat:NSLocalizedString(@"Negative number in diff_fromDelta: %@", @"Error"), param],
-                NSLocalizedDescriptionKey, nil];
+            errorDetail = @{NSLocalizedDescriptionKey: [NSString stringWithFormat:NSLocalizedString(@"Negative number in diff_fromDelta: %@", @"Error"), param]};
             *error = [NSError errorWithDomain:@"DiffMatchPatchErrorDomain" code:101 userInfo:errorDetail];
           }
           return nil;
@@ -1445,10 +1439,8 @@ void splice(NSMutableArray *input, NSUInteger start, NSUInteger count, NSArray *
         @catch (NSException *e) {
           if (error != NULL) {
             // CHANGME: Pass on the information contained in e
-            errorDetail = [NSDictionary dictionaryWithObjectsAndKeys:
-                [NSString stringWithFormat:NSLocalizedString(@"Delta length (%lu) larger than source text length (%lu).", @"Error"),
-                 (unsigned long)thisPointer, (unsigned long)text1.length],
-                NSLocalizedDescriptionKey, nil];
+            errorDetail = @{NSLocalizedDescriptionKey: [NSString stringWithFormat:NSLocalizedString(@"Delta length (%lu) larger than source text length (%lu).", @"Error"),
+                 (unsigned long)thisPointer, (unsigned long)text1.length]};
             *error = [NSError errorWithDomain:@"DiffMatchPatchErrorDomain" code:102 userInfo:errorDetail];
           }
           return nil;
@@ -1462,10 +1454,8 @@ void splice(NSMutableArray *input, NSUInteger start, NSUInteger count, NSArray *
       default:
         // Anything else is an error.
         if (error != NULL) {
-          errorDetail = [NSDictionary dictionaryWithObjectsAndKeys:
-              [NSString stringWithFormat:NSLocalizedString(@"Invalid diff operation in diff_fromDelta: %C", @"Error"),
-               [token characterAtIndex:0]],
-              NSLocalizedDescriptionKey, nil];
+          errorDetail = @{NSLocalizedDescriptionKey: [NSString stringWithFormat:NSLocalizedString(@"Invalid diff operation in diff_fromDelta: %C", @"Error"),
+               [token characterAtIndex:0]]};
           *error = [NSError errorWithDomain:@"DiffMatchPatchErrorDomain" code:102 userInfo:errorDetail];
         }
         return nil;
@@ -1473,10 +1463,8 @@ void splice(NSMutableArray *input, NSUInteger start, NSUInteger count, NSArray *
   }
   if (thisPointer != text1.length) {
     if (error != NULL) {
-      errorDetail = [NSDictionary dictionaryWithObjectsAndKeys:
-          [NSString stringWithFormat:NSLocalizedString(@"Delta length (%lu) smaller than source text length (%lu).", @"Error"),
-           (unsigned long)thisPointer, (unsigned long)text1.length],
-          NSLocalizedDescriptionKey, nil];
+      errorDetail = @{NSLocalizedDescriptionKey: [NSString stringWithFormat:NSLocalizedString(@"Delta length (%lu) smaller than source text length (%lu).", @"Error"),
+           (unsigned long)thisPointer, (unsigned long)text1.length]};
       *error = [NSError errorWithDomain:@"DiffMatchPatchErrorDomain" code:103 userInfo:errorDetail];
     }
     return nil;
@@ -1613,10 +1601,10 @@ void splice(NSMutableArray *input, NSUInteger start, NSUInteger count, NSArray *
         // Change second copy to insert.
         // Hash values for objects must not change while in a collection.
         indexToChange = equalitiesLastValue + 1;
-        diffToChange = [[diffs objectAtIndex:indexToChange] retain];
-        [diffs replaceObjectAtIndex:indexToChange withObject:[NSNull null]];
+        diffToChange = [diffs[indexToChange] retain];
+        diffs[indexToChange] = [NSNull null];
         diffToChange.operation = DIFF_INSERT;
-        [diffs replaceObjectAtIndex:indexToChange withObject:diffToChange];
+        diffs[indexToChange] = diffToChange;
         [diffToChange release];
 
         // Throw away the equality we just deleted.
@@ -2184,7 +2172,7 @@ void splice(NSMutableArray *input, NSUInteger start, NSUInteger count, NSArray *
 
 - (NSArray *)patch_apply:(NSArray *)sourcePatches toString:(NSString *)text delegate:(id)delegate selector:(SEL)selector {
     if (sourcePatches.count == 0) {
-        return [NSArray arrayWithObjects:text, [NSMutableArray array], nil];
+        return @[text, [NSMutableArray array]];
     }
     
     // Deep copy the patches so that no changes are made to originals.
@@ -2291,7 +2279,7 @@ void splice(NSMutableArray *input, NSUInteger start, NSUInteger count, NSArray *
     
     NSMutableArray *resultsArray = [NSMutableArray arrayWithCapacity:patches.count];
     for (NSUInteger i = 0; i < patches.count; i++) {
-        [resultsArray addObject:[NSNumber numberWithBool:(results[i])]];
+        [resultsArray addObject:@(results[i])];
     }
     
     if (results != NULL) {
@@ -2302,7 +2290,7 @@ void splice(NSMutableArray *input, NSUInteger start, NSUInteger count, NSArray *
     text = [textMutable substringWithRange:NSMakeRange(nullPadding.length,
                                                        textMutable.length - 2 * nullPadding.length)];
     [patches release];
-    return [NSArray arrayWithObjects:text, resultsArray, nil];
+    return @[text, resultsArray];
 }
 
 /**
@@ -2339,18 +2327,18 @@ void splice(NSMutableArray *input, NSUInteger start, NSUInteger count, NSArray *
   }
 
   // Add some padding on start of first diff.
-  Patch *patch = [patches objectAtIndex:0];
+  Patch *patch = patches[0];
   NSMutableArray *diffs = patch.diffs;
-  if (diffs.count == 0 || ((Diff *)[diffs objectAtIndex:0]).operation != DIFF_EQUAL) {
+  if (diffs.count == 0 || ((Diff *)diffs[0]).operation != DIFF_EQUAL) {
     // Add nullPadding equality.
     [diffs insertObject:[Diff diffWithOperation:DIFF_EQUAL andText:nullPadding] atIndex:0];
     patch.start1 -= paddingLength;  // Should be 0.
     patch.start2 -= paddingLength;  // Should be 0.
     patch.length1 += paddingLength;
     patch.length2 += paddingLength;
-  } else if (paddingLength > ((Diff *)[diffs objectAtIndex:0]).text.length) {
+  } else if (paddingLength > ((Diff *)diffs[0]).text.length) {
     // Grow first equality.
-    Diff *firstDiff = [diffs objectAtIndex:0];
+    Diff *firstDiff = diffs[0];
     NSUInteger extraLength = paddingLength - firstDiff.text.length;
     firstDiff.text = [[nullPadding substringFromIndex:(firstDiff.text.length)]
               stringByAppendingString:firstDiff.text];
@@ -2390,10 +2378,10 @@ void splice(NSMutableArray *input, NSUInteger start, NSUInteger count, NSArray *
 {
   NSUInteger patch_size = Match_MaxBits;
   for (NSUInteger x = 0; x < patches.count; x++) {
-    if (((Patch *)[patches objectAtIndex:x]).length1 <= patch_size) {
+    if (((Patch *)patches[x]).length1 <= patch_size) {
       continue;
     }
-    Patch *bigpatch = [[patches objectAtIndex:x] retain];
+    Patch *bigpatch = [patches[x] retain];
     // Remove the big old patch.
     splice(patches, x--, 1, nil);
     NSUInteger start1 = bigpatch.start1;
@@ -2411,17 +2399,17 @@ void splice(NSMutableArray *input, NSUInteger start, NSUInteger count, NSArray *
       }
       while (bigpatch.diffs.count != 0
           && patch.length1 < patch_size - self.Patch_Margin) {
-        Operation diff_type = ((Diff *)[bigpatch.diffs objectAtIndex:0]).operation;
-        NSString *diff_text = ((Diff *)[bigpatch.diffs objectAtIndex:0]).text;
+        Operation diff_type = ((Diff *)(bigpatch.diffs)[0]).operation;
+        NSString *diff_text = ((Diff *)(bigpatch.diffs)[0]).text;
         if (diff_type == DIFF_INSERT) {
           // Insertions are harmless.
           patch.length2 += diff_text.length;
           start2 += diff_text.length;
-          [patch.diffs addObject:[bigpatch.diffs objectAtIndex:0]];
+          [patch.diffs addObject:(bigpatch.diffs)[0]];
           [bigpatch.diffs removeObjectAtIndex:0];
           empty = NO;
         } else if (diff_type == DIFF_DELETE && patch.diffs.count == 1
-              && ((Diff *)[patch.diffs objectAtIndex:0]).operation == DIFF_EQUAL
+              && ((Diff *)(patch.diffs)[0]).operation == DIFF_EQUAL
               && diff_text.length > 2 * patch_size) {
           // This is a large deletion.  Let it pass in one chunk.
           patch.length1 += diff_text.length;
@@ -2443,10 +2431,10 @@ void splice(NSMutableArray *input, NSUInteger start, NSUInteger count, NSArray *
             empty = NO;
           }
           [patch.diffs addObject:[Diff diffWithOperation:diff_type andText:diff_text]];
-          if (diff_text == ((Diff *)[bigpatch.diffs objectAtIndex:0]).text) {
+          if (diff_text == ((Diff *)(bigpatch.diffs)[0]).text) {
             [bigpatch.diffs removeObjectAtIndex:0];
           } else {
-            Diff *firstDiff = [bigpatch.diffs objectAtIndex:0];
+            Diff *firstDiff = (bigpatch.diffs)[0];
             firstDiff.text = [firstDiff.text substringFromIndex:diff_text.length];
           }
         }
@@ -2468,7 +2456,7 @@ void splice(NSMutableArray *input, NSUInteger start, NSUInteger count, NSArray *
         patch.length1 += postcontext.length;
         patch.length2 += postcontext.length;
         if (patch.diffs.count != 0
-            && ((Diff *)[patch.diffs objectAtIndex:(patch.diffs.count - 1)]).operation
+            && ((Diff *)(patch.diffs)[(patch.diffs.count - 1)]).operation
             == DIFF_EQUAL) {
           Diff *lastDiff = [patch.diffs lastObject];
           lastDiff.text = [lastDiff.text stringByAppendingString:postcontext];
@@ -2529,7 +2517,7 @@ void splice(NSMutableArray *input, NSUInteger start, NSUInteger count, NSArray *
   unichar sign;
   NSString *line;
   while (textPointer < text.count) {
-    NSString *thisLine = [text objectAtIndex:textPointer];
+    NSString *thisLine = text[textPointer];
     NSScanner *theScanner = [NSScanner scannerWithString:thisLine];
     patch = [[Patch new] autorelease];
 
@@ -2592,10 +2580,8 @@ void splice(NSMutableArray *input, NSUInteger start, NSUInteger count, NSArray *
 
     if (!scanSuccess) {
       if (error != NULL) {
-        errorDetail = [NSDictionary dictionaryWithObjectsAndKeys:
-            [NSString stringWithFormat:NSLocalizedString(@"Invalid patch string: %@", @"Error"),
-             [text objectAtIndex:textPointer]],
-            NSLocalizedDescriptionKey, nil];
+        errorDetail = @{NSLocalizedDescriptionKey: [NSString stringWithFormat:NSLocalizedString(@"Invalid patch string: %@", @"Error"),
+             text[textPointer]]};
         *error = [NSError errorWithDomain:@"DiffMatchPatchErrorDomain" code:104 userInfo:errorDetail];
       }
       return nil;
@@ -2607,14 +2593,14 @@ void splice(NSMutableArray *input, NSUInteger start, NSUInteger count, NSArray *
 
     while (textPointer < text.count) {
       @try {
-        sign = [[text objectAtIndex:textPointer] characterAtIndex:0];
+        sign = [text[textPointer] characterAtIndex:0];
       }
       @catch (NSException *e) {
         // Blank line?  Whatever.
         textPointer++;
         continue;
       }
-      line = [[[text objectAtIndex:textPointer] substringFromIndex:1]
+      line = [[text[textPointer] substringFromIndex:1]
               diff_stringByReplacingPercentEscapesForEncodeUriCompatibility];
       if (sign == '-') {
         // Deletion.
@@ -2631,9 +2617,7 @@ void splice(NSMutableArray *input, NSUInteger start, NSUInteger count, NSArray *
       } else {
         // WTF?
         if (error != NULL) {
-          errorDetail = [NSDictionary dictionaryWithObjectsAndKeys:
-              [NSString stringWithFormat:NSLocalizedString(@"Invalid patch mode '%C' in: %@", @"Error"), sign, line],
-              NSLocalizedDescriptionKey, nil];
+          errorDetail = @{NSLocalizedDescriptionKey: [NSString stringWithFormat:NSLocalizedString(@"Invalid patch mode '%C' in: %@", @"Error"), sign, line]};
           *error = [NSError errorWithDomain:@"DiffMatchPatchErrorDomain" code:104 userInfo:errorDetail];
         }
         return nil;

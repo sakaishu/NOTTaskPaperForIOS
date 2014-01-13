@@ -40,7 +40,7 @@
 				[subheaders addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:each, @"title", [NSMutableString string], @"htmlText", nil]];
 			} else {
 				if ([subheaders count] > 0) {
-					[[[subheaders lastObject] objectForKey:@"htmlText"] appendString:[NSString stringWithFormat:@"\n%@", each]];
+					[[subheaders lastObject][@"htmlText"] appendString:[NSString stringWithFormat:@"\n%@", each]];
 				} else {
 					if ([each length] > 0) {
 						[sectionText appendFormat:@"\n%@", each];
@@ -146,9 +146,9 @@
 		}
 		
 		if (sectionWebViewTableViewCell) {
-			cell.textLabel.text = [[subheaders objectAtIndex:[indexPath row] - 1] objectForKey:@"title"];
+			cell.textLabel.text = subheaders[[indexPath row] - 1][@"title"];
 		} else {
-			cell.textLabel.text = [[subheaders objectAtIndex:[indexPath row]] objectForKey:@"title"];
+			cell.textLabel.text = subheaders[[indexPath row]][@"title"];
         }
         
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -168,15 +168,15 @@
 	NSDictionary *selection;
 	
 	if (sectionWebViewTableViewCell) {
-		selection = [subheaders objectAtIndex:[indexPath row] - 1];
+		selection = subheaders[[indexPath row] - 1];
 	} else {
-		selection = [subheaders objectAtIndex:[indexPath row]];
+		selection = subheaders[[indexPath row]];
 	}
 	
 	if ([subheaderPrefix isEqualToString:@"<h1>"]) {
-		[self.navigationController pushViewController:[[HelpSectionController alloc] initWithTitle:[selection objectForKey:@"title"] subheaderPrefix:@"<h2>" htmlTextContent:[selection objectForKey:@"htmlText"]] animated:YES];
+		[self.navigationController pushViewController:[[HelpSectionController alloc] initWithTitle:selection[@"title"] subheaderPrefix:@"<h2>" htmlTextContent:selection[@"htmlText"]] animated:YES];
 	} else {
-		[self.navigationController pushViewController:[[HelpSectionController alloc] initWithTitle:[selection objectForKey:@"title"] subheaderPrefix:@"none" htmlTextContent:[selection objectForKey:@"htmlText"]] animated:YES];
+		[self.navigationController pushViewController:[[HelpSectionController alloc] initWithTitle:selection[@"title"] subheaderPrefix:@"none" htmlTextContent:selection[@"htmlText"]] animated:YES];
 	}
 }
 

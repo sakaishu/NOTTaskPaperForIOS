@@ -105,7 +105,7 @@
 @synthesize longPressAction;
 
 - (MenuViewItem *)longPressItem {
-    return [items objectAtIndex:longPressItemIndex];
+    return items[longPressItemIndex];
 }
 
 - (void)didClose {
@@ -150,7 +150,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	MenuViewItem *item = [items objectAtIndex:indexPath.row];
+	MenuViewItem *item = items[indexPath.row];
 	if (item.separator) {
 		return 10.0;
 	} else {
@@ -168,7 +168,7 @@
 		
 	UITableViewCell *cell = nil;
 	
-	MenuViewItem *item = [items objectAtIndex:indexPath.row];
+	MenuViewItem *item = items[indexPath.row];
 	if (item.separator) {
 		cell = [tableView dequeueReusableCellWithIdentifier:SeparatorCellIdentifier];
 		
@@ -215,7 +215,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	MenuViewItem *item = [items objectAtIndex:indexPath.row];
+	MenuViewItem *item = items[indexPath.row];
 	if (item.enabled) {
 		[selectedItems addObject:item];
 		[target performSelector:action withObject:self];
@@ -223,9 +223,9 @@
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
-	MenuViewItem *item = [items objectAtIndex:indexPath.row];
+	MenuViewItem *item = items[indexPath.row];
 	if (item.enabled) {
-		[selectedItems removeObject:[items objectAtIndex:indexPath.row]];
+		[selectedItems removeObject:items[indexPath.row]];
 		[target performSelector:action withObject:self];
 	}
 }
@@ -235,7 +235,7 @@
         CGPoint pressPoint = [longPress locationInView:menuItemsTableView];
         NSIndexPath *indexPath = [menuItemsTableView indexPathForRowAtPoint:pressPoint];
         longPressItemIndex = indexPath.row;
-        MenuViewItem *item = [items objectAtIndex:longPressItemIndex];
+        MenuViewItem *item = items[longPressItemIndex];
         if (item.enabled && longPressAction) {
             [target performSelector:longPressAction withObject:self];
         }

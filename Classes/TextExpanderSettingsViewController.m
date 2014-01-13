@@ -41,9 +41,9 @@
 		footer = NSLocalizedString(@"TextExpander is a third party app that allows you to type short abbreviations that are expanded into long snippets.", nil);
 	}
 	
-	tableGroups = [NSArray arrayWithObjects: groupOneCells, nil];
-	tableHeaders = [NSArray arrayWithObjects:@"", nil];	
-	tableFooters = [NSArray arrayWithObjects:footer, nil];		
+	tableGroups = @[groupOneCells];
+	tableHeaders = @[@""];	
+	tableFooters = @[footer];		
 }
 
 

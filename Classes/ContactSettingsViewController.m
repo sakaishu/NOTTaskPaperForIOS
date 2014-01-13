@@ -54,9 +54,9 @@
 	quickCursorCell.textAlignment = UITextAlignmentLeft;
 	[groupTwoCells addObject:quickCursorCell];	
     
-    tableGroups = [NSArray arrayWithObjects: groupOneCells, groupTwoCells, nil];
-	tableHeaders = [NSArray arrayWithObjects:@"", @"Our Apps", nil];	
-	tableFooters = [NSArray arrayWithObjects:@"", @"", nil];
+    tableGroups = @[groupOneCells, groupTwoCells];
+	tableHeaders = @[@"", @"Our Apps"];	
+	tableFooters = @[@"", @""];
 	
 }
 

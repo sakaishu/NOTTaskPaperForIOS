@@ -90,9 +90,9 @@
 	sliderCell.updateAction = @selector(secondaryBrightnessChanged:);
 	[groupThreeCells addObject:sliderCell];
 
-	tableGroups = [NSArray arrayWithObjects:groupOneCells, groupTwoCells, groupThreeCells, nil];
-	tableHeaders = [NSArray arrayWithObjects:@"", @"", @"", nil];	
-	tableFooters = [NSArray arrayWithObjects:@"", @"", @"", nil];	
+	tableGroups = @[groupOneCells, groupTwoCells, groupThreeCells];
+	tableHeaders = @[@"", @"", @""];	
+	tableFooters = @[@"", @"", @""];	
 }
 
 - (void)refreshViewFromDefaults:(id)sender {

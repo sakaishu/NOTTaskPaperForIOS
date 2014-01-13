@@ -86,7 +86,7 @@
     }
     
     NSUInteger i = [startMarkers indexOfObject:currentStartMarker];
-    NSString *currentEndSymbol = [endMarkers objectAtIndex:i];
+    NSString *currentEndSymbol = endMarkers[i];
     PKUniChar e = [currentEndSymbol characterAtIndex:0];
     
     // get the definitions of all multi-char comment start and end symbols from the commentState

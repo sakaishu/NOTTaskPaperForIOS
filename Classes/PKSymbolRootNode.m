@@ -48,11 +48,11 @@
 
 - (void)addWithFirst:(PKUniChar)c rest:(NSString *)s parent:(PKSymbolNode *)p {
     NSParameterAssert(p);
-    NSNumber *key = [NSNumber numberWithInteger:c];
-    PKSymbolNode *child = [p.children objectForKey:key];
+    NSNumber *key = @(c);
+    PKSymbolNode *child = (p.children)[key];
     if (!child) {
         child = [[PKSymbolNode alloc] initWithParent:p character:c];
-        [p.children setObject:child forKey:key];
+        (p.children)[key] = child;
         [child release];
     }
 
@@ -70,8 +70,8 @@
 
 - (void)removeWithFirst:(PKUniChar)c rest:(NSString *)s parent:(PKSymbolNode *)p {
     NSParameterAssert(p);
-    NSNumber *key = [NSNumber numberWithInteger:c];
-    PKSymbolNode *child = [p.children objectForKey:key];
+    NSNumber *key = @(c);
+    PKSymbolNode *child = (p.children)[key];
     if (child) {
         NSString *rest = nil;
         
@@ -119,8 +119,8 @@
 //    NSLog(@"ascii: '%@'", ascii);
 //    NSLog(@"iso: '%@'", iso);
     
-    NSNumber *key = [NSNumber numberWithInteger:c];
-    PKSymbolNode *child = [p.children objectForKey:key];
+    NSNumber *key = @(c);
+    PKSymbolNode *child = (p.children)[key];
     
     if (!child) {
         if (p == self) {

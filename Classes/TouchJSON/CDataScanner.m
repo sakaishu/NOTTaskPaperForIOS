@@ -154,7 +154,7 @@ if (strncmp((char *)current, inString, theLength) == 0)
 	{
 	current += theLength;
 	if (outValue)
-		*outValue = [NSString stringWithUTF8String:inString];
+		*outValue = @(inString);
 	return(YES);
 	}
 return(NO);
@@ -242,7 +242,7 @@ NSString *theString = NULL;
 if ([self scanCharactersFromSet:doubleCharacters intoString:&theString])
 	{
 	if (outValue)
-		*outValue = [NSNumber numberWithDouble:[theString doubleValue]]; // TODO dont use doubleValue
+		*outValue = @([theString doubleValue]); // TODO dont use doubleValue
 	return(YES);
 	}
 return(NO);

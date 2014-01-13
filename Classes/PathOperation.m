@@ -148,7 +148,7 @@ static NSMutableSet *shouldFailPathsForUnitTesting = nil;
 	NSAssert(localRoot != nil, @"Path Controller local root is nil %@", pathController);
 	
 	if ([localRoot rangeOfString:localPath].location == 0 || [localPath rangeOfString:localRoot].location != 0) {
-		NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Path validate failed, please report this problem to Hog Bay Software.", nil), NSLocalizedDescriptionKey, nil];
+		NSDictionary *userInfo = @{NSLocalizedDescriptionKey: NSLocalizedString(@"Path validate failed, please report this problem to Hog Bay Software.", nil)};
 		[self finish:[NSError errorWithDomain:@"DeletePathOperation" code:1 userInfo:userInfo]];
 		LogError(@"PathOperation created with invalid local path %@", self);
 		return NO;

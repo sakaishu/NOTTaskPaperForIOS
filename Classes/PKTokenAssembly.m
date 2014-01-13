@@ -99,7 +99,7 @@
             break;
         }
         
-        tok = [toks objectAtIndex:index];
+        tok = toks[index];
         if (!preservesWhitespaceTokens) {
             break;
         }
@@ -182,7 +182,7 @@
 
     NSInteger i = start;
     for ( ; i < end; i++) {
-        PKToken *tok = [toks objectAtIndex:i];
+        PKToken *tok = toks[i];
         [s appendString:tok.stringValue];
         if (end - 1 != i) {
             [s appendString:delimiter];

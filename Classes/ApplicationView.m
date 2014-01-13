@@ -287,12 +287,12 @@
 - (void)keybooardInfo:(NSDictionary *)userInfo animationDuration:(NSTimeInterval *)animationDuration animationCurve:(UIViewAnimationCurve *)animationCurve keyboardBeginFrame:(CGRect *)keyboardBeginFrame keyboardEndFrame:(CGRect *)keyboardEndFrame{
 	ApplicationController *applicationController = APP_CONTROLLER;
 	
-	[[userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] getValue:animationCurve];
-    [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] getValue:animationDuration];
+	[userInfo[UIKeyboardAnimationCurveUserInfoKey] getValue:animationCurve];
+    [userInfo[UIKeyboardAnimationDurationUserInfoKey] getValue:animationDuration];
 	
 	if ([applicationController isIOS32OrLater]) {
-		[[userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] getValue:keyboardBeginFrame];
-		[[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] getValue:keyboardEndFrame];
+		[userInfo[UIKeyboardFrameBeginUserInfoKey] getValue:keyboardBeginFrame];
+		[userInfo[UIKeyboardFrameEndUserInfoKey] getValue:keyboardEndFrame];
 	} 
 }
 

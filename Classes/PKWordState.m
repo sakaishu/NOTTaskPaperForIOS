@@ -69,14 +69,14 @@
     id obj = yn ? PKTRUE : PKFALSE;
     NSInteger i = start;
     for ( ; i <= end; i++) {
-        [wordChars replaceObjectAtIndex:i withObject:obj];
+        wordChars[i] = obj;
     }
 }
 
 
 - (BOOL)isWordChar:(PKUniChar)c {    
     if (c > PKEOF && c < wordChars.count - 1) {
-        return (PKTRUE == [wordChars objectAtIndex:c]);
+        return (PKTRUE == wordChars[c]);
     }
 
     if (c >= 0x2000 && c <= 0x2BFF) { // various symbols

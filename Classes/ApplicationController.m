@@ -22,11 +22,11 @@
 
 + (void)initialize {
 	[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                             [NSNumber numberWithBool:YES], FirstLaunch,
-															 [NSNumber numberWithBool:YES], RemoveAdsDefaultsKey,
-															 [NSNumber numberWithFloat:1.0], ScreenBrightnessDefaultsKey,
+                                                             @YES, FirstLaunch,
+															 @YES, RemoveAdsDefaultsKey,
+															 @1.0f, ScreenBrightnessDefaultsKey,
 #if defined(WRITEROOM) || defined(TASKPAPER)
-                                                             [NSNumber numberWithInteger:PasscodeTimeoutImmediately], PasscodeTimeoutDefaultsKey,
+                                                             @(PasscodeTimeoutImmediately), PasscodeTimeoutDefaultsKey,
 #endif
 															 nil]];
 }
@@ -144,10 +144,8 @@
 	if (NSClassFromString(@"UIMenuItem")) {
 		UIMenuController *menuController = [UIMenuController sharedMenuController];
 		if ([menuController respondsToSelector:@selector(setMenuItems:)]) {
-			[menuController setMenuItems:[NSArray arrayWithObjects:
-										  [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"Word Count", nil) action:@selector(showWordCount:)],
-										  [[UIMenuItem alloc] initWithTitle:@"…" action:@selector(showInfo:)],
-										  nil]];
+			[menuController setMenuItems:@[[[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"Word Count", nil) action:@selector(showWordCount:)],
+										  [[UIMenuItem alloc] initWithTitle:@"…" action:@selector(showInfo:)]]];
 		}
 	}
 	
@@ -233,9 +231,9 @@
         [((PasscodeViewController *)self.applicationViewController.modalViewController).hiddenTextField becomeFirstResponder];
     }
     
-    NSURL *launchURL = [launchOptions objectForKey:UIApplicationLaunchOptionsURLKey];
+    NSURL *launchURL = launchOptions[UIApplicationLaunchOptionsURLKey];
 	NSInteger majorVersion = 
-    [[[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."] objectAtIndex:0] integerValue];
+    [[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."][0] integerValue];
 	if (launchURL && majorVersion < 4) {
 		// Pre-iOS 4.0 won't call application:handleOpenURL; this code is only needed if you support
 		// iOS versions 3.2 or below
@@ -340,7 +338,7 @@
             
             if ([pathComponents count] > 2) { //Find last directory
                 for (int i = 1; i < [pathComponents count] - 1; i++) {
-                    lastContainingPath = [lastContainingPath stringByAppendingPathComponent:[pathComponents objectAtIndex:i]];
+                    lastContainingPath = [lastContainingPath stringByAppendingPathComponent:pathComponents[i]];
                 }
             }
             
@@ -348,7 +346,7 @@
                 NSString *containingPath = [PATH_CONTROLLER localRoot];
                 [APP_VIEW_CONTROLLER openItem:containingPath animated:NO];
                 for (int i = 1; i < [pathComponents count] - 1; i++) {
-                    containingPath = [containingPath stringByAppendingPathComponent:[pathComponents objectAtIndex:i]];
+                    containingPath = [containingPath stringByAppendingPathComponent:pathComponents[i]];
                     [APP_VIEW_CONTROLLER openItem:containingPath animated:NO];
                 }
                 NSString *newFilePath = [lastContainingPath stringByAppendingPathComponent:[url lastPathComponent]];
@@ -375,7 +373,7 @@
                     NSString *containingPath = [PATH_CONTROLLER localRoot];
                     [APP_VIEW_CONTROLLER openItem:containingPath animated:NO];
                     for (int i = 1; i < [pathComponents count] - 1; i++) {
-                        containingPath = [containingPath stringByAppendingPathComponent:[pathComponents objectAtIndex:i]];
+                        containingPath = [containingPath stringByAppendingPathComponent:pathComponents[i]];
                         [APP_VIEW_CONTROLLER openItem:containingPath animated:NO];
                     }
                     NSString *query = [url query];
@@ -399,7 +397,7 @@
                         NSString *containingPath = [PATH_CONTROLLER localRoot];
                         [APP_VIEW_CONTROLLER openItem:containingPath animated:NO];
                         for (int i = 1; i < [pathComponents count] - 1; i++) {
-                            containingPath = [containingPath stringByAppendingPathComponent:[pathComponents objectAtIndex:i]];
+                            containingPath = [containingPath stringByAppendingPathComponent:pathComponents[i]];
                             [APP_VIEW_CONTROLLER openItem:containingPath animated:NO];
                         }
                         NSString *query = [url query];

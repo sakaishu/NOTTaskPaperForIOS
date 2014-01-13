@@ -98,7 +98,7 @@
 	{
 		// choice acts as label
 
-		id choice = [choices objectAtIndex:[[model objectForKey:key] intValue]];
+		id choice = choices[[[model objectForKey:key] intValue]];
 		if ([choice isKindOfClass:[NSString class]])
 		{
 			cell.textLabel.text = choice;
@@ -124,7 +124,7 @@
 			choiceIndex = 0;
 			[model setObject:[NSNumber numberWithInt:choiceIndex] forKey:key];
 		}
-		id choice = [choices objectAtIndex:choiceIndex];
+		id choice = choices[choiceIndex];
 		if ([choice isKindOfClass:[NSString class]])
 		{
 			CGRect frame = CGRectMake(0.0f, 0.0f, viewWidth, 22.0f);

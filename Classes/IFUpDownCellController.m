@@ -63,7 +63,7 @@
 }
 
 - (void)upDownAction:(CMUpDownControl *)sender {
-	NSNumber *newValue = [NSNumber numberWithFloat:[sender value]];
+	NSNumber *newValue = @([sender value]);
 	
 	[model setObject:newValue forKey:key];
 	

@@ -220,7 +220,7 @@ static NSString *SFHFKeychainUtilsErrorDomain = @"SFHFKeychainUtilsErrorDomain";
 	
 	NSDictionary *attributeResult = NULL;
 	NSMutableDictionary *attributeQuery = [query mutableCopy];
-	[attributeQuery setObject: (id) kCFBooleanTrue forKey:(id) kSecReturnAttributes];
+	attributeQuery[(id) kSecReturnAttributes] = (id) kCFBooleanTrue;
 	OSStatus status = SecItemCopyMatching((CFDictionaryRef) attributeQuery, (CFTypeRef *) &attributeResult);
 	
 	[attributeResult release];
@@ -240,7 +240,7 @@ static NSString *SFHFKeychainUtilsErrorDomain = @"SFHFKeychainUtilsErrorDomain";
 	
 	NSData *resultData = nil;
 	NSMutableDictionary *passwordQuery = [query mutableCopy];
-	[passwordQuery setObject: (id) kCFBooleanTrue forKey: (id) kSecReturnData];
+	passwordQuery[(id) kSecReturnData] = (id) kCFBooleanTrue;
   
 	status = SecItemCopyMatching((CFDictionaryRef) passwordQuery, (CFTypeRef *) &resultData);
 	
@@ -358,7 +358,7 @@ static NSString *SFHFKeychainUtilsErrorDomain = @"SFHFKeychainUtilsErrorDomain";
 			
 			NSDictionary *query = [[[NSDictionary alloc] initWithObjects: objects forKeys: keys] autorelease];			
 			
-			status = SecItemUpdate((CFDictionaryRef) query, (CFDictionaryRef) [NSDictionary dictionaryWithObject: [password dataUsingEncoding: NSUTF8StringEncoding] forKey: (NSString *) kSecValueData]);
+			status = SecItemUpdate((CFDictionaryRef) query, (CFDictionaryRef) @{(NSString *) kSecValueData: [password dataUsingEncoding: NSUTF8StringEncoding]});
 		}
 	}
 	else 

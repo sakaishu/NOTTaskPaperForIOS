@@ -46,7 +46,7 @@
 }
 
 - (id)initWithPatchHistory:(NSArray *)anArray textContent:(NSString *)aString {
-	if (!anArray) anArray = [NSArray array];
+	if (!anArray) anArray = @[];
 	
 	if (self = [super init]) {
 		insertedSections = [[NSMutableSet alloc] init];
@@ -111,7 +111,7 @@
 }
 
 - (Section *)valueInSectionsWithID:(NSString *)uniqueID {
-	return [uniqueIDsToSections objectForKey:uniqueID];
+	return uniqueIDsToSections[uniqueID];
 }
 
 - (Section *)firstSubtreeSectionMatchingPredicate:(NSPredicate *)predicate {
@@ -187,7 +187,7 @@
 			[undoManager registerUndoWithTarget:self selector:@selector(undoPatch:) object:uncommitedTextContentPatch];
         }
         
-		[[NSNotificationCenter defaultCenter] postNotificationName:TreeChanged object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[insertedSections copy], InsertedSectionsKey, [updatedSections copy], UpdatedSectionsKey, [deletedSections copy], DeletedSectionsKey, nil]];
+		[[NSNotificationCenter defaultCenter] postNotificationName:TreeChanged object:self userInfo:@{InsertedSectionsKey: [insertedSections copy], UpdatedSectionsKey: [updatedSections copy], DeletedSectionsKey: [deletedSections copy]}];
 		
 
 		[insertedSections removeAllObjects];
@@ -260,14 +260,14 @@
 #pragma mark Locations
 
 - (NSArray *)trackedLocationsFor:(Section *)aSection {
-	return [trackedLocations objectForKey:aSection.uniqueID];
+	return trackedLocations[aSection.uniqueID];
 }
 
 - (void)addTrackedLocation:(TrackedLocation *)aTrackedLocation {
-	NSMutableArray *locations = [trackedLocations objectForKey:aTrackedLocation.sectionID];
+	NSMutableArray *locations = trackedLocations[aTrackedLocation.sectionID];
 	if (!locations) {
 		locations = [NSMutableArray arrayWithObject:aTrackedLocation];
-		[trackedLocations setObject:locations forKey:aTrackedLocation.sectionID];
+		trackedLocations[aTrackedLocation.sectionID] = locations;
 	} else {
 		[locations addObject:aTrackedLocation];
 	}
@@ -275,7 +275,7 @@
 }
 
 - (void)removeTrackedLocation:(TrackedLocation *)aTrackedLocation {
-	NSMutableArray *locations = [trackedLocations objectForKey:aTrackedLocation.sectionID];
+	NSMutableArray *locations = trackedLocations[aTrackedLocation.sectionID];
 	if (locations) {
 		[locations removeObject:aTrackedLocation];
 		if ([locations count] == 0) {

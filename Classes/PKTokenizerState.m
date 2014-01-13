@@ -61,7 +61,7 @@
 
     NSInteger i = start;
     for ( ; i <= end; i++) {
-        [fallbackStates replaceObjectAtIndex:i withObject:state];
+        fallbackStates[i] = state;
     }
 }
 
@@ -93,7 +93,7 @@
     NSParameterAssert(c < STATE_COUNT);
     
     if (fallbackStates) {
-        id obj = [fallbackStates objectAtIndex:c];
+        id obj = fallbackStates[c];
         if ([NSNull null] != obj) {
             return obj;
         }

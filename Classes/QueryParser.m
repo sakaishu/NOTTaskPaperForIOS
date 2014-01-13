@@ -73,9 +73,9 @@
 		[tokenizer setTokenizerState:tokenizer.wordState from:'0' to:'9'];		
 		[tokenizer setTokenizerState:tokenizer.wordState from:'@' to:'@'];
 		
-		self.logicKeywords = [NSArray arrayWithObjects:@"or", @"and", @"not", nil];
-		self.relationKeywords = [NSArray arrayWithObjects:@"beginswith", @"contains", @"endswith", @"like", @"matches", nil];
-		self.attributeKeywords = [NSArray arrayWithObjects:@"line", @"project", @"index", @"content", @"type", @"level", @"@\\w*", nil];
+		self.logicKeywords = @[@"or", @"and", @"not"];
+		self.relationKeywords = @[@"beginswith", @"contains", @"endswith", @"like", @"matches"];
+		self.attributeKeywords = @[@"line", @"project", @"index", @"content", @"type", @"level", @"@\\w*"];
 		
 		self.nonReservedWordFence = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"." floatValue:0.0];
 	}
@@ -355,7 +355,7 @@
 	NSPredicate *p2 = [a pop];
 	PKToken *and = [a pop];
 	NSPredicate *p1 = [a pop];
-	NSArray *subs = [NSArray arrayWithObjects:p1, p2, nil];
+	NSArray *subs = @[p1, p2];
 	[a push:[NSCompoundPredicate andPredicateWithSubpredicates:subs]];
 	[self boldRange:NSMakeRange(and.offset, 3) attributedString:a.target];
 }
@@ -364,7 +364,7 @@
 	NSPredicate *p2 = [a pop];
 	PKToken *or = [a pop];
 	NSPredicate *p1 = [a pop];
-	NSArray *subs = [NSArray arrayWithObjects:p1, p2, nil];
+	NSArray *subs = @[p1, p2];
 	[a push:[NSCompoundPredicate orPredicateWithSubpredicates:subs]];
 	[self boldRange:NSMakeRange(or.offset, 3) attributedString:a.target];
 }
@@ -427,7 +427,7 @@
 		NSPredicate *predicate = nil;
 		
 		if ([attribute isEqualToString:@"project"]) {
-			 NSNumber *projectType = [NSNumber numberWithUnsignedInteger:TaskPaperSectionTypeProject];
+			 NSNumber *projectType = @(TaskPaperSectionTypeProject);
 			 NSMutableString *projectPredicateFormat = [[NSMutableString alloc] init];
 			 [projectPredicateFormat appendFormat:@"(type = %%@ AND content %@ %%@)", relation, nil];
 			 [projectPredicateFormat appendString:@" OR "];
@@ -548,7 +548,7 @@
 		
 		NSAssert(1 == objs.count, @"");
 		
-		PKToken *word = [objs objectAtIndex:0];
+		PKToken *word = objs[0];
 		
 		if (minOffset == NSNotFound) {
 			minOffset = word.offset;

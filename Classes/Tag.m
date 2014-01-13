@@ -31,11 +31,11 @@
 		NSMutableArray *tags = [NSMutableArray array];
 		NSArray *tagsArray = [string arrayOfCaptureComponentsMatchedByRegex:TagRegex];		
 		for (NSArray *matchedTagArray in tagsArray) {
-			[tags addObject:[[Tag alloc] initWithName:[matchedTagArray objectAtIndex:1] value:[matchedTagArray objectAtIndex:2]]];
+			[tags addObject:[[Tag alloc] initWithName:matchedTagArray[1] value:matchedTagArray[2]]];
 		}
 		return tags;
 	}
-	return [NSArray array];
+	return @[];
 }
 
 + (NSRange)parseTrailingTagsRangeInString:(NSString *)string {
@@ -193,7 +193,7 @@ NSNumberFormatter * TagNumberFormatter() {
 	}
 	
 	if (!result) {
-		result = [NSNumber numberWithInt:0];
+		result = @0;
 	}
     
 	return result;

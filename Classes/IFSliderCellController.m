@@ -52,7 +52,7 @@
 }
 
 - (void)sliderAction:(id)sender {
-	NSNumber *newValue = [NSNumber numberWithFloat:[(UISlider *)sender value]];
+	NSNumber *newValue = @([(UISlider *)sender value]);
 	
 	[model setObject:newValue forKey:key];
 	

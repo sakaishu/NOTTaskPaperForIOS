@@ -45,17 +45,15 @@ NSInteger sortInPathOrder(NSString *a, NSString *b, void* context) {
     [[DBSession alloc] initWithAppKey:CONSUMERKEY appSecret:CONSUMERSECRET root:kDBRootDropbox];
 	[DBSession setSharedSession:session];
     
-	[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
-															 [NSNumber numberWithBool:YES], SyncAutomaticallyDefaultsKey,
+	[[NSUserDefaults standardUserDefaults] registerDefaults:@{SyncAutomaticallyDefaultsKey: @YES,
 #ifndef TASKPAPER
                                                              @"txt", TextFileDefaultExtensionDefaultsKey,
 															 @"css,ft,html,taskpaper,txt,xml", TextFileExtensionsDefaultsKey,
 #else
-                                                             @"taskpaper", TextFileDefaultExtensionDefaultsKey,
-                                                             @"ft,taskpaper,txt", TextFileExtensionsDefaultsKey,
+                                                             TextFileDefaultExtensionDefaultsKey: @"taskpaper",
+                                                             TextFileExtensionsDefaultsKey: @"ft,taskpaper,txt",
 #endif
-															 [@"/" stringByAppendingPathComponent:[[NSProcessInfo processInfo] processName]], ServerRootDefaultsKey,
-															 nil]];
+															 ServerRootDefaultsKey: [@"/" stringByAppendingPathComponent:[[NSProcessInfo processInfo] processName]]}];
     
     NSString *serverRoot = [[KeychainManager sharedKeychainManager] valueForKey:ServerRootDefaultsKey];
     if (serverRoot == nil) {
@@ -135,16 +133,12 @@ static NSString *textFileDefaultType = nil;
 }
 
 + (NSError *)documentsFolderCannotBeRenamedError {
-	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-							  NSLocalizedString(@"The Documents folder can't be renamed. You can rename all files and non-synced folders.", nil),
-							  NSLocalizedDescriptionKey, nil];
+	NSDictionary *userInfo = @{NSLocalizedDescriptionKey: NSLocalizedString(@"The Documents folder can't be renamed. You can rename all files and non-synced folders.", nil)};
 	return [NSError errorWithDomain:@"" code:1 userInfo:userInfo];
 }
 
 + (NSError *)syncedFoldersCannotBeRenamedError {
-	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-							  NSLocalizedString(@"Synced folders cannot be renamed from this app. You should rename then on Dropbox.com or with another Dropbox client that supports renaming.", nil),
-							  NSLocalizedDescriptionKey, nil];
+	NSDictionary *userInfo = @{NSLocalizedDescriptionKey: NSLocalizedString(@"Synced folders cannot be renamed from this app. You should rename then on Dropbox.com or with another Dropbox client that supports renaming.", nil)};
 	return [NSError errorWithDomain:@"" code:1 userInfo:userInfo];
 }
 
@@ -162,7 +156,7 @@ static NSString *textFileDefaultType = nil;
 	NSURL *storeURL = [NSURL fileURLWithPath:persistentStorePath];
 	managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];    
 	persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:managedObjectModel];
-    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption, [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
+    NSDictionary *options = @{NSMigratePersistentStoresAutomaticallyOption: @YES, NSInferMappingModelAutomaticallyOption: @YES};
     
 	if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error]) {
 		abort();
@@ -176,7 +170,7 @@ static NSString *textFileDefaultType = nil;
 	NSEntityDescription *entity = [NSEntityDescription entityForName:@"ShadowMetadata" inManagedObjectContext:managedObjectContext];
 	[fetchRequest setEntity:entity];
 	for (ShadowMetadata *each in [managedObjectContext executeFetchRequest:fetchRequest error:NULL]) {
-		[normalizedPathsToShadowMetadatas setObject:each forKey:each.normalizedPath];
+		normalizedPathsToShadowMetadatas[each.normalizedPath] = each;
 	}
 }
 
@@ -261,7 +255,7 @@ static NSString *textFileDefaultType = nil;
 
 - (void)beginingSyncNotification:(NSNotification *)aNotification {
 	if ([self isFullSyncInProgress]) {
-		NSString *folderName = [[[aNotification userInfo] objectForKey:PathKey] lastPathComponent];
+		NSString *folderName = [[aNotification userInfo][PathKey] lastPathComponent];
 		NSString *messageTemplate = NSLocalizedString(@"\"%@\"", nil);
 		[fullSyncAlertView setMessage:[NSString stringWithFormat:messageTemplate, folderName]];
 	}
@@ -271,7 +265,7 @@ static NSString *textFileDefaultType = nil;
 	UIApplication *application = [UIApplication sharedApplication];
 	
 	if ([self isFullSyncInProgress]) {
-		NSString *path = [[aNotification userInfo] objectForKey:PathKey];
+		NSString *path = [aNotification userInfo][PathKey];
 		NSFileManager *fileManager = [NSFileManager defaultManager];
 		NSArray *pathContents = [fileManager contentsOfDirectoryAtPath:path error:nil];
 		for (NSString *each in pathContents) {
@@ -541,7 +535,7 @@ static NSString *textFileDefaultType = nil;
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	
 	if ([fileManager my_moveItemAtPath:fromPath toPath:toPath error:error]) {
-		[self enqueuePathChangedNotification:[NSDictionary dictionaryWithObjectsAndKeys:fromPath, FromPathKey, toPath, ToPathKey, nil] changeType:MovedPathsKey];
+		[self enqueuePathChangedNotification:@{FromPathKey: fromPath, ToPathKey: toPath} changeType:MovedPathsKey];
 		for (NSString *each in syncPaths) {
 			if (self.syncAutomatically) {
 				[self enqueueFolderSyncPathOperationRequest:each];
@@ -578,10 +572,10 @@ static NSString *textFileDefaultType = nil;
 		[self performSelector:@selector(postQueuedPathChangedNotifications) withObject:nil afterDelay:0.0];
 	}
 	
-	NSMutableSet *values = [pendingPathChangedNotificationUserInfo objectForKey:changeTypeKey];
+	NSMutableSet *values = pendingPathChangedNotificationUserInfo[changeTypeKey];
 	if (!values) {
 		values = [NSMutableSet set];
-		[pendingPathChangedNotificationUserInfo setObject:values forKey:changeTypeKey];
+		pendingPathChangedNotificationUserInfo[changeTypeKey] = values;
 	}
 	
 	[values addObject:value];
@@ -622,17 +616,17 @@ static NSString *textFileDefaultType = nil;
 
 - (PathActivity)pathActivityForPath:(NSString *)localPath {
 	NSString *normalizedPath = [self localPathToNormalized:localPath];
-	NSNumber *pathActivity = [normalizedPathsToPathActivity objectForKey:normalizedPath];
+	NSNumber *pathActivity = normalizedPathsToPathActivity[normalizedPath];
 	if (!pathActivity) {
-		pathActivity = [NSNumber numberWithInt:NoPathActivity];
-		[normalizedPathsToPathActivity setObject:pathActivity forKey:normalizedPath];
+		pathActivity = @(NoPathActivity);
+		normalizedPathsToPathActivity[normalizedPath] = pathActivity;
 	}
 	return [pathActivity intValue];
 }
 
 - (void)setPathActivity:(PathActivity)aPathActivity forPath:(NSString *)aLocalPath {
 	NSString *normalizedPath = [self localPathToNormalized:aLocalPath];
-	[normalizedPathsToPathActivity setObject:[NSNumber numberWithInt:aPathActivity] forKey:normalizedPath];
+	normalizedPathsToPathActivity[normalizedPath] = [NSNumber numberWithInt:aPathActivity];
 	[self enqueuePathChangedNotification:aLocalPath changeType:ActivityChangedPathsKey];
 }
 
@@ -780,7 +774,7 @@ static NSString *textFileDefaultType = nil;
 
 - (ShadowMetadata *)shadowMetadataForLocalPath:(NSString *)localPath createNewLocalIfNeeded:(BOOL)createIfNeeded {
 	NSString *normalizedPath = [self localPathToNormalized:localPath];
-	ShadowMetadata *shadowMetadata = [normalizedPathsToShadowMetadatas objectForKey:normalizedPath];
+	ShadowMetadata *shadowMetadata = normalizedPathsToShadowMetadatas[normalizedPath];
 	
 	if (!shadowMetadata && createIfNeeded) {
 		NSString *normalizedName = [normalizedPath lastPathComponent];
@@ -791,7 +785,7 @@ static NSString *textFileDefaultType = nil;
 			[parent addChildrenObject:shadowMetadata];
 		}
 		
-		[normalizedPathsToShadowMetadatas setObject:shadowMetadata forKey:normalizedPath];
+		normalizedPathsToShadowMetadatas[normalizedPath] = shadowMetadata;
 	}
 	
 	return shadowMetadata;

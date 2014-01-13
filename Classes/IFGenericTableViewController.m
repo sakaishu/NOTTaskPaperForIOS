@@ -43,7 +43,7 @@
 //
 - (void)constructTableGroups
 {
-	tableGroups = [NSArray arrayWithObject:[NSArray array]];
+	tableGroups = @[@[]];
 
 	tableHeaders = nil;
 	tableFooters = nil;
@@ -101,7 +101,7 @@
 		[self constructTableGroups];
 	}
 	
-	return [[tableGroups objectAtIndex:section] count];
+	return [tableGroups[section] count];
 }
 
 //
@@ -117,7 +117,7 @@
 	}
 	
 	return
-		[[[tableGroups objectAtIndex:indexPath.section] objectAtIndex:indexPath.row]
+		[tableGroups[indexPath.section][indexPath.row]
 			tableView:(UITableView *)tableView
 			cellForRowAtIndexPath:indexPath];
 }
@@ -128,7 +128,7 @@
 		[self constructTableGroups];
 	}
 	
-	NSObject<IFCellController> *cellData = [[tableGroups objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+	NSObject<IFCellController> *cellData = tableGroups[indexPath.section][indexPath.row];
 	if ([cellData respondsToSelector:@selector(tableView:heightForRowAtIndexPath:)])
 	{
 		return [cellData tableView:tableView heightForRowAtIndexPath:indexPath];
@@ -150,7 +150,7 @@
 	}
 	
 	NSObject<IFCellController> *cellData =
-		[[tableGroups objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+		tableGroups[indexPath.section][indexPath.row];
 	if ([cellData respondsToSelector:@selector(tableView:didSelectRowAtIndexPath:)])
 	{
 		[cellData tableView:tableView didSelectRowAtIndexPath:indexPath];
@@ -167,7 +167,7 @@
 	NSString *title = nil;
 	if (tableHeaders)
 	{
-		id object = [tableHeaders objectAtIndex:section];
+		id object = tableHeaders[section];
 		if ([object isKindOfClass:[NSString class]])
 		{
 			if ([object length] > 0)
@@ -190,7 +190,7 @@
 	NSString *title = nil;
 	if (tableFooters)
 	{
-		id object = [tableFooters objectAtIndex:section];
+		id object = tableFooters[section];
 		if ([object isKindOfClass:[NSString class]])
 		{
 			if ([object length] > 0)

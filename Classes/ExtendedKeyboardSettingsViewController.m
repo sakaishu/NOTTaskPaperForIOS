@@ -41,9 +41,9 @@
 	[groupOneCells addObject:keysCellController];
 
 	
-	tableGroups = [NSArray arrayWithObjects: groupOneCells, nil];
-	tableHeaders = [NSArray arrayWithObjects:@"", nil];	
-	tableFooters = [NSArray arrayWithObjects:NSLocalizedString(@"Extended keyboard has room for a maximum of 9 characters.", nil), nil];		
+	tableGroups = @[groupOneCells];
+	tableHeaders = @[@""];	
+	tableFooters = @[NSLocalizedString(@"Extended keyboard has room for a maximum of 9 characters.", nil)];		
 }
 
 - (void)extendedKeyboardChanged {
