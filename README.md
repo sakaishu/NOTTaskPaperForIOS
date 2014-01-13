@@ -2,11 +2,7 @@
 
 Since [Jesse Grosjean generously decided to release the original source code for TaskPaper-iOS](http://blog.hogbaysoftware.com/post/72672157477/taskpaper-for-ios-source-code), I'd like to take the code and see if I can modernize the app a bit and make something that works even better (fixing the sync issues mentioned in the original README) and feels at home on iOS 7.
 
-In the immediate term, to make the project easier to work on, my goals are:
-
-* get acquainted with the codebase, especially the UI and data model/sync areas
-* target iOS 7
-* convert to ARC and modern Objective-C syntax
+In the immediate term, my plan is to get acquainted with the codebase, especially the UI and data model/sync areas
 
 Over the next couple months, I then hope to:
 
@@ -15,6 +11,8 @@ Over the next couple months, I then hope to:
 * replace sync code with the latest Dropbox SDK and fix the sync issue mentioned in the README
 * add bug/crash reporting
 * come up with a new name for the app and repo, and release the app
+
+I plan to further modernize ObjC style and usage as I touch each file during dev.
 
 # Original README
 
