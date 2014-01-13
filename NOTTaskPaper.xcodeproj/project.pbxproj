@@ -90,7 +90,7 @@
 		881C686A1379CFFA00C57AEC /* ApplicationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 888BCB8B12343D6B002D6752 /* ApplicationController.m */; };
 		881C686C1379CFFA00C57AEC /* PathModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 888D44C5125B735400D5BFC5 /* PathModel.m */; };
 		881C686D1379CFFA00C57AEC /* Logger.m in Sources */ = {isa = PBXBuildFile; fileRef = 88E2C090125FFF6200EB681B /* Logger.m */; };
-		881C686E1379CFFA00C57AEC /* UITextView_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 885EC0B9127B4B21009D3B32 /* UITextView_Additions.m */; };
+		881C686E1379CFFA00C57AEC /* UITextView_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 885EC0B9127B4B21009D3B32 /* UITextView_Additions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		881C686F1379CFFA00C57AEC /* HelpSectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8850D80B1294208700F29113 /* HelpSectionController.m */; };
 		881C68711379CFFA00C57AEC /* GradientFadeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 888188C512B16F9C00BF1CDE /* GradientFadeView.m */; };
 		881C68721379CFFA00C57AEC /* MenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 888188C912B16FBD00BF1CDE /* MenuView.m */; };
