@@ -36,20 +36,6 @@
 
 static float initialOffsetY;
 
-@interface RowData : NSObject {
-@public
-	NSUInteger row;
-	CGRect rowRect;
-	CGRect lastRowRect;
-@protected
-	IPhoneDocumentViewCell *cell;
-}
-
-+ (NSMutableArray *)rowDatasWithCapacity:(NSUInteger)capacity;
-@property(assign, nonatomic) IPhoneDocumentViewCell *cell;
-- (void)invalidateCachedRowRect;
-@end
-
 @interface DragIndicatorView : UIView {
 }
 @end

@@ -13,6 +13,21 @@
 @protocol TaskViewDelegate;
 
 
+@interface RowData : NSObject {
+@public
+	NSUInteger row;
+	CGRect rowRect;
+	CGRect lastRowRect;
+@protected
+	IPhoneDocumentViewCell *cell;
+}
+
++ (NSMutableArray *)rowDatasWithCapacity:(NSUInteger)capacity;
+@property(assign, nonatomic) IPhoneDocumentViewCell *cell;
+- (void)invalidateCachedRowRect;
+@end
+
+
 @interface TaskView : UIScrollView <UITextViewDelegate> {
 	UIEdgeInsets padding;
 	UIEdgeInsets lastLayoutPadding;
