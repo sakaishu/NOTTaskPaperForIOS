@@ -50,11 +50,13 @@ typedef struct SortOptions SortOptions;
 #pragma mark Init
 
 - (id)initWithPath:(NSString *)aPath {
+	self = [super initWithPath:aPath];
+	self.title = [aPath lastPathComponent];
+	
 	refreshSelection = YES;
 	items = [[NSMutableArray alloc] init];
 	isRoot = [aPath isEqualToString:[[NSFileManager defaultManager] documentDirectory]];
-	self = [super initWithPath:aPath];
-	self.title = [aPath lastPathComponent];
+	
 	searchViewController = [[SearchViewController alloc] init];
 	searchViewController.delegate = self;
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pathsChangedNotification:) name:PathsChangedNotification object:nil];
