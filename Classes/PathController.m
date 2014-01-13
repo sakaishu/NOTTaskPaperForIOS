@@ -18,6 +18,8 @@
 #import "ShadowMetadata.h"
 #import "Reachability.h"
 
+#import "ApplicationViewController.h"
+
 #import "KeychainManager.h"
 
 NSInteger sortInPathOrder(NSString *a, NSString *b, void* context) {
