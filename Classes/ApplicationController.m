@@ -39,16 +39,6 @@
 	return self;
 }
 
-
-- (void)simulateMemoryWarning {
-	CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), (CFStringRef)@"UISimulatedMemoryWarningNotification", NULL, NULL, true);
-}
-
-- (void)beginSimulateMemoryWarnings {
-	//[self performSelector:@selector(beginSimulateMemoryWarnings) withObject:nil afterDelay:((float) rand() / (float) RAND_MAX) * 1];
-	//[self simulateMemoryWarning];
-}
-
 - (CGFloat)brightness {
 	return [[NSUserDefaults standardUserDefaults] floatForKey:ScreenBrightnessDefaultsKey];
 }
@@ -128,9 +118,7 @@
 }
 
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions { 
-	[self beginSimulateMemoryWarnings];
-	   
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	if (NSClassFromString(@"UIMenuItem")) {
 		UIMenuController *menuController = [UIMenuController sharedMenuController];
 		if ([menuController respondsToSelector:@selector(setMenuItems:)]) {
