@@ -25,7 +25,6 @@ UIImage *accessoryImage = nil;
 }
 
 - (void)refreshFromDefaults {
-	[accessoryImage release];
 	accessoryImage = nil;
 	[self myRefreshFromDefaults];
 }

@@ -74,7 +74,6 @@ typedef struct SortOptions SortOptions;
 	[fileListingOperation cancel];
 	[fileListingOperation release];
 	fileListingOperation = nil;
-	[items autorelease];
 	[super dealloc];
 }
 

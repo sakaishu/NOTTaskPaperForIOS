@@ -123,7 +123,7 @@
 	if (aPathOperation == self) return;
 	
 	NSAssert([pathOperations containsObject:aPathOperation], @"");
-	[[self retain] autorelease]; // keep self alive incase aPathOperation.folderSyncPathOperation = nil is last reference to self.
+	
 	ShadowMetadata *finishedShadowMetadata = [aPathOperation shadowMetadata:NO];
 	
 	if (childSyncError == nil && (finishedShadowMetadata.pathState == SyncErrorPathState && finishedShadowMetadata.pathError != nil)) {

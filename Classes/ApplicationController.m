@@ -132,7 +132,7 @@
                 splashView.image = [UIImage imageNamed:@"Default.png"];
                 [window addSubview:splashView];
                 [window bringSubviewToFront:splashView];
-                [UIView beginAnimations:nil context:splashView];
+                [UIView beginAnimations:nil context:CFBridgingRetain(splashView)];
                 [UIView setAnimationDuration:0.1];
                 [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:window cache:YES];
                 [UIView setAnimationDelegate:self];
@@ -254,7 +254,7 @@
 }
 
 - (void)startupAnimationDone:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context {
-	[(UIView*)context removeFromSuperview];
+	[(UIView*)CFBridgingRelease(context) removeFromSuperview];
 }
 
 - (BOOL)append:(NSString *)text toFile:(NSString *)path encoding:(NSStringEncoding)enc;

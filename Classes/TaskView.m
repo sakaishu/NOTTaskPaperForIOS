@@ -1323,16 +1323,7 @@ static float initialOffsetY;
 	return self;
 }
 
-- (id)retain {
-	return [super retain];
-}
-
-- (id)autorelease {
-	return [super autorelease];
-}
-
 - (void)dealloc {
-	//[cell release];
 	cell.rowData = nil;
 	[super dealloc];
 }

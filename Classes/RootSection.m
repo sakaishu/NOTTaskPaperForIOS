@@ -220,8 +220,7 @@
 		
 		// Remove section and all children.
 		[RootSection parent:removedSection->parent removeChild:removedSection];
-		[removedSection setTree:nil];	
-		[removedSection autorelease];
+		[removedSection setTree:nil];
 	} else {
 		// 1. Save valid references.
 		Section *validStart = removedSectionTreeOrderPrevious;
@@ -236,8 +235,7 @@
 		
 		// 3. Remove, removed, also temporarily removes all children from tree.
 		[RootSection parent:removedSection->parent removeChild:removedSection];
-		[removedSection setTree:nil];	
-		[removedSection autorelease];
+		[removedSection setTree:nil];
 		
 		// 4. Reparent each child of removed section to tree order previous section.
 		// And add eachChild back to tree.

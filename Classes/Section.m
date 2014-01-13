@@ -515,7 +515,6 @@ static Class sectionClass = nil;
 		[root removeSubtreeSection:aChild includeChildren:YES];
 	} else {
 		[RootSection parent:self removeChild:aChild];
-		[aChild autorelease];
 	}
 }
 
@@ -627,7 +626,6 @@ static Class sectionClass = nil;
 - (id)nextObject {
 	id result = current;
 	current = [current.treeOrderNext retain];
-	[result autorelease];
 	
 	if (result == end) {
 		[current release];

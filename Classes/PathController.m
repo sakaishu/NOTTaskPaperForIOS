@@ -24,12 +24,6 @@ NSInteger sortInPathOrder(NSString *a, NSString *b, void* context) {
     return [a compare:b options:NSNumericSearch | NSCaseInsensitiveSearch];
 }
 
-@interface PathControllerManagedObjectContext : NSManagedObjectContext {
-	PathController *pathController;
-}
-@property(nonatomic, assign) PathController *pathController;
-@end
-
 @implementation PathController
 
 #pragma mark -
@@ -111,7 +105,6 @@ static NSString *textFileDefaultType = nil;
 }
 
 + (void)setTextFileTypes:(NSString *)extensionsString {
-	[textFileTypes autorelease];
 	textFileTypes = nil;
 	
 	NSMutableArray *cleanedExtensions = [NSMutableArray array];
@@ -592,7 +585,6 @@ static NSString *textFileDefaultType = nil;
 
 - (void)postQueuedPathChangedNotifications {
 	[[NSNotificationCenter defaultCenter] postNotificationName:PathsChangedNotification object:self userInfo:pendingPathChangedNotificationUserInfo];
-	[pendingPathChangedNotificationUserInfo autorelease];
 	pendingPathChangedNotificationUserInfo = nil;
 }
 

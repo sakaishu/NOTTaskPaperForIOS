@@ -93,7 +93,6 @@ static NSMutableSet *shouldFailPathsForUnitTesting = nil;
 	
 	if (pathController != nil && ![self validateLocalPath]) {
 		// Disconnect from path controller so no dammage can be done.
-		[pathController autorelease];
 		pathController = nil;
 	}
 }
@@ -240,7 +239,6 @@ static NSMutableSet *shouldFailPathsForUnitTesting = nil;
     
 	LogDebug(@"Finish 1");
 	client.delegate = nil;
-	[client autorelease];
 	client = nil;
 
 	LogDebug(@"Finish 2");

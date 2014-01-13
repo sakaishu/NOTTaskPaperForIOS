@@ -35,7 +35,6 @@
 }
 
 - (Button *)beginSearchButton {
-	[beginSearchButton autorelease];
 	beginSearchButton = nil;
 	
 	if (!beginSearchButton) {

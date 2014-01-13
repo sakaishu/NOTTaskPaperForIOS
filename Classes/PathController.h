@@ -127,6 +127,12 @@ NSInteger sortInPathOrder(NSString *a, NSString *b, void* context);
 - (void)deleteShadowMetadataForLocalPath:(NSString *)localPath;
 @end
 
+@interface PathControllerManagedObjectContext : NSManagedObjectContext {
+	PathController *pathController;
+}
+@property(nonatomic, assign) PathController *pathController;
+@end
+
 extern NSString *TextFileDefaultExtensionDefaultsKey;
 extern NSString *TextFileExtensionsDefaultsKey;
 extern NSString *SyncAutomaticallyDefaultsKey;
