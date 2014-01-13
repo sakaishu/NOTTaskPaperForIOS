@@ -183,29 +183,6 @@ static BOOL _showing;
 	[groupTwoCells addObject:linkCell];
 	
 	// Group 3
-
-#if !defined(WRITEROOM) && !defined(TASKPAPER)
-	StoreController *storeController = [StoreController sharedInstance];
-	if (![storeController isRemoveAdsFeaturePurchased]) {
-		NSString *removeAdsButtonLabel = [storeController removeAdsButtonLabel];
-		NSString *restoreRemoveAdsButtonLabel = [storeController restoreRemoveAdsButtonLabel];
-		
-		IFButtonCellController *removeButtonCell = [[[IFButtonCellController alloc] initWithLabel:removeAdsButtonLabel withAction:@selector(buyRemoveAds) onTarget:storeController] autorelease];
-		[groupThreeCells addObject:removeButtonCell];
-		
-		IFButtonCellController *restoreButtonCell = [[[IFButtonCellController alloc] initWithLabel:restoreRemoveAdsButtonLabel withAction:@selector(restoreRemoveAds) onTarget:storeController] autorelease];
-		[groupThreeCells addObject:restoreButtonCell];
-	} else {
-		IFSwitchCellController *switchCell = [[[IFSwitchCellController alloc] initWithLabel:NSLocalizedString(@"Remove Ads", nil) atKey:RemoveAdsDefaultsKey inModel:self.model] autorelease];
-		switchCell.updateTarget = self;
-		switchCell.updateAction = @selector(removeAdsChanged);
-		[groupThreeCells addObject:switchCell];
-	}
-    
-    
-    IFButtonCellController *privacyPolicyCell = [[[IFButtonCellController alloc] initWithLabel:@"Privacy Policy" withAction:@selector(privacyPolicy) onTarget:self] autorelease];
-    [groupThreeCells addObject:privacyPolicyCell];
-#endif
 			
 	tableGroups = @[groupOneCells, groupTwoCells, groupThreeCells];
 	tableHeaders = @[@"", @"", @"", @""];
@@ -213,10 +190,6 @@ static BOOL _showing;
 }
 
 - (void)privacyPolicy {
-}
-
-- (void)removeAdsChanged {
-	APP_CONTROLLER.removeAdsEnabled = APP_CONTROLLER.removeAdsEnabled; // fire notification
 }
 
 @end

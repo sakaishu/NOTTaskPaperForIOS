@@ -389,7 +389,7 @@
 	CGFloat keyboardHeight = [APP_VIEW_CONTROLLER keyboardHeight];
 	
 	if (keyboardHeight > 0) {
-		bounds.size.height -= (keyboardHeight - [APP_VIEW_CONTROLLER adsHeight]);		
+		bounds.size.height -= keyboardHeight;
 		if (!IS_IPAD && !toolbar.hidden) {
 			bounds.size.height += toolbar.frame.size.height;
 		}

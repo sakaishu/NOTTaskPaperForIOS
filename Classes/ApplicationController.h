@@ -28,15 +28,12 @@ typedef NSUInteger PasscodeTimeout;
 @property (assign) CGFloat brightness;
 @property (nonatomic, readonly) BOOL isIOS32OrLater;
 @property (nonatomic, readonly) BOOL isIOS4OrLater;
-@property (nonatomic, assign) BOOL removeAdsEnabled;
 @property (nonatomic, readonly) ApplicationViewController *applicationViewController;
 @property (nonatomic, readonly) PathController *pathController;
 
 @end
 
 extern NSString *LastLaunchedVersionKey;
-extern NSString *RemoveAdsDefaultsKey;
-extern NSString *RemoveAdsChangedNotification;
 extern NSString *ScreenBrightnessDefaultsKey;
 extern NSString *InkBrightnessDefaultsKey;
 extern NSString *PasscodeEnableDefaultsKey;

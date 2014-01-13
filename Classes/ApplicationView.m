@@ -182,9 +182,7 @@
 			
 	hudBackgroundView.frame = bounds;
 	
-	CGFloat leading = round([APP_VIEW_CONTROLLER leading]);	
-		
-	[APP_VIEW_CONTROLLER setAdsHeight:0];
+	CGFloat leading = round([APP_VIEW_CONTROLLER leading]);
 
 	if (IS_IPAD) {
 		CGRect primaryViewFrame;
@@ -250,7 +248,7 @@
 		toggleFrame.origin.y = CGRectGetMaxY(bounds) - toggleFrame.size.height;
 
 		if (keyboardHeight > 0) {
-			toggleFrame.origin.y -= (keyboardHeight - [APP_VIEW_CONTROLLER adsHeight]);
+			toggleFrame.origin.y -= keyboardHeight;
 		}
 		
 		toggleFrame = CGRectIntegral(toggleFrame);
@@ -271,7 +269,7 @@
 		hideFrame.size.height = leading * 2;
 		hideFrame.origin.x = CGRectGetMaxX(bounds) - hideFrame.size.width;
 		hideFrame.origin.y = CGRectGetMaxY(bounds) - hideFrame.size.height;
-		hideFrame.origin.y -= (keyboardHeight - [APP_VIEW_CONTROLLER adsHeight]);
+		hideFrame.origin.y -= keyboardHeight;
 		hideFrame = CGRectIntegral(hideFrame);
 		hideKeyboardButton.frame = hideFrame;
 		[self bringSubviewToFront:hideKeyboardButton];

@@ -578,7 +578,6 @@ void DrawFadeFunction(CGContextRef context, CGRect bounds, CGColorRef background
 @synthesize isHardwareKeyboard;
 @synthesize isClosingKeyboard;
 @synthesize keyboardHeight;
-@synthesize adsHeight;
 
 - (SortBy)sortBy {
 	return sortBy;

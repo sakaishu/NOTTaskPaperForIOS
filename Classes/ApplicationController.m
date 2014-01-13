@@ -23,7 +23,6 @@
 + (void)initialize {
 	[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
                                                              @YES, FirstLaunch,
-															 @YES, RemoveAdsDefaultsKey,
 															 @1.0f, ScreenBrightnessDefaultsKey,
 #if defined(WRITEROOM) || defined(TASKPAPER)
                                                              @(PasscodeTimeoutImmediately), PasscodeTimeoutDefaultsKey,
@@ -77,15 +76,6 @@
 
 - (BOOL)isIOS4OrLater {
 	return [[UIDevice currentDevice] respondsToSelector:@selector(isMultitaskingSupported)];
-}
-
-- (BOOL)removeAdsEnabled {
-	return [[NSUserDefaults standardUserDefaults] boolForKey:RemoveAdsDefaultsKey];
-}
-
-- (void)setRemoveAdsEnabled:(BOOL)enabled {
-	[[NSUserDefaults standardUserDefaults] setBool:enabled forKey:RemoveAdsDefaultsKey];
-	[[NSNotificationCenter defaultCenter] postNotificationName:RemoveAdsChangedNotification object:self];
 }
 
 @synthesize window;
@@ -537,8 +527,6 @@
 @end
 
 NSString *LastLaunchedVersionKey = @"LastLaunchedVersionKey";
-NSString *RemoveAdsDefaultsKey = @"RemoveAdsDefaultsKey";
-NSString *RemoveAdsChangedNotification = @"RemoveAdsChangedNotification";
 NSString *ScreenBrightnessDefaultsKey = @"ScreenBrightnessDefaultsKey";
 NSString *PasscodeEnableDefaultsKey = @"PasscodeEnableDefaultsKey";
 NSString *PasscodeTimeoutDefaultsKey = @"PasscodeTimeoutDefaultsKey";

@@ -60,7 +60,6 @@ void DrawFadeFunction(CGContextRef context, CGRect bounds, CGColorRef background
 	BOOL isClosingKeyboard;
 	BOOL animatingKeyboardOrDocumentFocusMode;
 	CGFloat keyboardHeight;
-	CGFloat adsHeight;
     BOOL textRightToLeft;
 }
 
@@ -99,7 +98,6 @@ void DrawFadeFunction(CGContextRef context, CGRect bounds, CGColorRef background
 @property (nonatomic, assign) BOOL isClosingKeyboard;
 @property (nonatomic, assign) BOOL animatingKeyboardOrDocumentFocusMode;
 @property (nonatomic, assign) CGFloat keyboardHeight;
-@property (nonatomic, assign) CGFloat adsHeight;
 @property (nonatomic, assign) SortBy sortBy;
 @property (nonatomic, assign) SortFolders sortFolders;
 @property (nonatomic, assign) BOOL textRightToLeft;
