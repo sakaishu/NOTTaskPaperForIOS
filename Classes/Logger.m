@@ -21,10 +21,8 @@
 }
 
 + (void)initialize {
-	[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
-															 [NSNumber numberWithInteger:LogLevelWarn], LogLevelDefaultsKey,
-															 [NSNumber numberWithBool:YES], LogLocationDefaultsKey,
-															 nil]];
+	[[NSUserDefaults standardUserDefaults] registerDefaults:@{LogLevelDefaultsKey: @(LogLevelWarn),
+															 LogLocationDefaultsKey: @YES}];
 }
 
 - (id)init {

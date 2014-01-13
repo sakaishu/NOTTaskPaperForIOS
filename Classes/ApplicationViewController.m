@@ -135,19 +135,19 @@ void DrawFadeFunction(CGContextRef context, CGRect bounds, CGColorRef background
 + (void)initialize {
 	[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
                                                              // Generic Defaults
-															 [NSNumber numberWithBool:YES], AllCapsHeadingsDefaultsKey,
-															 [NSNumber numberWithBool:NO], DetectLinksDefaultsKey,
-															 [NSNumber numberWithBool:YES], DraggableScrollerDefaultsKey,
-															 [NSNumber numberWithInteger:UITextAutocorrectionTypeDefault], AutocorrectionTypeDefaultsKey,
-															 [NSNumber numberWithFloat:1.0], SecondaryBrightnessDefaultsKey,
-                                                             [NSNumber numberWithInt:18], FontSizeDefaultsKey,
+															 @YES, AllCapsHeadingsDefaultsKey,
+															 @NO, DetectLinksDefaultsKey,
+															 @YES, DraggableScrollerDefaultsKey,
+															 @(UITextAutocorrectionTypeDefault), AutocorrectionTypeDefaultsKey,
+															 @1.0f, SecondaryBrightnessDefaultsKey,
+                                                             @18, FontSizeDefaultsKey,
 															 [NSKeyedArchiver archivedDataWithRootObject:[UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:1.0]], InkColorDefaultsKey,
 															 [NSKeyedArchiver archivedDataWithRootObject:[UIColor colorWithRed:252.0/255.0 green:251.0/255.0 blue:250.0/255.0 alpha:1.0]], PaperColorDefaultsKey,
-															 [NSNumber numberWithBool:YES], ShowStatusBarDefaultsKey,
-                                                             [NSNumber numberWithBool:YES], ScrollsHeadingsDefaultsKey,
-															 [NSNumber numberWithBool:NO], ShowFileExtensionsDefaultsKey,
-															 [NSNumber numberWithInteger:SortByName], SortByDefaultsKey,
-                                                             [NSNumber numberWithBool:NO], TextRightToLeftDefaultsKey,
+															 @YES, ShowStatusBarDefaultsKey,
+                                                             @YES, ScrollsHeadingsDefaultsKey,
+															 @NO, ShowFileExtensionsDefaultsKey,
+															 @(SortByName), SortByDefaultsKey,
+                                                             @NO, TextRightToLeftDefaultsKey,
                                                              
 #ifdef WRITEROOM                                             // WriteRoom Specific
 															 [NSKeyedArchiver archivedDataWithRootObject:[UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:1.0]], InkColorDefaultsKey,
@@ -160,11 +160,11 @@ void DrawFadeFunction(CGContextRef context, CGRect bounds, CGColorRef background
 
 #elif TASKPAPER                                              // TaskPaper Specific
                                                              @"Helvetica", FontNameDefaultsKey,   
-                                                             [NSNumber numberWithInt:18], FontSizeDefaultsKey,
+                                                             @18, FontSizeDefaultsKey,
                                                              [NSNumber numberWithBool:IS_IPAD], ExtendedKeyboardDefaultsKey,
                                                              @":-@()=\"", ExtendedKeyboardKeysDefaultsKey,
-                                                             [NSNumber numberWithBool:NO], ScrollsHeadingsDefaultsKey,
-                                                             [NSNumber numberWithBool:NO], ShowIconBadgeNumberDefaultsKey,
+                                                             @NO, ScrollsHeadingsDefaultsKey,
+                                                             @NO, ShowIconBadgeNumberDefaultsKey,
 
 #else                                                        // PlainText Specific
                                                              @"Georgia", FontNameDefaultsKey,
@@ -173,9 +173,9 @@ void DrawFadeFunction(CGContextRef context, CGRect bounds, CGColorRef background
 #endif
 															 nil]];
 	if (IS_IPAD) {
-		[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:1.3], LineHeightMultipleDefaultsKey, nil]];
+		[[NSUserDefaults standardUserDefaults] registerDefaults:@{LineHeightMultipleDefaultsKey: @1.3f}];
 	} else {
-		[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:1.1], LineHeightMultipleDefaultsKey, nil]];
+		[[NSUserDefaults standardUserDefaults] registerDefaults:@{LineHeightMultipleDefaultsKey: @1.1f}];
 	}
 }
 
@@ -372,8 +372,8 @@ void DrawFadeFunction(CGContextRef context, CGRect bounds, CGColorRef background
 		percent = 0;
 	}
 	
-	NSNumber *number = [NSNumber numberWithFloat:percent];
-	UIColor *color = [inkColorByPercentDictionary objectForKey:number];
+	NSNumber *number = @(percent);
+	UIColor *color = inkColorByPercentDictionary[number];
 	if (!color) {
 		const CGFloat *a = CGColorGetComponents([[self paperColor] CGColor]);
 		const CGFloat *b = CGColorGetComponents([[self inkColor] CGColor]);
@@ -381,7 +381,7 @@ void DrawFadeFunction(CGContextRef context, CGRect bounds, CGColorRef background
 								green:a[1] + ((b[1] - a[1]) * percent)
 								 blue:a[2] + ((b[2] - a[2]) * percent)
 								alpha:1.0];
-		[inkColorByPercentDictionary setObject:color forKey:number];
+		inkColorByPercentDictionary[number] = color;
 	}
 	return color;
 }
@@ -688,7 +688,7 @@ void DrawFadeFunction(CGContextRef context, CGRect bounds, CGColorRef background
 
 - (void)search:(NSString *)searchText {
     [primaryBrowser.currentItemViewController.searchViewController updateSearchText:searchText];
-    [primaryBrowser.currentItemViewController.searchViewController  notifiySearchFieldChangedAfterDelay:[NSNumber numberWithFloat:0.0000001]];
+    [primaryBrowser.currentItemViewController.searchViewController  notifiySearchFieldChangedAfterDelay:@0.0000001f];
 }
 
 - (IBAction)newFile:(id)sender {
@@ -721,14 +721,14 @@ void DrawFadeFunction(CGContextRef context, CGRect bounds, CGColorRef background
 	[super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
 	ApplicationView *applicationView = (id) self.view;
 	[applicationView setNeedsLayout];
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:ApplicationViewWillRotateNotification object:self userInfo:[NSDictionary dictionaryWithObject:[NSNumber numberWithInteger:toInterfaceOrientation] forKey:ToOrientation]]];
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:ApplicationViewWillRotateNotification object:self userInfo:@{ToOrientation: @(toInterfaceOrientation)}]];
 
     if ([primaryBrowser.currentItemViewController respondsToSelector:@selector(willRotateToInterfaceOrientation:duration:)]) {
-        [primaryBrowser.currentItemViewController performSelector:@selector(willRotateToInterfaceOrientation:duration:) withObject:[NSNumber numberWithInt:toInterfaceOrientation] withObject:[NSNumber numberWithDouble:duration]];
+        [primaryBrowser.currentItemViewController performSelector:@selector(willRotateToInterfaceOrientation:duration:) withObject:[NSNumber numberWithInt:toInterfaceOrientation] withObject:@(duration)];
     }
     
     if ([secondaryBrowser.currentItemViewController respondsToSelector:@selector(willRotateToInterfaceOrientation:duration:)]) {
-        [secondaryBrowser.currentItemViewController performSelector:@selector(willRotateToInterfaceOrientation:duration:) withObject:[NSNumber numberWithInt:toInterfaceOrientation] withObject:[NSNumber numberWithDouble:duration]];
+        [secondaryBrowser.currentItemViewController performSelector:@selector(willRotateToInterfaceOrientation:duration:) withObject:[NSNumber numberWithInt:toInterfaceOrientation] withObject:@(duration)];
     }
 
 }

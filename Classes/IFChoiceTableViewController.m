@@ -45,7 +45,7 @@
 	CGFloat result = 44.0f;
 	
 	NSUInteger row = [indexPath row];
-	id choice = [choices objectAtIndex:row];
+	id choice = choices[row];
 	if ([choice isKindOfClass:[IFNamedImage class]])
 	{
 		CGSize imageSize = [[choice image] size];
@@ -83,7 +83,7 @@
 	}
 	
 	NSUInteger row = [indexPath row];
-	id choice = [choices objectAtIndex:row];
+	id choice = choices[row];
 	if ([choice isKindOfClass:[NSString class]])
 	{
 		cell.textLabel.text = choice;
@@ -116,7 +116,7 @@
 	}
 
 	if (choiceValues) {
-		if ([choiceValues objectAtIndex:row] == [model objectForKey:key]) {
+		if (choiceValues[row] == [model objectForKey:key]) {
 			cell.accessoryType = UITableViewCellAccessoryCheckmark;
 		} else {
 			cell.accessoryType = UITableViewCellAccessoryNone;
@@ -137,9 +137,9 @@
 {
 	NSUInteger row = [indexPath row];
 	if (choiceValues) {
-        NSLog(@"%@", [choiceValues objectAtIndex:row]);
+        NSLog(@"%@", choiceValues[row]);
         NSLog(@"model: %@", model);
-		[model setObject:[choiceValues objectAtIndex:row] forKey:key];
+		[model setObject:choiceValues[row] forKey:key];
 	} else {
 		[model setObject:[NSNumber numberWithInt:row] forKey:key];
 	}

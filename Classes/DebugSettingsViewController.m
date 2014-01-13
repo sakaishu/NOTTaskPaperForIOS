@@ -21,7 +21,7 @@
 	NSMutableArray *groupOneCells = [NSMutableArray array];
 	NSMutableArray *groupTwoCells = [NSMutableArray array];
 	
-	IFChoiceCellController *logLevelCell = [[IFChoiceCellController alloc] initWithLabel:NSLocalizedString(@"Log Level", nil) andChoices:[NSArray arrayWithObjects:NSLocalizedString(@"Debug", nil), NSLocalizedString(@"Info", nil), NSLocalizedString(@"Warn", nil), NSLocalizedString(@"Error", nil), nil] andChoiceValues:nil atKey:LogLevelDefaultsKey inModel:model];
+	IFChoiceCellController *logLevelCell = [[IFChoiceCellController alloc] initWithLabel:NSLocalizedString(@"Log Level", nil) andChoices:@[NSLocalizedString(@"Debug", nil), NSLocalizedString(@"Info", nil), NSLocalizedString(@"Warn", nil), NSLocalizedString(@"Error", nil)] andChoiceValues:nil atKey:LogLevelDefaultsKey inModel:model];
 	logLevelCell.updateTarget = self;
 	logLevelCell.updateAction = @selector(logLevelChanged);
 	[groupOneCells addObject:logLevelCell];
@@ -35,9 +35,9 @@
 	[groupTwoCells addObject:buttonCell];
 	
 	
-	tableGroups = [NSArray arrayWithObjects:groupOneCells, groupTwoCells, nil];
-	tableHeaders = [NSArray arrayWithObjects:@"", @"", nil];	
-	tableFooters = [NSArray arrayWithObjects:@"", @"", nil];	
+	tableGroups = @[groupOneCells, groupTwoCells];
+	tableHeaders = @[@"", @""];	
+	tableFooters = @[@"", @""];	
 }
 
 - (void)logLevelChanged {

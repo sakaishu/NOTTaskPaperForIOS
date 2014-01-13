@@ -61,7 +61,7 @@
         return;
     }
 	
-	[[NSNotificationCenter defaultCenter] postNotificationName:BeginingFolderSyncNotification object:pathController userInfo:[NSDictionary dictionaryWithObject:localPath forKey:PathKey]];
+	[[NSNotificationCenter defaultCenter] postNotificationName:BeginingFolderSyncNotification object:pathController userInfo:@{PathKey: localPath}];
 	
 	[super start];
 }
@@ -83,7 +83,7 @@
 
 - (void)finish:(NSError *)error {
 	[super finish:error];
-	[[NSNotificationCenter defaultCenter] postNotificationName:EndingFolderSyncNotification object:pathController userInfo:[NSDictionary dictionaryWithObject:localPath forKey:PathKey]];
+	[[NSNotificationCenter defaultCenter] postNotificationName:EndingFolderSyncNotification object:pathController userInfo:@{PathKey: localPath}];
 }
 
 - (void)finishIfSyncOperationsAreFinished {
@@ -145,7 +145,7 @@
 	NSMutableSet *shadowNames = [NSMutableSet set];
 	NSMutableDictionary *nameToShadowMetadataLookup = [NSMutableDictionary dictionary];
 	for (ShadowMetadata *each in [pathController shadowMetadataForLocalPath:localPath createNewLocalIfNeeded:NO].children) {
-		[nameToShadowMetadataLookup setObject:each forKey:each.normalizedName];
+		nameToShadowMetadataLookup[each.normalizedName] = each;
 		
 		if (each.lastSyncDate != nil) {
 			[shadowNames addObject:each.normalizedName];
@@ -179,11 +179,11 @@
 				NSString *eachPath = [localPath stringByAppendingPathComponent:each];
 				NSString *eachNormalizedName = [each lowercaseString];
 				
-				[nameToCaseSensitiveNameLookup setObject:each forKey:eachNormalizedName];
-				[nameToLocalPathLookup setObject:eachPath forKey:eachNormalizedName];
+				nameToCaseSensitiveNameLookup[eachNormalizedName] = each;
+				nameToLocalPathLookup[eachNormalizedName] = eachPath;
 				[localNames addObject:eachNormalizedName];		
 				
-				ShadowMetadata *eachLocalMetadata = [nameToShadowMetadataLookup objectForKey:eachNormalizedName];
+				ShadowMetadata *eachLocalMetadata = nameToShadowMetadataLookup[eachNormalizedName];
 				
 				if (eachLocalMetadata) {
 					if (eachLocalMetadata.lastSyncIsDirectory != localIsDirectory) {
@@ -223,7 +223,7 @@
 		for (DBMetadata *each in serverMetadata.contents) {
 			NSString *normalizedName = each.path.lastPathComponent.normalizedDropboxPath;
 			if ([each isDirectory] || [textFileTypes containsObject:[normalizedName pathExtension]]) {
-				[nameToDBMetadataLookup setObject:each forKey:normalizedName];
+				nameToDBMetadataLookup[normalizedName] = each;
 				[serverNames addObject:normalizedName];
 			}
 		}
@@ -233,9 +233,9 @@
 	
 	// Detect and propogate case changes in names
 	for (NSString *each in shadowNames) {
-		NSString *eachLocalName = [nameToCaseSensitiveNameLookup objectForKey:each];
-		NSString *eachShadowName = [[nameToShadowMetadataLookup objectForKey:each] lastSyncName];
-		NSString *eachServerName = [[[nameToDBMetadataLookup objectForKey:each] path] lastPathComponent];
+		NSString *eachLocalName = nameToCaseSensitiveNameLookup[each];
+		NSString *eachShadowName = [nameToShadowMetadataLookup[each] lastSyncName];
+		NSString *eachServerName = [[nameToDBMetadataLookup[each] path] lastPathComponent];
 		
 		if (eachLocalName != nil && eachShadowName != nil && eachServerName != nil) {
 			if (![eachLocalName isEqualToString:eachServerName]) {
@@ -260,8 +260,8 @@
 	NSMutableSet *serverModifieds = [NSMutableSet set];
 	NSMutableSet *serverTypeChanges = [NSMutableSet set];
 	for (NSString *each in serverNames) {
-		ShadowMetadata *eachShadowMetadata = [nameToShadowMetadataLookup objectForKey:each];
-		DBMetadata *eachServerMetadata = [nameToDBMetadataLookup objectForKey:each];
+		ShadowMetadata *eachShadowMetadata = nameToShadowMetadataLookup[each];
+		DBMetadata *eachServerMetadata = nameToDBMetadataLookup[each];
 		if (eachShadowMetadata != nil && eachServerMetadata != nil) {
 			if (eachShadowMetadata.pathState != PermanentPlaceholderPathState) {
 				if (eachShadowMetadata.lastSyncDate == nil && eachShadowMetadata.pathState == SyncErrorPathState) {
@@ -299,7 +299,7 @@
     
 
 	for (NSString *each in conflictAdds) {
-		NSString *fromPath = [nameToLocalPathLookup objectForKey:each];
+		NSString *fromPath = nameToLocalPathLookup[each];
 		NSString *conflictName = [[usedNames conflictNameForNameInNormalizedSet:[fromPath lastPathComponent]] precomposedStringWithCanonicalMapping];
 		NSString *toPath = [[fromPath stringByDeletingLastPathComponent] stringByAppendingPathComponent:conflictName];
 		NSError *error;
@@ -310,8 +310,8 @@
 			[localAdds removeObject:each];
 			[usedNames addObject:conflictName];
 			[localAdds addObject:normalizedConflictName];
-			[nameToLocalPathLookup setObject:toPath forKey:normalizedConflictName];
-			[pathController enqueuePathChangedNotification:[NSDictionary dictionaryWithObjectsAndKeys:fromPath, FromPathKey, toPath, ToPathKey, nil] changeType:MovedPathsKey];
+			nameToLocalPathLookup[normalizedConflictName] = toPath;
+			[pathController enqueuePathChangedNotification:@{FromPathKey: fromPath, ToPathKey: toPath} changeType:MovedPathsKey];
 		} else {
 			LogError(@"Failed to move conflicting local add %@", error);
 		}
@@ -336,22 +336,22 @@
 	// Schedule Local Delete Operations
 	for (NSString *each in [[deletedServer allObjects] sortedArrayUsingFunction:sortInPathOrder context:NULL]) {
 		if ([deletedLocal containsObject:each]) {
-			[pathController deleteShadowMetadataForLocalPath:[nameToLocalPathLookup objectForKey:each]];
+			[pathController deleteShadowMetadataForLocalPath:nameToLocalPathLookup[each]];
 		} else {
-            NSString *path = [nameToLocalPathLookup objectForKey:each];
+            NSString *path = nameToLocalPathLookup[each];
             if (!path) {
                 aLogBlock();
             }
-			[self schedulePathOperation:[DeleteLocalPathOperation pathOperationWithPath:[nameToLocalPathLookup objectForKey:each] serverMetadata:[nameToDBMetadataLookup objectForKey:each]] onQueue:[pathController deleteOperationQueue]];
+			[self schedulePathOperation:[DeleteLocalPathOperation pathOperationWithPath:nameToLocalPathLookup[each] serverMetadata:nameToDBMetadataLookup[each]] onQueue:[pathController deleteOperationQueue]];
 		}
 	}
 	
 	// Schedule Server Delete Operations
 	for (NSString *each in [[deletedLocal allObjects] sortedArrayUsingFunction:sortInPathOrder context:NULL]) {
 		if ([deletedServer containsObject:each]) {
-			[pathController deleteShadowMetadataForLocalPath:[nameToLocalPathLookup objectForKey:each]];
+			[pathController deleteShadowMetadataForLocalPath:nameToLocalPathLookup[each]];
 		} else {
-			[self schedulePathOperation:[DeletePathOperation pathOperationWithPath:[localPath stringByAppendingPathComponent:each] serverMetadata:[nameToDBMetadataLookup objectForKey:each]] onQueue:[pathController deleteOperationQueue]];
+			[self schedulePathOperation:[DeletePathOperation pathOperationWithPath:[localPath stringByAppendingPathComponent:each] serverMetadata:nameToDBMetadataLookup[each]] onQueue:[pathController deleteOperationQueue]];
 		}
 	}
 	
@@ -360,8 +360,8 @@
 	[gets unionSet:serverAdds];
 	[gets unionSet:serverModifieds];
 	for (NSString *each in [[gets allObjects] sortedArrayUsingFunction:sortInPathOrder context:NULL]) {
-		NSString *eachPath = [nameToLocalPathLookup objectForKey:each];
-		DBMetadata *eachServerMetadata = [nameToDBMetadataLookup objectForKey:each];
+		NSString *eachPath = nameToLocalPathLookup[each];
+		DBMetadata *eachServerMetadata = nameToDBMetadataLookup[each];
 		BOOL pathNeedsGet = YES;
         
 		if (!eachPath) {
@@ -373,7 +373,7 @@
 			NSError *error = nil;
 			
 			if (eachServerMetadata.isDirectory) {
-				if ([fileManager createDirectoryAtPath:eachPath withIntermediateDirectories:YES attributes:[NSDictionary dictionaryWithObject:eachServerMetadata.lastModifiedDate forKey:NSFileModificationDate] error:&error]) {
+				if ([fileManager createDirectoryAtPath:eachPath withIntermediateDirectories:YES attributes:@{NSFileModificationDate: eachServerMetadata.lastModifiedDate} error:&error]) {
 					[pathController enqueuePathChangedNotification:eachPath changeType:CreatedPathsKey];
 					shadowMetadata.pathState = SyncedPathState;
 					shadowMetadata.lastSyncDate = eachServerMetadata.lastModifiedDate;
@@ -387,8 +387,8 @@
 				pathNeedsGet = NO;
 			} else {
 				if (![fileManager fileExistsAtPath:eachPath]) {
-					if ([fileManager createDirectoryAtPath:[eachPath stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:[NSDictionary dictionaryWithObject:eachServerMetadata.lastModifiedDate forKey:NSFileModificationDate] error:&error]) {
-						if ([fileManager createFileAtPath:eachPath contents:nil attributes:[NSDictionary dictionaryWithObject:eachServerMetadata.lastModifiedDate forKey:NSFileModificationDate]]) {
+					if ([fileManager createDirectoryAtPath:[eachPath stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:@{NSFileModificationDate: eachServerMetadata.lastModifiedDate} error:&error]) {
+						if ([fileManager createFileAtPath:eachPath contents:nil attributes:@{NSFileModificationDate: eachServerMetadata.lastModifiedDate}]) {
 							[pathController enqueuePathChangedNotification:eachPath changeType:CreatedPathsKey];
 							shadowMetadata.lastSyncIsDirectory = eachServerMetadata.isDirectory;
 							if ([PathController isPermanentPlaceholder:eachPath]) {
@@ -423,8 +423,8 @@
 	[puts unionSet:localAdds];
 	[puts unionSet:localModifieds];
 	for (NSString *each in [[puts allObjects] sortedArrayUsingFunction:sortInPathOrder context:NULL]) {
-		NSString *eachPath = [nameToLocalPathLookup objectForKey:each];
-		DBMetadata *eachServerMetadata = [nameToDBMetadataLookup objectForKey:each];
+		NSString *eachPath = nameToLocalPathLookup[each];
+		DBMetadata *eachServerMetadata = nameToDBMetadataLookup[each];
         if (!eachPath) {
             aLogBlock();
         }

@@ -61,7 +61,7 @@
     id obj = yn ? PKTRUE : PKFALSE;
     NSUInteger i = start;
     for ( ; i <= end; i++) {
-        [whitespaceChars replaceObjectAtIndex:i withObject:obj];
+        whitespaceChars[i] = obj;
     }
 }
 
@@ -70,7 +70,7 @@
     if (cin < 0 || cin > whitespaceChars.count - 1) {
         return NO;
     }
-    return PKTRUE == [whitespaceChars objectAtIndex:cin];
+    return PKTRUE == whitespaceChars[cin];
 }
 
 

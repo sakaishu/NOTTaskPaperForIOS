@@ -85,15 +85,13 @@ typedef struct SortOptions SortOptions;
 - (NSArray *)toolbarItems {
 	Button *beginSearchButton = searchViewController.beginSearchButton;
 
-	return [NSArray arrayWithObjects:
-			[Button buttonWithImage:[UIImage imageNamed:@"showSettings.png"] accessibilityLabel:NSLocalizedString(@"Settings", nil) accessibilityHint:nil target:APP_VIEW_CONTROLLER action:@selector(showSettings:) edgeInsets:UIEdgeInsetsMake(0, 5, 0, 15)],
+	return @[[Button buttonWithImage:[UIImage imageNamed:@"showSettings.png"] accessibilityLabel:NSLocalizedString(@"Settings", nil) accessibilityHint:nil target:APP_VIEW_CONTROLLER action:@selector(showSettings:) edgeInsets:UIEdgeInsetsMake(0, 5, 0, 15)],
 			[Toolbar flexibleSpace],
 			beginSearchButton,
 			[Toolbar flexibleSpace],
 			[Button buttonWithImage:[UIImage imageNamed:@"newFolder.png"] accessibilityLabel:NSLocalizedString(@"New folder", nil) accessibilityHint:nil target:APP_VIEW_CONTROLLER action:@selector(newFolder:) edgeInsets:UIEdgeInsetsMake(0, 15, 0, 15)],
 			[Toolbar flexibleSpace],
-			[Button buttonWithImage:[UIImage imageNamed:@"newDocument.png"] accessibilityLabel:NSLocalizedString(@"New document", nil) accessibilityHint:nil target:APP_VIEW_CONTROLLER action:@selector(newFile:) edgeInsets:UIEdgeInsetsMake(0, 15, 0, 5)],
-			nil];	
+			[Button buttonWithImage:[UIImage imageNamed:@"newDocument.png"] accessibilityLabel:NSLocalizedString(@"New document", nil) accessibilityHint:nil target:APP_VIEW_CONTROLLER action:@selector(newFile:) edgeInsets:UIEdgeInsetsMake(0, 15, 0, 5)]];	
 }
 
 - (FolderView *)folderView {
@@ -287,8 +285,8 @@ NSInteger sort(PathModel *a, PathModel *b, void* context) {
 			id eachOld, eachNew;
 			
 			while (oldIndex < oldCount && newIndex < newCount) {
-				eachOld = [oldItems objectAtIndex:oldIndex];
-				eachNew = [newItems objectAtIndex:newIndex];
+				eachOld = oldItems[oldIndex];
+				eachNew = newItems[newIndex];
 				
 				if ([eachOld isEqual:eachNew]) {
 					oldIndex++;
@@ -389,8 +387,8 @@ NSInteger sort(PathModel *a, PathModel *b, void* context) {
 #pragma mark shadowMetadata managedObjectContext
 
 - (void)pathsChangedNotification:(NSNotification *)aNotification {
-	NSSet *stateChangedPaths = [[aNotification userInfo] objectForKey:StateChangedPathsKey];
-	NSSet *activityChangedPaths = [[aNotification userInfo] objectForKey:ActivityChangedPathsKey];
+	NSSet *stateChangedPaths = [aNotification userInfo][StateChangedPathsKey];
+	NSSet *activityChangedPaths = [aNotification userInfo][ActivityChangedPathsKey];
 	NSSet *allChangedPaths = [stateChangedPaths setByAddingObjectsFromSet:activityChangedPaths];
 	
 	FolderView *folderView = self.folderView;
@@ -404,7 +402,7 @@ NSInteger sort(PathModel *a, PathModel *b, void* context) {
 			NSUInteger index = [self rowForItemNamed:changedName];
 			if (index != NSNotFound) {
 				NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
-				[folderView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
+				[folderView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
 			}
 		}
 	}
@@ -442,7 +440,7 @@ NSInteger sort(PathModel *a, PathModel *b, void* context) {
 
 - (PathModel *)itemForIndexPath:(NSIndexPath *)indexPath {
 	if (indexPath.section == 0) {
-		return [self.items objectAtIndex:indexPath.row];
+		return (self.items)[indexPath.row];
 	}
 	return nil;
 }

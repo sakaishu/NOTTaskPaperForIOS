@@ -351,7 +351,7 @@
 
 - (void)setSection:(Section *)aSection forID:(NSString *)uniqueID {
 	[self beginChangingSections];
-	[uniqueIDsToSections setObject:aSection forKey:uniqueID];
+	uniqueIDsToSections[uniqueID] = aSection;
 	[insertedSections addObject:aSection];
 	[updatedSections removeObject:aSection];
 	[self endChangingSections];
@@ -359,7 +359,7 @@
 
 - (void)removeSectionForID:(NSString *)uniqueID {
 	[self beginChangingSections];
-	Section *removedSection = [uniqueIDsToSections objectForKey:uniqueID];
+	Section *removedSection = uniqueIDsToSections[uniqueID];
 	[deletedSections addObject:removedSection];
 	[updatedSections removeObject:removedSection];
 	[insertedSections removeObject:removedSection];

@@ -42,7 +42,7 @@
 	}
 	
 	if ([toolbarItems count] > 0) {
-		UIButton *left = [toolbarItems objectAtIndex:0];
+		UIButton *left = toolbarItems[0];
 		leftWidth = left.frame.size.width;
 		leftInsets = left.imageEdgeInsets;
 		UIButton *right = [toolbarItems lastObject];
@@ -90,7 +90,7 @@
 	NSUInteger flexible = 0;
 	
 	if ([toolbarItems count] > 0) {
-		leftButton = [toolbarItems objectAtIndex:0];
+		leftButton = toolbarItems[0];
 		rightButton = [toolbarItems lastObject];
 	}
 	
@@ -133,7 +133,7 @@
     
     if (!IS_IPAD) {
         if ([toolbarItems count] > 1) {
-            UIButton *leftButton = [toolbarItems objectAtIndex:0];
+            UIButton *leftButton = toolbarItems[0];
             CGRect leftFrame = CGRectZero;
             UIEdgeInsets leftImageEdgeInsets = leftInsets;
             CGRectDivide(bounds, &leftFrame, &bounds, leftWidth, CGRectMinXEdge);

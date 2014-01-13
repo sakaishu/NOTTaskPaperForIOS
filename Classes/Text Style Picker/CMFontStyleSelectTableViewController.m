@@ -92,7 +92,7 @@
 		[cell.contentView addSubview:fontNameLabel];
     }
     
-	NSString *fontName = [self.fontNames objectAtIndex:indexPath.row];
+	NSString *fontName = (self.fontNames)[indexPath.row];
 	UILabel *fontNameLabel = (UILabel *)[cell viewWithTag:kFontNameLabelTag];
 	fontNameLabel.text = fontName;
 	fontNameLabel.font = [UIFont fontWithName:fontName size:16.0];
@@ -112,7 +112,7 @@
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSString *fontName = [self.fontNames objectAtIndex:indexPath.row];
+	NSString *fontName = (self.fontNames)[indexPath.row];
 	self.selectedFont = [UIFont fontWithName:fontName size:self.selectedFont.pointSize];	
 	[delegate fontStyleSelectTableViewController:self didSelectFont:self.selectedFont];
 	[tableView reloadData];

@@ -35,7 +35,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", nil) style:UIBarButtonItemStyleDone target:self action:@selector(dismissModalViewControllerAction:)];		
-	[self setToolbarItems:[NSArray arrayWithObject:[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Sync All Now", nil) style:UIBarButtonItemStyleBordered target:PATH_CONTROLLER action:@selector(beginFullSync)]] animated:NO];
+	[self setToolbarItems:@[[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Sync All Now", nil) style:UIBarButtonItemStyleBordered target:PATH_CONTROLLER action:@selector(beginFullSync)]] animated:NO];
 	[super viewWillAppear:animated];
 }
 
@@ -71,7 +71,7 @@
 		linkedFolder.updateTarget = self;
 		[groupOneCells addObject:linkedFolder];
 		
-		id<IFCellModel> fileExtensionsModel = [[IFTemporaryModel alloc] initWithDictionary:[NSDictionary dictionaryWithObject:[[NSUserDefaults standardUserDefaults] stringForKey:TextFileExtensionsDefaultsKey] forKey:TextFileExtensionsDefaultsKey]];
+		id<IFCellModel> fileExtensionsModel = [[IFTemporaryModel alloc] initWithDictionary:@{TextFileExtensionsDefaultsKey: [[NSUserDefaults standardUserDefaults] stringForKey:TextFileExtensionsDefaultsKey]}];
 		IFTextCellController *textFileExtensions = [[IFTextCellController alloc] initWithLabel:NSLocalizedString(@"Sync File Types", nil) andPlaceholder:nil atKey:TextFileExtensionsDefaultsKey inModel:fileExtensionsModel];
 		textFileExtensions.autocorrectionType = UITextAutocorrectionTypeNo;
 		textFileExtensions.autocapitalizationType = UITextAutocapitalizationTypeNone;
@@ -86,9 +86,9 @@
 		dropboxInfo = NSLocalizedString(@"Dropbox is software that syncs your files online and across your computers. http://www.dropbox.com", nil);
 	}
 	
-	tableGroups = [NSArray arrayWithObjects: groupOneCells, groupTwoCells, nil];
-	tableHeaders = [NSArray arrayWithObjects:@"", @"", nil];	
-	tableFooters = [NSArray arrayWithObjects:@"", dropboxInfo, nil];	
+	tableGroups = @[groupOneCells, groupTwoCells];
+	tableHeaders = @[@"", @""];	
+	tableFooters = @[@"", dropboxInfo];	
 }
 
 - (IBAction)dropboxFolderFieldUpdated:(id)sender {

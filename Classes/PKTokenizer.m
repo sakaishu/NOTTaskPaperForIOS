@@ -140,7 +140,7 @@
 
     NSInteger i = start;
     for ( ; i <= end; i++) {
-        [tokenizerStates replaceObjectAtIndex:i withObject:state];
+        tokenizerStates[i] = state;
     }
 }
 
@@ -171,7 +171,7 @@
         return [self defaultTokenizerStateFor:c];
     } else {
         // customization below 255 is supported, so be sure to get the (possibly) customized state from `tokenizerStates`
-        return [tokenizerStates objectAtIndex:c];
+        return tokenizerStates[c];
     }
 }
 

@@ -141,7 +141,7 @@
 @implementation PathController (ShadowMetadataPrivate)
 
 - (void)setShadowMetadata:(ShadowMetadata *)aShadowMetadata forNormalizedPath:(NSString *)aNormalizedPath {
-	[normalizedPathsToShadowMetadatas setObject:aShadowMetadata forKey:aNormalizedPath];
+	normalizedPathsToShadowMetadatas[aNormalizedPath] = aShadowMetadata;
 }
 
 @end

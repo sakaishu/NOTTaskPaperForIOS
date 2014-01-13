@@ -67,7 +67,7 @@
 
 - (ItemViewController *)topItemViewController {
 	if ([itemViewControllers count] > 0) {
-		return [itemViewControllers objectAtIndex:0];
+		return itemViewControllers[0];
 	}
 	return nil;
 }
@@ -145,7 +145,7 @@
 	NSDictionary *userInfo = [aNotification userInfo];	
 	BOOL itemViewNeedsRefresh = NO;
 	
-	NSSet *removedPaths = [userInfo objectForKey:RemovedPathsKey];
+	NSSet *removedPaths = userInfo[RemovedPathsKey];
 	for (NSString *eachRemoved in removedPaths) {
 		ItemViewController *currentItemViewController = self.currentItemViewController;
 		NSString *currentPath = currentItemViewController.path;
@@ -163,11 +163,11 @@
 		}
 	}
 			
-	NSSet *movedPaths = [userInfo objectForKey:MovedPathsKey];
+	NSSet *movedPaths = userInfo[MovedPathsKey];
 	for (NSDictionary *eachMoved in movedPaths) {
 		ItemViewController *currentItemViewController = self.currentItemViewController;
-		NSString *fromPath = [eachMoved objectForKey:FromPathKey];
-		NSString *toPath = [eachMoved objectForKey:ToPathKey];
+		NSString *fromPath = eachMoved[FromPathKey];
+		NSString *toPath = eachMoved[ToPathKey];
 		NSString *currentPath = currentItemViewController.path;
 		
 		if ([fromPath isEqualToString:currentPath]) {
@@ -186,7 +186,7 @@
 		}
 	}
 	
-	NSSet *modifiedPaths = [userInfo objectForKey:ModifiedPathsKey];
+	NSSet *modifiedPaths = userInfo[ModifiedPathsKey];
 	for (NSString *eachModified in modifiedPaths) {
 		ItemViewController *currentItemViewController = self.currentItemViewController;
 		NSString *modifiedParent = [eachModified stringByDeletingLastPathComponent];
@@ -199,7 +199,7 @@
 		}
 	}
 
-	NSSet *createdPaths = [userInfo objectForKey:CreatedPathsKey];
+	NSSet *createdPaths = userInfo[CreatedPathsKey];
 	for (NSString *eachCreated in createdPaths) {
 		ItemViewController *currentItemViewController = self.currentItemViewController;
 		NSString *createdParent = [eachCreated stringByDeletingLastPathComponent];

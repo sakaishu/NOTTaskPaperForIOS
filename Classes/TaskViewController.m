@@ -60,11 +60,9 @@
 @synthesize saveToDiskWhenKeyboardDidHide;
 
 + (void)initialize {
-	[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
-															 [NSNumber numberWithBool:NO], AddDateToDoneTagKey,
-                                                             [NSNumber numberWithBool:YES], LiveSearchEnabledKey,
-															 @"done today", DefaultTagsKey,
-															 nil]];
+	[[NSUserDefaults standardUserDefaults] registerDefaults:@{AddDateToDoneTagKey: @NO,
+                                                             LiveSearchEnabledKey: @YES,
+															 DefaultTagsKey: @"done today"}];
 }
 
 
@@ -322,11 +320,11 @@ static NSUInteger rotateRow;
         NSMutableArray *filePatches = [dmp patch_makeFromOldString:lastFileContents == nil ? @"" : lastFileContents andNewString:fileContents];
         if ([filePatches count] > 0) {
             NSArray *patchResults = [dmp patch_apply:filePatches toString:contentInView];		
-			NSString *patchResultsText = [patchResults objectAtIndex:0];
+			NSString *patchResultsText = patchResults[0];
             
             BOOL patchApplied = YES;
 			
-			for (NSNumber *each in [patchResults objectAtIndex:1]) {
+			for (NSNumber *each in patchResults[1]) {
 				if (![each boolValue]) {
 					patchApplied = NO;
 				}
@@ -391,15 +389,13 @@ static NSUInteger rotateRow;
 - (NSArray *)toolbarItems {
     Button *beginSearchButton = searchViewController.beginSearchButton; 
     
-	return [NSArray arrayWithObjects:
-			[Button buttonWithImage:[UIImage imageNamed:@"go.png"] accessibilityLabel:NSLocalizedString(@"Projects", nil) accessibilityHint:nil target:self action:@selector(showProjects:) edgeInsets:UIEdgeInsetsMake(0, 5, 0, 15)],
+	return @[[Button buttonWithImage:[UIImage imageNamed:@"go.png"] accessibilityLabel:NSLocalizedString(@"Projects", nil) accessibilityHint:nil target:self action:@selector(showProjects:) edgeInsets:UIEdgeInsetsMake(0, 5, 0, 15)],
 			[Toolbar flexibleSpace],
 			[Button buttonWithImage:[UIImage imageNamed:@"at.png"] accessibilityLabel:NSLocalizedString(@"Tags", nil) accessibilityHint:nil target:self action:@selector(showTags:) edgeInsets:UIEdgeInsetsMake(0, 15, 0, 15)],
 			[Toolbar flexibleSpace],
 			beginSearchButton,
             [Toolbar flexibleSpace],
-			[Button buttonWithImage:[UIImage imageNamed:@"actions.png"] accessibilityLabel:NSLocalizedString(@"Actions", nil) accessibilityHint:nil target:self action:@selector(showActions:) edgeInsets:UIEdgeInsetsMake(0, 15, 0, 5)],
-			nil];	
+			[Button buttonWithImage:[UIImage imageNamed:@"actions.png"] accessibilityLabel:NSLocalizedString(@"Actions", nil) accessibilityHint:nil target:self action:@selector(showActions:) edgeInsets:UIEdgeInsetsMake(0, 15, 0, 5)]];	
 }
 
 - (IBAction)addItem:(id)sender {
@@ -468,9 +464,9 @@ static NSUInteger rotateRow;
     NSString *content = tree.textContent;   
     [content statistics:&paragraphCount words:&wordCount characters:&characterCount];
     alertView = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:NSLocalizedString(@"%@ words\n%@ paragraphs\n%@ characters", nil), 
-                                                                [numberFormatter stringFromNumber:[NSNumber numberWithUnsignedInteger:wordCount]], 
-                                                                [numberFormatter stringFromNumber:[NSNumber numberWithUnsignedInteger:paragraphCount]],
-                                                                [numberFormatter stringFromNumber:[NSNumber numberWithUnsignedInteger:characterCount]],
+                                                                [numberFormatter stringFromNumber:@(wordCount)], 
+                                                                [numberFormatter stringFromNumber:@(paragraphCount)],
+                                                                [numberFormatter stringFromNumber:@(characterCount)],
                                                                 nil] delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles:nil];
     [alertView show];
 }
@@ -733,7 +729,7 @@ static NSPredicate *projectsPredicate = nil;
 	menuView.target = self;
 	menuView.action = @selector(showProjectsMenuChoice:);
     menuView.longPressAction = @selector(showMenuChoiceNot:);
-    menuView.anchorView = [self.browserViewController.browserView.toolbar.toolbarItems objectAtIndex:0];
+    menuView.anchorView = (self.browserViewController.browserView.toolbar.toolbarItems)[0];
 	menuView.anchorRelativePosition = PositionUpRight;
     //menuView.shiftDown = YES;
 	
@@ -782,7 +778,7 @@ static NSPredicate *projectsPredicate = nil;
 	menuView.target = self;
 	menuView.action = @selector(showTagsMenuChoice:);
     menuView.longPressAction = @selector(showMenuChoiceNot:);
-    menuView.anchorView = [self.browserViewController.browserView.toolbar.toolbarItems objectAtIndex:2];
+    menuView.anchorView = (self.browserViewController.browserView.toolbar.toolbarItems)[2];
 	menuView.anchorRelativePosition = PositionUp;
 	//menuView.shiftDown = YES;
     
@@ -862,7 +858,7 @@ static NSPredicate *projectsPredicate = nil;
 	
 	menuView.target = self;
 	menuView.action = @selector(showActionsMenuChoice:);
-    menuView.anchorView = [self.browserViewController.browserView.toolbar.toolbarItems objectAtIndex:6];
+    menuView.anchorView = (self.browserViewController.browserView.toolbar.toolbarItems)[6];
 	menuView.anchorRelativePosition = PositionUpLeft;
     
 	[menuView show];
@@ -905,18 +901,18 @@ static NSPredicate *projectsPredicate = nil;
 	} else if ([menu isEqualToString:NSLocalizedString(@"Move to...", nil)]) {
         [aMenuView removeAllItems];
 		MenuView *menuView = [self buildProjectsMenuView:NO];
-		[[menuView.items objectAtIndex:0] setText:NSLocalizedString(@"Move to...", nil)];
+		[(menuView.items)[0] setText:NSLocalizedString(@"Move to...", nil)];
 		menuView.action = @selector(moveToMenuChoice:);
-        menuView.anchorView = [self.browserViewController.browserView.toolbar.toolbarItems objectAtIndex:6];
+        menuView.anchorView = (self.browserViewController.browserView.toolbar.toolbarItems)[6];
         menuView.anchorRelativePosition = PositionUpLeft;
 		[menuView show];
 	} else if ([menu isEqualToString:NSLocalizedString(@"Tag with...", nil)]) {
         [aMenuView removeAllItems];
 		MenuView *menuView = [self buildTagsMenuView];
 		if ([menuView.items count] > 1) {
-			[[menuView.items objectAtIndex:0] setText:NSLocalizedString(@"Tag with...", nil)];
+			[(menuView.items)[0] setText:NSLocalizedString(@"Tag with...", nil)];
 		}
-        menuView.anchorView = [self.browserViewController.browserView.toolbar.toolbarItems objectAtIndex:6];
+        menuView.anchorView = (self.browserViewController.browserView.toolbar.toolbarItems)[6];
         menuView.anchorRelativePosition = PositionUpLeft;
 		menuView.action = @selector(tagWithMenuChoice:);
 		[menuView show];
@@ -1068,7 +1064,7 @@ static NSPredicate *projectsPredicate = nil;
 	NSMutableIndexSet *insertedIndexes = nil;
 	NSMutableIndexSet *updatedIndexes = nil;
 	NSMutableIndexSet *deletedIndexes = nil;
-	NSArray *insertedSectionsSortedByTreeIndex = [[[userInfo objectForKey:InsertedSectionsKey] allObjects] sortedArrayUsingDescriptors:[NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"treeIndexPath" ascending:YES]]];
+	NSArray *insertedSectionsSortedByTreeIndex = [[userInfo[InsertedSectionsKey] allObjects] sortedArrayUsingDescriptors:@[[[NSSortDescriptor alloc] initWithKey:@"treeIndexPath" ascending:YES]]];
 	Section *editedSection = self.taskView.editedSection;
 	TrackedLocation *editLocation = editedSection == nil ? nil : [TrackedLocation trackedLocationWithSection:editedSection offset:0];
     
@@ -1076,7 +1072,7 @@ static NSPredicate *projectsPredicate = nil;
 		[tree addTrackedLocation:editLocation];
 	}
 	
-	for (Section *eachDeleted in [userInfo objectForKey:DeletedSectionsKey]) {
+	for (Section *eachDeleted in userInfo[DeletedSectionsKey]) {
 		NSUInteger index = [sections indexOfObject:eachDeleted];
 		if (index != NSNotFound) {
 			if (!deletedIndexes) deletedIndexes = [NSMutableIndexSet indexSet];
@@ -1107,7 +1103,7 @@ static NSPredicate *projectsPredicate = nil;
 		[insertedIndexes addIndex:insertIndex];        
 	}
     
-	for (Section *eachUpdated in [userInfo objectForKey:UpdatedSectionsKey]) {
+	for (Section *eachUpdated in userInfo[UpdatedSectionsKey]) {
 		NSUInteger index = [sections indexOfObject:eachUpdated];
 		if (index != NSNotFound) {
 			if (!updatedIndexes) updatedIndexes = [NSMutableIndexSet indexSet];
@@ -1147,7 +1143,7 @@ static NSPredicate *projectsPredicate = nil;
 
 - (Section *)documentView:(TaskView *)documentView sectionForRow:(NSUInteger)row {
     if ([sections count] > row) {
-        return [sections objectAtIndex:row];        
+        return sections[row];        
     }
     return nil;
 }
@@ -1166,7 +1162,7 @@ static NSPredicate *projectsPredicate = nil;
 	cell.selected = [self.taskView.selectedRows containsIndex:row];
 	cell.secondarySelected = [self.taskView.selectedRowsCover containsIndex:row];
 	cell.edited = self.taskView.editedRow == row;
-	cell.section = [sections objectAtIndex:row];
+	cell.section = sections[row];
 	
 	return cell;
 }
@@ -1214,7 +1210,7 @@ static NSPredicate *projectsPredicate = nil;
 
 - (void)documentView:(TaskView *)aDocumentView swipeRightFromPoint:(CGPoint)aPoint {
 	NSUInteger row = [self.taskView rowAtPoint:aPoint];
-	Section *section = [sections objectAtIndex:row];
+	Section *section = sections[row];
 	Tag *done = [section tagWithOnlyName:@"done"];
 	
 	[self.taskView beginUpdates];
@@ -1245,7 +1241,7 @@ static NSPredicate *projectsPredicate = nil;
 }
 
 - (void)documentView:(TaskView *)aDocumentView deleteRow:(NSUInteger)aRow {
-	Section *delete = [sections objectAtIndex:aRow];
+	Section *delete = sections[aRow];
 	[self.taskView beginUpdates];
 	[delete.tree removeSubtreeSectionsObject:delete includeChildren:YES];
 	[self.taskView endUpdatesAnimated:YES];
@@ -1273,7 +1269,7 @@ static NSPredicate *projectsPredicate = nil;
 		NSMutableArray *lines = [[text componentsSeparatedByString:@"\n"] mutableCopy];
 		[lines removeObjectAtIndex:0]; // already added to remainign
 		NSUInteger sectionIndex = self.taskView.editedRow;
-		Section *section = [sections objectAtIndex:sectionIndex];
+		Section *section = sections[sectionIndex];
 		
 		if ([text isEqualToString:@"\n"] && [remaining length] == 0 && [trailing length] == 0) {
 			switch (section.type) {
@@ -1351,7 +1347,7 @@ static NSPredicate *projectsPredicate = nil;
 		}
 		
 		if (levelShift != 0) {
-			Section *section = [sections objectAtIndex:self.taskView.editedRow];
+			Section *section = sections[self.taskView.editedRow];
             fieldEditor.uncommitedChanges = YES;
 			if (section.level > 0 || levelShift > 0) {
 				[tree beginChangingSections];
@@ -1382,7 +1378,7 @@ static NSPredicate *projectsPredicate = nil;
 		}
 	} else if ([text isEqualToString:@":"]) {
 		NSUInteger sectionIndex = self.taskView.editedRow;
-		Section *section = [sections objectAtIndex:sectionIndex];
+		Section *section = sections[sectionIndex];
 		if (NSMaxRange(range) == [section.content length]) {
 			[section replaceContentInRange:range withString:@": "];
 			[fieldEditor setSelectedRange:NSMakeRange(NSMaxRange(range) + 1, 0)];
@@ -1421,7 +1417,7 @@ static NSPredicate *projectsPredicate = nil;
 	Section *afterSection = nil;
 	
 	if (droppedRow < [sections count]) {
-		afterSection = [sections objectAtIndex:droppedRow];
+		afterSection = sections[droppedRow];
 		if (self.taskView.droppedAbove) {
 			afterSection = afterSection.treeOrderPrevious;
 		}

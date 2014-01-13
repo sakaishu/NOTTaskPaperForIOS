@@ -56,7 +56,7 @@
 - (void)restClient:(DBRestClient*)aClient loadedFile:(NSString*)destPath {
 	NSAssert([destPath isEqual:tempDownloadPath], @"%@", self);
 	
-	NSDictionary *attributes = [NSDictionary dictionaryWithObject:serverMetadata.lastModifiedDate forKey:NSFileModificationDate];
+	NSDictionary *attributes = @{NSFileModificationDate: serverMetadata.lastModifiedDate};
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	NSError *error = nil;
 
@@ -84,10 +84,10 @@
 			if ([localChanges count] > 0) {
 				NSArray *patchResults = [dmp patch_apply:localChanges toString:serverContent];
 				//NSArray *patchResults = [dmp patchApply:localChanges text:serverContent];
-				NSString *patchResultsText = [patchResults objectAtIndex:0];
+				NSString *patchResultsText = patchResults[0];
 				BOOL patchApplied = YES;
 				
-				for (NSNumber *each in [patchResults objectAtIndex:1]) {
+				for (NSNumber *each in patchResults[1]) {
 					if (![each boolValue]) {
 						patchApplied = NO;
 					}

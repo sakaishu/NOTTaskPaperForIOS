@@ -85,7 +85,7 @@
         [startMarkers removeObject:start];
         [characterSets removeObjectAtIndex:i];
         
-        id endOrNull = [endMarkers objectAtIndex:i];
+        id endOrNull = endMarkers[i];
         if ([NSNull null] != endOrNull) {
             [rootNode remove:endOrNull];
         }
@@ -97,7 +97,7 @@
 - (NSString *)endMarkerForStartMarker:(NSString *)startMarker {
     NSParameterAssert([startMarkers containsObject:startMarker]);
     NSUInteger i = [startMarkers indexOfObject:startMarker];
-    return [endMarkers objectAtIndex:i];
+    return endMarkers[i];
 }
 
 
@@ -105,7 +105,7 @@
     NSParameterAssert([startMarkers containsObject:startMarker]);
     NSCharacterSet *characterSet = nil;
     NSUInteger i = [startMarkers indexOfObject:startMarker];
-    id csOrNull = [characterSets objectAtIndex:i];
+    id csOrNull = characterSets[i];
     if ([NSNull null] != csOrNull) {
         characterSet = csOrNull;
     }

@@ -105,7 +105,7 @@
 		NSDate *currentDate = [[fileManager attributesOfItemAtPath:localPath error:NULL] fileModificationDate];
 		
 		if ([lastSyncDate isEqualToDate:currentDate]) {
-			[fileManager setAttributes:[NSDictionary dictionaryWithObject:serverMetadata.lastModifiedDate forKey:NSFileModificationDate] ofItemAtPath:localPath error:NULL];
+			[fileManager setAttributes:@{NSFileModificationDate: serverMetadata.lastModifiedDate} ofItemAtPath:localPath error:NULL];
 			[pathController enqueuePathChangedNotification:localPath changeType:ModifiedPathsKey];
 		}
 	}

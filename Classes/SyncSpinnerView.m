@@ -25,8 +25,7 @@
 - (id)init {
     self = [super init];
     if (self) {
-		self.animationImages = [NSArray arrayWithObjects:
-								[UIImage imageNamed:@"spinner0.png"],
+		self.animationImages = @[[UIImage imageNamed:@"spinner0.png"],
 								[UIImage imageNamed:@"spinner1.png"],
 								[UIImage imageNamed:@"spinner2.png"],
 								[UIImage imageNamed:@"spinner3.png"],
@@ -34,7 +33,7 @@
 								[UIImage imageNamed:@"spinner5.png"],
 								[UIImage imageNamed:@"spinner6.png"],
 								[UIImage imageNamed:@"spinner7.png"],
-								[UIImage imageNamed:@"spinner8.png"], nil];
+								[UIImage imageNamed:@"spinner8.png"]];
 		self.animationDuration = 0.75;
 		[self sizeToFit];
 		[self refreshFromDefaults];

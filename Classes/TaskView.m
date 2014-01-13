@@ -154,7 +154,7 @@ static float initialOffsetY;
 
 - (CGRect)rectForRow:(NSUInteger)row {
 	if (row >= firstInvalidRowData) [self validateRowDatasToRow:row];
-	RowData *rowData = [rowDatas objectAtIndex:row];
+	RowData *rowData = rowDatas[row];
 	return rowData->rowRect;
 }
 
@@ -197,7 +197,7 @@ static float initialOffsetY;
 	
 	while (index < high) {
 		NSUInteger mid = (index + high) / 2;
-		RowData *test = [rowDatas objectAtIndex:mid];
+		RowData *test = rowDatas[mid];
 		CGRect testRect = test->rowRect;
 		CGFloat testPosition = testRect.origin.y;
 		CGFloat testHeight = testRect.size.height;
@@ -226,7 +226,7 @@ static float initialOffsetY;
 
 - (IPhoneDocumentViewCell *)cellForRow:(NSUInteger)row {
 	if (row != NSNotFound) {
-		return [[rowDatas objectAtIndex:row] cell];
+		return [rowDatas[row] cell];
 	}
 	return nil;
 }
@@ -290,7 +290,7 @@ static float initialOffsetY;
     NSRange visibleRows = [self rowsInRect:visibleRect];
 	if (visibleRows.location != NSNotFound) {
 		for (NSUInteger i = visibleRows.location; i <= NSMaxRange(visibleRows); i++) {
-			eachRowData = [rowDatas objectAtIndex:i];
+			eachRowData = rowDatas[i];
 			eachRowDataCell = eachRowData.cell;
 			
 			if (!eachRowDataCell) {
@@ -312,7 +312,7 @@ static float initialOffsetY;
 			NSUInteger count = [subviews count];
 			
 			for (NSUInteger i = editorIndex; i < count; i++) {
-				UIView *v = [subviews objectAtIndex:i];
+				UIView *v = subviews[i];
 				if ([v isKindOfClass:[IPhoneDocumentViewCell class]]) {
 					[self exchangeSubviewAtIndex:editorIndex withSubviewAtIndex:i];
 					editorIndex = i;
@@ -395,7 +395,7 @@ static float initialOffsetY;
 	NSRange visibleRows = [self rowsInRect:visibleRect];
 	if (visibleRows.location != NSNotFound) {
 		for (NSUInteger i = visibleRows.location; i <= NSMaxRange(visibleRows); i++) {
-			eachRowData = [rowDatas objectAtIndex:i];
+			eachRowData = rowDatas[i];
 			eachRowDataCell = eachRowData.cell;
 			
 			[remainingLastVisibleRows removeObject:eachRowData];
@@ -1209,13 +1209,13 @@ static float initialOffsetY;
 	CGSize rowFitInSize = CGSizeMake(rowWidth, CGFLOAT_MAX);
 	TaskViewController *documentViewController = (TaskViewController *) self.taskDelegate;
 	NSUInteger end = MIN(fixToRow, [rowDatas count] - 1);
-	RowData *lastValidRowData = firstInvalidRowData == 0 ? nil : [rowDatas objectAtIndex:firstInvalidRowData - 1];
+	RowData *lastValidRowData = firstInvalidRowData == 0 ? nil : rowDatas[firstInvalidRowData - 1];
 	NSUInteger yOffset = lastValidRowData == nil ? SEARCH_BAR_HEIGHT + 5 : CGRectGetMaxY(lastValidRowData->rowRect);
 	NSUInteger index = firstInvalidRowData;
 	RowData *eachRowData;
     
     while (index <= end) {
-		eachRowData = [rowDatas objectAtIndex:index];
+		eachRowData = rowDatas[index];
 		eachRowData->row = index;
 		
 		if (CGRectEqualToRect(eachRowData->rowRect, CGRectZero)) {

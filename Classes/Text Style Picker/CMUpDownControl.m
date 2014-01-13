@@ -336,7 +336,7 @@
 	CGPathRelease(downArrowPath);
 	
 	// Draw text
-	NSString *valueStr = [valueFormatter stringFromNumber:[NSNumber numberWithFloat:value]];
+	NSString *valueStr = [valueFormatter stringFromNumber:@(value)];
 	
 	[[UIColor colorWithRed:66.0/255.0 green:66.0/255.0 blue:66.0/255.0 alpha:1.0] set];
 	UIFont *valueFont = [UIFont systemFontOfSize:36.0];

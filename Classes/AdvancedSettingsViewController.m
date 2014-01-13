@@ -37,20 +37,20 @@
 	NSMutableArray *groupOneCells = [NSMutableArray array];
 	NSMutableArray *groupTwoCells = [NSMutableArray array];
 		
-	IFChoiceCellController *sortByCell = [[IFChoiceCellController alloc] initWithLabel:NSLocalizedString(@"Sort By", nil) andChoices:[NSArray arrayWithObjects:NSLocalizedString(@"Name ↑", nil), NSLocalizedString(@"Name ↓", nil), NSLocalizedString(@"Modified ↑", nil), NSLocalizedString(@"Modified ↓", nil), /*NSLocalizedString(@"Created ↑", nil), NSLocalizedString(@"Created ↓", nil),*/ nil] andChoiceValues:nil atKey:SortByDefaultsKey inModel:model];
+	IFChoiceCellController *sortByCell = [[IFChoiceCellController alloc] initWithLabel:NSLocalizedString(@"Sort By", nil) andChoices:@[NSLocalizedString(@"Name ↑", nil), NSLocalizedString(@"Name ↓", nil), NSLocalizedString(@"Modified ↑", nil), NSLocalizedString(@"Modified ↓", nil)] andChoiceValues:nil atKey:SortByDefaultsKey inModel:model];
 	sortByCell.updateTarget = self;
 	sortByCell.updateAction = @selector(sortByChanged:);
 	[groupOneCells addObject:sortByCell];
 	
-	IFChoiceCellController *sortFoldersCell = [[IFChoiceCellController alloc] initWithLabel:NSLocalizedString(@"Sort Folders", nil) andChoices:[NSArray arrayWithObjects:NSLocalizedString(@"To Top ↑", nil), NSLocalizedString(@"To Bottom ↓", nil), NSLocalizedString(@"With Files", nil), nil] andChoiceValues:nil atKey:SortFoldersDefaultsKey inModel:model];
+	IFChoiceCellController *sortFoldersCell = [[IFChoiceCellController alloc] initWithLabel:NSLocalizedString(@"Sort Folders", nil) andChoices:@[NSLocalizedString(@"To Top ↑", nil), NSLocalizedString(@"To Bottom ↓", nil), NSLocalizedString(@"With Files", nil)] andChoiceValues:nil atKey:SortFoldersDefaultsKey inModel:model];
 	sortFoldersCell.updateTarget = self;
 	sortFoldersCell.updateAction = @selector(sortFoldersChanged:);
 	[groupOneCells addObject:sortFoldersCell];
 	
 #if defined(WRITEROOM) || defined(TASKPAPER)
 	IFChoiceCellController *autocorrectionTypeCell = [[IFChoiceCellController alloc] initWithLabel:NSLocalizedString(@"Autocorrection", nil) 
-																						 andChoices:[NSArray arrayWithObjects:NSLocalizedString(@"Default", nil), NSLocalizedString(@"Off", nil),NSLocalizedString(@"On", nil), nil]
-																					andChoiceValues:[NSArray arrayWithObjects:[NSNumber numberWithInteger:UITextAutocorrectionTypeDefault], [NSNumber numberWithInteger:UITextAutocorrectionTypeNo], [NSNumber numberWithInteger:UITextAutocorrectionTypeYes], nil]
+																						 andChoices:@[NSLocalizedString(@"Default", nil), NSLocalizedString(@"Off", nil),NSLocalizedString(@"On", nil)]
+																					andChoiceValues:@[@(UITextAutocorrectionTypeDefault), @(UITextAutocorrectionTypeNo), @(UITextAutocorrectionTypeYes)]
 																							  atKey:AutocorrectionTypeDefaultsKey inModel:model];
 	autocorrectionTypeCell.updateTarget = self;
 	autocorrectionTypeCell.updateAction = @selector(autocorrectionChanged:);
@@ -66,7 +66,7 @@
 	passcodeCell.updateAction = @selector(passcodeCellChanged:);
 	[groupOneCells addObject:passcodeCell];
     
-    IFChoiceCellController *passcodeTimeoutCell = [[IFChoiceCellController alloc] initWithLabel:NSLocalizedString(@"Passcode Timeout", nil) andChoices:[NSArray arrayWithObjects:NSLocalizedString(@"Immediately", nil), NSLocalizedString(@"1 minute", nil), NSLocalizedString(@"5 minutes", nil), NSLocalizedString(@"15 minutes", nil), nil] andChoiceValues:nil atKey:PasscodeTimeoutDefaultsKey inModel:model];
+    IFChoiceCellController *passcodeTimeoutCell = [[IFChoiceCellController alloc] initWithLabel:NSLocalizedString(@"Passcode Timeout", nil) andChoices:@[NSLocalizedString(@"Immediately", nil), NSLocalizedString(@"1 minute", nil), NSLocalizedString(@"5 minutes", nil), NSLocalizedString(@"15 minutes", nil)] andChoiceValues:nil atKey:PasscodeTimeoutDefaultsKey inModel:model];
     [groupOneCells addObject:passcodeTimeoutCell];
     
 #endif
@@ -153,9 +153,9 @@
     
     NSString *footers = @"";
 	
-	tableGroups = [NSArray arrayWithObjects:groupOneCells, groupTwoCells, nil];
-	tableHeaders = [NSArray arrayWithObjects:@"", @"", nil];	
-	tableFooters = [NSArray arrayWithObjects:@"", footers, nil];	
+	tableGroups = @[groupOneCells, groupTwoCells];
+	tableHeaders = @[@"", @""];	
+	tableFooters = @[@"", footers];	
 }
 
 - (void)textRightToLeftChanged:(UISwitch *)sender {

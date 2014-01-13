@@ -79,7 +79,7 @@
         [self.searchView becomeFirstResponder];
     } else {
         [self updateSearchText:@""];    
-        [self performSelector:@selector(notifiySearchFieldChangedAfterDelay:) withObject:[NSNumber numberWithFloat:0.0000001]];
+        [self performSelector:@selector(notifiySearchFieldChangedAfterDelay:) withObject:@0.0000001f];
         [self setSearchbarHidden:YES];
         if ([self.searchView isFirstResponder]) {
             [self.searchView resignFirstResponder];
@@ -121,12 +121,12 @@
 	if (delay == 0) {
 		[self.delegate searchViewTextDidChange:self];
 	} else {
-		[self performSelector:@selector(notifiySearchFieldChangedAfterDelay:) withObject:[NSNumber numberWithFloat:0] afterDelay:[delayNumber floatValue]];
+		[self performSelector:@selector(notifiySearchFieldChangedAfterDelay:) withObject:@0.0f afterDelay:[delayNumber floatValue]];
 	}
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-	[self notifiySearchFieldChangedAfterDelay:[NSNumber numberWithFloat:0]];
+	[self notifiySearchFieldChangedAfterDelay:@0.0f];
 	
     if ([self.delegate respondsToSelector:@selector(searchViewShouldReturn:)]) {
         [self.delegate performSelector:@selector(searchViewShouldReturn:) withObject:textField];
@@ -139,7 +139,7 @@
 }
 
 - (BOOL)textFieldShouldClear:(UITextField *)textField {
-	[self notifiySearchFieldChangedAfterDelay:[NSNumber numberWithFloat:0.0000001]];
+	[self notifiySearchFieldChangedAfterDelay:@0.0000001f];
 	return YES;
 }
 
@@ -150,7 +150,7 @@
 	} else {
 		textField.rightViewMode = UITextFieldViewModeNever;
 	}
-	[self notifiySearchFieldChangedAfterDelay:[NSNumber numberWithFloat:0.5]];
+	[self notifiySearchFieldChangedAfterDelay:@0.5f];
 	return YES;
 }
 

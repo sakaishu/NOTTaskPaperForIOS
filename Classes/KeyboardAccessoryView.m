@@ -186,7 +186,7 @@
 
 - (void)willRotateToInterfaceOrientation:(NSNotification *)aNotification {
 	CGRect f = self.frame;
-	UIInterfaceOrientation toOrientation = [[[aNotification userInfo] objectForKey:ToOrientation] integerValue];
+	UIInterfaceOrientation toOrientation = [[aNotification userInfo][ToOrientation] integerValue];
 	if (UIInterfaceOrientationIsPortrait(toOrientation)) {
 		f.size = [self sizeThatFits:f.size forOrientation:UIInterfaceOrientationPortrait];
 	} else {

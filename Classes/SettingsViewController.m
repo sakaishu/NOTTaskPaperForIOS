@@ -152,8 +152,8 @@ static BOOL _showing;
 	
 	// Group 1
     NSString *versionKey = (id)kCFBundleVersionKey;
-	NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:versionKey];
-	IFTemporaryModel *tempModel = [[IFTemporaryModel alloc] initWithDictionary:[NSDictionary dictionaryWithObject:version forKey:@"version"]];
+	NSString *version = [[NSBundle mainBundle] infoDictionary][versionKey];
+	IFTemporaryModel *tempModel = [[IFTemporaryModel alloc] initWithDictionary:@{@"version": version}];
 	IFTextCellController *textCell = [[IFTextCellController alloc] initWithLabel:processName andPlaceholder:nil atKey:@"version" inModel:tempModel];
 	textCell.enabled = NO;
 	[groupOneCells addObject:textCell];
@@ -207,9 +207,9 @@ static BOOL _showing;
     [groupThreeCells addObject:privacyPolicyCell];
 #endif
 			
-	tableGroups = [NSArray arrayWithObjects:groupOneCells, groupTwoCells, groupThreeCells, nil];
-	tableHeaders = [NSArray arrayWithObjects:@"", @"", @"", @"", nil];
-	tableFooters = [NSArray arrayWithObjects:NSLocalizedString(@"Created by SOMEBODY", nil), @"", @"", @"", nil];
+	tableGroups = @[groupOneCells, groupTwoCells, groupThreeCells];
+	tableHeaders = @[@"", @"", @"", @""];
+	tableFooters = @[NSLocalizedString(@"Created by SOMEBODY", nil), @"", @"", @""];
 }
 
 - (void)privacyPolicy {

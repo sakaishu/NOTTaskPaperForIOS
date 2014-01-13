@@ -75,11 +75,9 @@
     NSString *found = next ? [next description] : @"-nothing-";
     
     NSString *reason = [NSString stringWithFormat:@"\n\nAfter : %@\nExpected : %@\nFound : %@\n\n", after, expected, found];
-    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-                              after, @"after",
-                              expected, @"expected",
-                              found, @"found",
-                              nil];
+    NSDictionary *userInfo = @{@"after": after,
+                              @"expected": expected,
+                              @"found": found};
     [[PKTrackException exceptionWithName:PKTrackExceptionName reason:reason userInfo:userInfo] raise];
 }
 

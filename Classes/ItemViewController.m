@@ -221,7 +221,7 @@
             offsetDict = [NSMutableDictionary dictionary];        
         }
         float offsetY = [[self scrollView] contentOffset].y;
-        [offsetDict setObject:[NSValue valueWithCGPoint:CGPointMake([[self scrollView] contentOffset].x, offsetY)] forKey:self.path];
+        offsetDict[self.path] = [NSValue valueWithCGPoint:CGPointMake([[self scrollView] contentOffset].x, offsetY)];
         offsetData = [NSKeyedArchiver archivedDataWithRootObject:offsetDict];
         [[NSUserDefaults standardUserDefaults] setObject:offsetData forKey:OpenDocumentContentOffsetDefaultsKey];
     }

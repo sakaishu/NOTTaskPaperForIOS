@@ -58,7 +58,7 @@ NSString *const kFontPickerViewControllerCellIdentifier = @"FontPickerViewContro
 
 - (NSString *)_fontFamilyForSection:(NSInteger)section {
 	@try {
-		return [[UIFont familyNames] objectAtIndex:section];
+		return [UIFont familyNames][section];
 	}
 	@catch (NSException * e) {
 		// ignore
@@ -68,7 +68,7 @@ NSString *const kFontPickerViewControllerCellIdentifier = @"FontPickerViewContro
 
 - (NSString *)_fontNameForRow:(NSInteger)row inFamily:(NSString *)family {
 	@try {
-		return [[UIFont fontNamesForFamilyName:family] objectAtIndex:row];
+		return [UIFont fontNamesForFamilyName:family][row];
 	}
 	@catch (NSException * e) {
 		// ignore
