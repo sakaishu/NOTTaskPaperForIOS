@@ -304,8 +304,8 @@
 	
     NSTimeInterval animationDuration;
     UIViewAnimationCurve animationCurve;
-    CGRect keyboardBeginFrame;
-    CGRect keyboardEndFrame;
+    CGRect keyboardBeginFrame = CGRectZero;
+    CGRect keyboardEndFrame = CGRectZero;
 	[self keybooardInfo:[aNotification userInfo] animationDuration:&animationDuration animationCurve:&animationCurve keyboardBeginFrame:&keyboardBeginFrame keyboardEndFrame:&keyboardEndFrame];
 	CGRect keyboardEndFrameVisibleRect = CGRectIntersection([self convertRect:self.bounds toView:nil], keyboardEndFrame);
 	CGFloat keyboardFullHeight = [self convertRect:keyboardEndFrame fromView:nil].size.height;
