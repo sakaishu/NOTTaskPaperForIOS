@@ -28,7 +28,6 @@
 		880BC9571386D234007388E2 /* wand_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 880BC9511386D234007388E2 /* wand_small@2x.png */; };
 		880BC95B1386D28C007388E2 /* font_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 880BC9581386D28C007388E2 /* font_small.png */; };
 		880BC95D1386D28C007388E2 /* font_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 880BC9591386D28C007388E2 /* font_small@2x.png */; };
-		88110603187DF41D0050A839 /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = 88110602187DF41D0050A839 /* LICENSE.md */; };
 		881C67F11379CFFA00C57AEC /* AddHocEntitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 88A6AAB01237DCD10014A427 /* AddHocEntitlements.plist */; };
 		881C67F21379CFFA00C57AEC /* DistributionEntitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 88A6AAB11237DCD10014A427 /* DistributionEntitlements.plist */; };
 		881C67F81379CFFA00C57AEC /* HelpPageTemplate.html in Resources */ = {isa = PBXBuildFile; fileRef = 8850D8A11294286C00F29113 /* HelpPageTemplate.html */; };
@@ -242,7 +241,6 @@
 		8848DB0F1387534F00031392 /* dropbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 8848DB0B1387534F00031392 /* dropbox.png */; };
 		8848DB121387534F00031392 /* dropbox@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8848DB0C1387534F00031392 /* dropbox@2x.png */; };
 		8848DB5C138D80A800031392 /* Help.markdown in Resources */ = {isa = PBXBuildFile; fileRef = 88D0632D137B2A9900C527CB /* Help.markdown */; };
-		88501873187DABD400366B9A /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 88501871187DABD400366B9A /* README.md */; };
 		88571A1913858E62002B5826 /* spinner0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 88571A0E13858E62002B5826 /* spinner0@2x.png */; };
 		88571A1C13858E62002B5826 /* spinner1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 88571A0F13858E62002B5826 /* spinner1@2x.png */; };
 		88571A1F13858E62002B5826 /* spinner2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 88571A1013858E62002B5826 /* spinner2@2x.png */; };
@@ -374,7 +372,6 @@
 		880BC9511386D234007388E2 /* wand_small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wand_small@2x.png"; sourceTree = "<group>"; };
 		880BC9581386D28C007388E2 /* font_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = font_small.png; sourceTree = "<group>"; };
 		880BC9591386D28C007388E2 /* font_small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "font_small@2x.png"; sourceTree = "<group>"; };
-		88110602187DF41D0050A839 /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.md; sourceTree = "<group>"; };
 		881C67AE1379C2FC00C57AEC /* ContactSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactSettingsViewController.h; sourceTree = "<group>"; };
 		881C67AF1379C2FD00C57AEC /* ContactSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactSettingsViewController.m; sourceTree = "<group>"; };
 		881C67B81379CABB00C57AEC /* SearchTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTextField.h; sourceTree = "<group>"; };
@@ -395,7 +392,6 @@
 		8848DAC21386ED3C00031392 /* IconTEBarButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IconTEBarButton@2x.png"; sourceTree = "<group>"; };
 		8848DB0B1387534F00031392 /* dropbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dropbox.png; sourceTree = "<group>"; };
 		8848DB0C1387534F00031392 /* dropbox@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dropbox@2x.png"; sourceTree = "<group>"; };
-		88501871187DABD400366B9A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		8850D80A1294208700F29113 /* HelpSectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpSectionController.h; sourceTree = "<group>"; };
 		8850D80B1294208700F29113 /* HelpSectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpSectionController.m; sourceTree = "<group>"; };
 		8850D8A11294286C00F29113 /* HelpPageTemplate.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = HelpPageTemplate.html; sourceTree = "<group>"; };
@@ -911,8 +907,6 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				88501871187DABD400366B9A /* README.md */,
-				88110602187DF41D0050A839 /* LICENSE.md */,
 				8366F4E41715EFBA0057BDA3 /* Custom Fonts */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -1856,7 +1850,6 @@
 				88C8533A13818CAF00844748 /* pulldown@2x.png in Resources */,
 				88C8537113818CB900844748 /* Default.textexpander in Resources */,
 				88571A1913858E62002B5826 /* spinner0@2x.png in Resources */,
-				88501873187DABD400366B9A /* README.md in Resources */,
 				88571A1C13858E62002B5826 /* spinner1@2x.png in Resources */,
 				88571A1F13858E62002B5826 /* spinner2@2x.png in Resources */,
 				88571A2213858E62002B5826 /* spinner3@2x.png in Resources */,
@@ -1897,7 +1890,6 @@
 				8366F4F31715EFF80057BDA3 /* SourceCodePro-Bold.ttf in Resources */,
 				8366F4F41715EFF80057BDA3 /* SourceCodePro-Regular.ttf in Resources */,
 				8366F4F51715EFF80057BDA3 /* SourceSansPro-Bold.ttf in Resources */,
-				88110603187DF41D0050A839 /* LICENSE.md in Resources */,
 				8366F4F61715EFF80057BDA3 /* SourceSansPro-Regular.ttf in Resources */,
 				8366F4F71715EFF80057BDA3 /* Ubuntu-B.ttf in Resources */,
 				8366F4F81715EFF80057BDA3 /* Ubuntu-R.ttf in Resources */,
