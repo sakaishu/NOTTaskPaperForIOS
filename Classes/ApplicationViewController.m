@@ -426,7 +426,7 @@ void DrawFadeFunction(CGContextRef context, CGRect bounds, CGColorRef background
 @synthesize tintCursor;
 
 - (BOOL)tintCursor {
-	return tintCursor && self.modalViewController == nil;
+	return tintCursor && self.presentedViewController == nil;
 }
 
 - (void)setTintCursor:(BOOL)aBool {
