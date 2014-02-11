@@ -18,11 +18,11 @@
 
 	UITableViewCellAccessoryType accessoryType;
 	UIView *accessoryView;
-    UITextAlignment textAlignment;
+    NSTextAlignment textAlignment;
 }
 
 
-@property (nonatomic, assign) UITextAlignment textAlignment;
+@property (nonatomic, assign) NSTextAlignment textAlignment;
 @property (nonatomic, assign) UITableViewCellAccessoryType accessoryType;
 @property (nonatomic) UIView *accessoryView;
 

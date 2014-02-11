@@ -30,7 +30,7 @@
 - (id)init {
 	self = [super initWithFrame:CGRectZero];
 	self.returnKeyType = UIReturnKeyDone;
-	self.textAlignment = UITextAlignmentCenter;
+	self.textAlignment = NSTextAlignmentCenter;
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(allCapsHeadingsChangedNotification:) name:AllCapsHeadingsChangedNotification object:nil];
 	[self refreshFromDefaults];
 	return self;

@@ -95,11 +95,11 @@
 	if (enabled) {
 		textField.enabled = YES;	
 		textField.backgroundColor = [UIColor whiteColor];
-		textField.textAlignment = UITextAlignmentLeft;
+		textField.textAlignment = NSTextAlignmentLeft;
 	} else {
 		textField.enabled = NO;
 		textField.backgroundColor = [UIColor clearColor];
-		textField.textAlignment = UITextAlignmentRight;
+		textField.textAlignment = NSTextAlignmentRight;
 	}	
 	cell.view = textField;
 	

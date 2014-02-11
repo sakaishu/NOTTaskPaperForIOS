@@ -133,7 +133,7 @@
 			[choiceLabel setFont:[UIFont systemFontOfSize:17.0f]];
 			[choiceLabel setBackgroundColor:[UIColor clearColor]];
 			[choiceLabel setHighlightedTextColor:[UIColor whiteColor]];
-			[choiceLabel setTextAlignment:UITextAlignmentRight];
+			[choiceLabel setTextAlignment:NSTextAlignmentRight];
 			[choiceLabel setTextColor:[UIColor colorWithRed:0.20f green:0.31f blue:0.52f alpha:1.0f]];
 			cell.view = choiceLabel;
 		}
@@ -145,7 +145,7 @@
 			[choiceLabel setFont:[UIFont systemFontOfSize:17.0f]];
 			[choiceLabel setBackgroundColor:[UIColor clearColor]];
 			[choiceLabel setHighlightedTextColor:[UIColor whiteColor]];
-			[choiceLabel setTextAlignment:UITextAlignmentRight];
+			[choiceLabel setTextAlignment:NSTextAlignmentRight];
 			[choiceLabel setTextColor:[UIColor colorWithRed:0.20f green:0.31f blue:0.52f alpha:1.0f]];
 			cell.view = choiceLabel;
 		}

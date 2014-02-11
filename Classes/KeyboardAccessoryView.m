@@ -72,7 +72,7 @@
 	[button addTarget:self action:@selector(keyUp:) forControlEvents:UIControlEventTouchUpInside];
 	button.titleLabel.shadowOffset = CGSizeMake(0, 1);
 	button.titleLabel.font = [UIFont systemFontOfSize:26];
-	button.titleLabel.textAlignment = UITextAlignmentCenter;
+	button.titleLabel.textAlignment = NSTextAlignmentCenter;
 	//button.imageView.contentStretch = CGRectMake(0.5, 0.5, 0, 0);
 	button.accessibilityTraits = UIAccessibilityTraitPlaysSound | UIAccessibilityTraitKeyboardKey;
 

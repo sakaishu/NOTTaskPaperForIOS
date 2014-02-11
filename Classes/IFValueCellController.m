@@ -87,7 +87,7 @@
 		[valueLabel setFont:[UIFont systemFontOfSize:17.0f]];
 		[valueLabel setBackgroundColor:[UIColor whiteColor]];
 		[valueLabel setHighlightedTextColor:[UIColor whiteColor]];
-		[valueLabel setTextAlignment:UITextAlignmentRight];
+		[valueLabel setTextAlignment:NSTextAlignmentRight];
 		[valueLabel setTextColor:[UIColor colorWithRed:0.20f green:0.31f blue:0.52f alpha:1.0f]];
 		cell.view = valueLabel;
 	}
@@ -99,7 +99,7 @@
 		[valueLabel setFont:[UIFont systemFontOfSize:17.0f]];
 		[valueLabel setBackgroundColor:[UIColor whiteColor]];
 		[valueLabel setHighlightedTextColor:[UIColor whiteColor]];
-		[valueLabel setTextAlignment:UITextAlignmentRight];
+		[valueLabel setTextAlignment:NSTextAlignmentRight];
 		[valueLabel setTextColor:[UIColor colorWithRed:0.20f green:0.31f blue:0.52f alpha:1.0f]];
 		cell.view = valueLabel;
 	}
@@ -111,7 +111,7 @@
 		[valueLabel setFont:[UIFont systemFontOfSize:17.0f]];
 		[valueLabel setBackgroundColor:[UIColor whiteColor]];
 		[valueLabel setHighlightedTextColor:[UIColor whiteColor]];
-		[valueLabel setTextAlignment:UITextAlignmentRight];
+		[valueLabel setTextAlignment:NSTextAlignmentRight];
 		[valueLabel setTextColor:[UIColor colorWithRed:0.20f green:0.31f blue:0.52f alpha:1.0f]];
 		cell.view = valueLabel;
 	}
