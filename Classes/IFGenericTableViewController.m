@@ -308,7 +308,7 @@
             }
         }];
     } else {
-        [self.navigationController dismissModalViewControllerAnimated:NO];
+		[self.navigationController dismissViewControllerAnimated:NO completion:nil];
         [APP_VIEW_CONTROLLER clearDefaultsCaches:YES];
     }
 }

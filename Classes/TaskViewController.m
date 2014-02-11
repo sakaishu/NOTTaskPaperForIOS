@@ -646,7 +646,7 @@ static NSUInteger rotateRow;
 		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"Error Emailing Document", nil), nil] message:[error localizedDescription] delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
 		[alertView show];
 	}
-	[APP_VIEW_CONTROLLER dismissModalViewControllerAnimated:YES];
+	[APP_VIEW_CONTROLLER dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark -

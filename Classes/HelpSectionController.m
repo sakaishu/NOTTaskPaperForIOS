@@ -110,7 +110,7 @@
 }
 
 - (IBAction)dismissModalViewControllerAction:(id)sender {
-	[self.navigationController dismissModalViewControllerAnimated:YES];
+	[self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

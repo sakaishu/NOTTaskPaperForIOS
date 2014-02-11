@@ -85,8 +85,8 @@
 }
 
 - (void)closePasscodeScreenIfPasscodeEnabled {
-    if ([self.applicationViewController.modalViewController isKindOfClass:[PasscodeViewController class]]) {
-        [self.applicationViewController.modalViewController dismissModalViewControllerAnimated:NO];
+    if ([self.applicationViewController.presentedViewController isKindOfClass:[PasscodeViewController class]]) {
+		[self.applicationViewController.presentedViewController dismissViewControllerAnimated:NO completion:nil];
     }
 }
 
@@ -98,7 +98,7 @@
                 passcodeViewController.viewState = PasscodeCheck;
                 if (IS_IPAD) passcodeViewController.view.backgroundColor = [UIColor colorWithRed:224.0/255.0 green:227.0/255.0 blue:232.0/255.0 alpha:1.0];
                 if ([SettingsViewController showing]) {
-                    [self.applicationViewController dismissModalViewControllerAnimated:NO];
+					[self.applicationViewController dismissViewControllerAnimated:NO completion:nil];
                 }
                 [self.applicationViewController presentModalViewController:passcodeViewController animated:NO];
                 UIImageView *splashView = [[UIImageView alloc] initWithFrame:window.bounds];
