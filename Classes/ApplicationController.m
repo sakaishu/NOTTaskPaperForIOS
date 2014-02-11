@@ -100,7 +100,7 @@
                 if ([SettingsViewController showing]) {
 					[self.applicationViewController dismissViewControllerAnimated:NO completion:nil];
                 }
-                [self.applicationViewController presentModalViewController:passcodeViewController animated:NO];
+                [self.applicationViewController presentViewController:passcodeViewController animated:NO completion:nil];
                 UIImageView *splashView = [[UIImageView alloc] initWithFrame:window.bounds];
                 splashView.image = [UIImage imageNamed:@"Default.png"];
                 [window addSubview:splashView];

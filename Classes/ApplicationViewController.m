@@ -757,7 +757,7 @@ void DrawFadeFunction(CGContextRef context, CGRect bounds, CGColorRef background
 - (IBAction)showSettings:(id)sender {
 	[self hideKeyboard];
     [self resignFirstResponder];
-	[self presentModalViewController:[SettingsViewController viewControllerForDisplayingSettings] animated:YES];
+    [self presentViewController:[SettingsViewController viewControllerForDisplayingSettings] animated:YES completion:nil];
 }
 
 - (void)browser:(BrowserViewController *)browserController pushItemsForPath:(NSString *)aPath {	
