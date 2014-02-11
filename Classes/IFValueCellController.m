@@ -75,7 +75,7 @@
 	
 	cell.textLabel.text = label;
 
-	CGSize labelSize = [label sizeWithFont:cell.textLabel.font];
+	CGSize labelSize = [label sizeWithAttributes:@{NSFontAttributeName:cell.textLabel.font}];
 	CGFloat viewWidth = 255.0f - (labelSize.width + (20.0f * indentationLevel));
 	
 	id value = [model objectForKey:key];

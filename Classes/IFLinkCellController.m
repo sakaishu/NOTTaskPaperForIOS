@@ -84,7 +84,8 @@
 	cell.imageView.frame = f;*/
 	
 	NSInteger indentationLevel = 1;
-	CGSize labelSize = [label sizeWithFont:cell.textLabel.font];
+	CGSize labelSize = [label sizeWithAttributes:@{NSFontAttributeName:cell.textLabel.font}];
+
 	CGFloat viewWidth = 255.0f - (labelSize.width + (20.0f * indentationLevel));
 	
 	if ([choice isKindOfClass:[NSString class]]) {
