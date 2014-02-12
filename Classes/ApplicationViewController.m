@@ -877,17 +877,6 @@ void DrawFadeFunction(CGContextRef context, CGRect bounds, CGColorRef background
 	[self becomeFirstResponder];
 }
 
-- (void)hideKeyboardDarnIt {
-	[self hideKeyboard];
-	// Hide keyboard doesnt' seem to work in settings view... not sure why. But this
-	// private api seems to always work.
-	id keyboardImpl = [NSClassFromString([@"UIKe" stringByAppendingString:@"yboardImpl"]) sharedInstance];
-	SEL dismiss = NSSelectorFromString([@"dismi" stringByAppendingString:@"ssKeyboard"]);
-	if ([keyboardImpl respondsToSelector:dismiss]) {
-		[keyboardImpl performSelector:dismiss];
-	}
-}
-
 - (void)presentError:(NSError *)error {
 	if (error) {
 		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:[error localizedDescription] delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles:nil];

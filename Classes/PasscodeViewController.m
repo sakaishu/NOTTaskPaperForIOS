@@ -87,7 +87,7 @@
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
 	[self.hiddenTextField resignFirstResponder];
-	[APP_VIEW_CONTROLLER hideKeyboardDarnIt];
+	[APP_VIEW_CONTROLLER hideKeyboard];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation  {
