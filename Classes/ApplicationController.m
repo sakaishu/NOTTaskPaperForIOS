@@ -465,7 +465,7 @@
         }
     }
     
-    if ([self.applicationViewController.modalViewController isKindOfClass:[PasscodeViewController class]])  {
+    if ([self.applicationViewController.presentedViewController isKindOfClass:[PasscodeViewController class]])  {
         [((PasscodeViewController *)self.applicationViewController.presentedViewController).hiddenTextField becomeFirstResponder];
     }
     
