@@ -6,7 +6,7 @@
 //
 
 
-@interface KeyboardAccessoryView : UIImageView {
+@interface KeyboardAccessoryView : UIInputView {
 	UIResponder *__weak target;
 }
 
