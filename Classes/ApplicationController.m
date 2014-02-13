@@ -161,7 +161,7 @@
 	applicationViewController = [applicationViewController init]; // hack so APP_VIEW_CONTROLLER works
 	//applicationViewController.wantsFullScreenLayout = YES;
 	applicationViewController.view; // load early.
-	window.backgroundColor = [UIColor blackColor];//[APP_VIEW_CONTROLLER paperColor];
+	window.backgroundColor = [APP_VIEW_CONTROLLER paperColor];
 	
 	[UIView setAnimationsEnabled:NO];
 	applicationViewController.showStatusBar = applicationViewController.showStatusBar;
