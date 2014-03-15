@@ -60,7 +60,7 @@
 								 size.height);
 	
 	[color set];
-	[name drawInRect:textRect withFont:font lineBreakMode:UILineBreakModeTailTruncation alignment:UITextAlignmentLeft];
+	[name drawInRect:textRect withFont:font lineBreakMode:UILineBreakModeTailTruncation alignment:NSTextAlignmentLeft];
 	//cell.textLabel.highlightedTextColor = cell.textLabel.textColor;
 	//cell.textLabel.font = [appViewController font];
 	//cell.textLabel.text = displayName;

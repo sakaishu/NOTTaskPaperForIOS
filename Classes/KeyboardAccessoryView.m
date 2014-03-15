@@ -15,65 +15,33 @@
 }
 @end
 
-// hack hack hack, jesse is not proud of this class.
+@interface KeyboardAccessoryView ()
+
+@property (nonatomic, assign) NSUInteger numberOfExtraButtons;
+
+@end
+
 
 @implementation KeyboardAccessoryView
 
-- (UIImage*)imageByCropping:(UIImage *)imageToCrop toRect:(CGRect)rect {
-	UIGraphicsBeginImageContext(rect.size);
-	CGContextRef currentContext = UIGraphicsGetCurrentContext();
-	
-	CGRect clippedRect = CGRectMake(0, 0, rect.size.width, rect.size.height);
-	CGContextClipToRect( currentContext, clippedRect);
-	
-	CGRect drawRect = CGRectMake(rect.origin.x * -1,
-								 rect.origin.y * -1,
-								 imageToCrop.size.width,
-								 imageToCrop.size.height);
-	
-	CGContextTranslateCTM(currentContext, 0.0, drawRect.size.height);
-	CGContextScaleCTM(currentContext, 1.0, -1.0);
-	CGContextDrawImage(currentContext, drawRect, imageToCrop.CGImage);
-	
-	UIImage *cropped = UIGraphicsGetImageFromCurrentImageContext();
-	
-	UIGraphicsEndImageContext();
-	
-	return cropped;
-}
-
 - (id)buttonWith:(NSString *)text cropLeft:(BOOL)cropLeft cropRight:(BOOL)cropRight {
-	UIButton *button = [KeyboardButton buttonWithType:UIButtonTypeCustom];
-	UIImage *normal = [UIImage imageNamed:@"keybackground.png"];
-	UIImage *highlighted = [UIImage imageNamed:@"keypressedbackground.png"];
+	
+	UIButton *button = [KeyboardButton buttonWithType:UIButtonTypeRoundedRect];
+	UIImage *normal = [UIImage imageNamed:@"blankKey"];
+	UIImage *highlighted = [UIImage imageNamed:@"blankKey"];
 
-	if (cropLeft) {
-		CGSize s = [normal size];
-		normal = [self imageByCropping:normal toRect:CGRectMake(10, 0, s.width - 10, s.height)];
-		highlighted = [self imageByCropping:highlighted toRect:CGRectMake(10, 0, s.width - 10, s.height)];
-	}
-	
-	if (cropRight) {
-		CGSize s = [normal size];
-		normal = [self imageByCropping:normal toRect:CGRectMake(0, 0, s.width - 10, s.height)];
-		highlighted = [self imageByCropping:highlighted toRect:CGRectMake(0, 0, s.width - 10, s.height)];
-	}
-	
-    normal = [normal stretchableImageWithLeftCapWidth:10 topCapHeight:10];
-    highlighted = [highlighted stretchableImageWithLeftCapWidth:10 topCapHeight:10];
+	normal = [normal resizableImageWithCapInsets:UIEdgeInsetsMake(20, 18, 20, 18)];
+	highlighted = [highlighted resizableImageWithCapInsets:UIEdgeInsetsMake(20, 18, 20, 18)];
     
 	[button setBackgroundImage:normal forState:UIControlStateNormal];
 	[button setBackgroundImage:highlighted forState:UIControlStateHighlighted];
 	[button sizeToFit];
 	[button setTitle:text forState:UIControlStateNormal];
 	[button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-	[button setTitleShadowColor:[UIColor whiteColor] forState:UIControlStateNormal];
 	[button addTarget:self action:@selector(keyDown) forControlEvents:UIControlEventTouchDown];
 	[button addTarget:self action:@selector(keyUp:) forControlEvents:UIControlEventTouchUpInside];
-	button.titleLabel.shadowOffset = CGSizeMake(0, 1);
 	button.titleLabel.font = [UIFont systemFontOfSize:26];
-	button.titleLabel.textAlignment = UITextAlignmentCenter;
-	//button.imageView.contentStretch = CGRectMake(0.5, 0.5, 0, 0);
+	button.titleLabel.textAlignment = NSTextAlignmentCenter;
 	button.accessibilityTraits = UIAccessibilityTraitPlaysSound | UIAccessibilityTraitKeyboardKey;
 
 	return button;
@@ -82,37 +50,33 @@
 - (CGSize)sizeThatFits:(CGSize)size forOrientation:(UIInterfaceOrientation)orientation {
 	BOOL isPortrait = UIInterfaceOrientationIsPortrait(orientation);
 	if (isPortrait) {
-		//size.height = 72;
 		size.height = 72;
 	} else {
 		size.height = 72;
-		//size.height = 95;
 	}
 	return size;
 }
 
 - (id)init {
-    self = [super init];
+    self = [super initWithFrame:CGRectZero inputViewStyle:UIInputViewStyleKeyboard];
     if (self) {
-		self.image = [UIImage imageNamed:@"keyboardbackground.png"];
+		self.numberOfExtraButtons = 0;
 		self.userInteractionEnabled = YES;
-		self.contentStretch = CGRectMake(0.5, 0.5, 0, 0);
-		
+
 		CGRect f = self.frame;
 		f.size = [self sizeThatFits:f.size forOrientation:APP_VIEW_CONTROLLER.interfaceOrientation];
 		self.frame = f;
-
+		
 		UIButton *tab = [self buttonWith:@"tab" cropLeft:NO cropRight:NO];
 		tab.tag = 1;
-		f = tab.frame;
-		f.size.width = roundf(f.size.width * 1.5);
 		tab.titleLabel.font = [UIFont systemFontOfSize:19];
-		tab.frame = f;
 		[self addSubview:tab];
+		self.numberOfExtraButtons++;
 		
 		NSString *extendedKeys = [[NSUserDefaults standardUserDefaults] objectForKey:ExtendedKeyboardKeysDefaultsKey];
 		for (NSUInteger i = 0; i < [extendedKeys length]; i++) {
 			[self addSubview:[self buttonWith:[extendedKeys substringWithRange:NSMakeRange(i, 1)] cropLeft:NO cropRight:NO]];
+			self.numberOfExtraButtons++;
 		}
 		
 		UIButton *left = [self buttonWith:@"" cropLeft:NO cropRight:YES];
@@ -121,12 +85,9 @@
         left.imageView.contentMode = UIViewContentModeCenter;
 		left.tag = 2;
 		left.titleLabel.font = [UIFont systemFontOfSize:14];
-		[left setTitleColor:[UIColor colorWithWhite:0.2 alpha:1.0] forState:UIControlStateNormal];
+		left.tintColor = [UIColor blackColor];
 		[self addSubview:left];
-		
-		UIImageView *separator = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"keydivider.png"]];
-		separator.contentStretch = CGRectMake(0.5, 0.5, 0, 0);
-		[self addSubview:separator];
+		self.numberOfExtraButtons++;
 		
 		UIButton *right = [self buttonWith:@"" cropLeft:YES cropRight:NO];
         [right setImage:[UIImage imageNamed:@"RightArrow.png"] forState:UIControlStateNormal];
@@ -134,8 +95,9 @@
         right.imageView.contentMode = UIViewContentModeCenter;
 		right.tag = 3;
 		right.titleLabel.font = [UIFont systemFontOfSize:14];
-		[right setTitleColor:[UIColor colorWithWhite:0.2 alpha:1.0] forState:UIControlStateNormal];
+		right.tintColor = [UIColor blackColor];
 		[self addSubview:right];
+		self.numberOfExtraButtons++;
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:KeyboardWillShowNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willRotateToInterfaceOrientation:) name:ApplicationViewWillRotateNotification object:nil];
@@ -147,10 +109,6 @@
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)setFrame:(CGRect)frame {
-	[super setFrame:frame];
 }
 
 - (void)keyboardWillShow:(NSNotification *)aNotification {
@@ -193,6 +151,7 @@
 		f.size = [self sizeThatFits:f.size forOrientation:UIInterfaceOrientationLandscapeLeft];
 	}
 	self.frame = f;
+
 	[self setNeedsLayout];
 }
 
@@ -268,68 +227,30 @@
 }
 
 - (void)layoutSubviews {
-	UIFont *defaultFont;
-	CGFloat defaultWidth;
-//	CGFloat defaultHeight;
-	BOOL isPortrait = UIInterfaceOrientationIsPortrait(APP_VIEW_CONTROLLER.interfaceOrientation);
-	
-	//if (isPortrait) {
-		//defaultWidth = 69;
-		//defaultHeight = 72;
-		defaultFont = [UIFont systemFontOfSize:26];
-		
-	/*} else {
-		defaultWidth = 93;
-		defaultHeight = 95;
-		defaultFont = [UIFont systemFontOfSize:32];
-	}*/
-	
-	if (isPortrait) {
-		defaultWidth = 69;
-	} else {
-		defaultWidth = 93;
-	}
 
-	CGFloat x = 0;
-	CGFloat y = 2;
-	CGRect bounds = self.bounds;
-	CGFloat tabWidth = roundf(defaultWidth * 1.5);
-	CGFloat arrowWidth = roundf(((bounds.size.width - (defaultWidth * ([[self subviews] count] - 4))) - (tabWidth + 1)) / 2.0);
+	CGFloat minPadding = 10;
+	
+	CGFloat maxWidth = (self.frame.size.width / self.numberOfExtraButtons) - minPadding;
+	CGFloat maxHeight = self.frame.size.height - minPadding;
+	CGFloat squareSize = MIN(maxWidth, maxHeight);
+	CGFloat padding = (self.frame.size.width - (squareSize * self.numberOfExtraButtons)) / self.numberOfExtraButtons;
+
+	CGFloat x = padding / 2;
+	CGFloat y = (self.frame.size.height - squareSize) / 2;
 	
 	for (UIButton *each in self.subviews) {
 		CGRect f = each.frame;
 
 		if ([each isKindOfClass:[UIButton class]]) {
-			if (each.tag == 1) {
-				f.size.width = tabWidth;
-				//if (isPortrait) {
-					each.titleLabel.font = [UIFont systemFontOfSize:19];
-				//} else {
-				//	each.titleLabel.font = [UIFont systemFontOfSize:23];
-				//}
- 			} else if (each.tag != 0) {
-				f.size.width = arrowWidth;
-				//if (isPortrait) {
-					each.titleLabel.font = [UIFont systemFontOfSize:16];
-				//} else {
-				//	each.titleLabel.font = [UIFont systemFontOfSize:20];
-				//}
-			} else {
-				f.size.width = defaultWidth;
-				each.titleLabel.font = defaultFont;
-			}
-	
+			
+			f.size.width = squareSize;
+			f.size.height = squareSize;
 			f.origin.x = x;
 			f.origin.y = y;
-			f.size.height = bounds.size.height - y;
 			each.frame = CGRectIntegral(f);
-			x += f.size.width;
-		} else {
-			f.origin.x = x;
-			f.origin.y = y;
-			f.size.height = bounds.size.height - y;
-			each.frame = f;
-			x += f.size.width;
+
+			each.titleLabel.font = [UIFont systemFontOfSize:19];
+			x += f.size.width + padding;
 		}
 	}
 }
@@ -337,19 +258,6 @@
 @end
 	
 @implementation KeyboardButton
-
-- (void)layoutSubviews {
-	[super layoutSubviews];
-	CGRect b = self.bounds;
-	self.imageView.frame = b;
-	UILabel *l = self.titleLabel;
-	if (self.tag == 0) {
-		b.origin.y -= 4;
-	} else if (self.tag != 1) {
-		b.origin.y -= 2;		
-	}
-	l.frame = b;
-}
 
 @end
 	

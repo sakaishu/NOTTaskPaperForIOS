@@ -85,22 +85,22 @@
 }
 
 - (void)closePasscodeScreenIfPasscodeEnabled {
-    if ([self.applicationViewController.modalViewController isKindOfClass:[PasscodeViewController class]]) {
-        [self.applicationViewController.modalViewController dismissModalViewControllerAnimated:NO];
+    if ([self.applicationViewController.presentedViewController isKindOfClass:[PasscodeViewController class]]) {
+		[self.applicationViewController.presentedViewController dismissViewControllerAnimated:NO completion:nil];
     }
 }
 
 - (void)showPasscodeScreenIfPasscodeEnabled {
     if ([[NSUserDefaults standardUserDefaults] boolForKey:PasscodeEnableDefaultsKey]) {
         if ([[PasscodeManager sharedPasscodeManager] hasPasscode]) {
-            if (![self.applicationViewController.modalViewController isKindOfClass:[PasscodeViewController class]])  {
+            if (![self.applicationViewController.presentedViewController isKindOfClass:[PasscodeViewController class]])  {
                 PasscodeViewController *passcodeViewController = [[PasscodeViewController alloc] initWithNibName:@"PasscodeViewController" bundle:nil];
                 passcodeViewController.viewState = PasscodeCheck;
                 if (IS_IPAD) passcodeViewController.view.backgroundColor = [UIColor colorWithRed:224.0/255.0 green:227.0/255.0 blue:232.0/255.0 alpha:1.0];
                 if ([SettingsViewController showing]) {
-                    [self.applicationViewController dismissModalViewControllerAnimated:NO];
+					[self.applicationViewController dismissViewControllerAnimated:NO completion:nil];
                 }
-                [self.applicationViewController presentModalViewController:passcodeViewController animated:NO];
+                [self.applicationViewController presentViewController:passcodeViewController animated:NO completion:nil];
                 UIImageView *splashView = [[UIImageView alloc] initWithFrame:window.bounds];
                 splashView.image = [UIImage imageNamed:@"Default.png"];
                 [window addSubview:splashView];
@@ -161,7 +161,7 @@
 	applicationViewController = [applicationViewController init]; // hack so APP_VIEW_CONTROLLER works
 	//applicationViewController.wantsFullScreenLayout = YES;
 	applicationViewController.view; // load early.
-	window.backgroundColor = [UIColor blackColor];//[APP_VIEW_CONTROLLER paperColor];
+	window.backgroundColor = [APP_VIEW_CONTROLLER paperColor];
 	
 	[UIView setAnimationsEnabled:NO];
 	applicationViewController.showStatusBar = applicationViewController.showStatusBar;
@@ -205,8 +205,8 @@
 #endif
     
     [self showPasscodeScreenIfPasscodeEnabled];
-    if ([self.applicationViewController.modalViewController isKindOfClass:[PasscodeViewController class]])  {
-        [((PasscodeViewController *)self.applicationViewController.modalViewController).hiddenTextField becomeFirstResponder];
+    if ([self.applicationViewController.presentedViewController isKindOfClass:[PasscodeViewController class]])  {
+        [((PasscodeViewController *)self.applicationViewController.presentedViewController).hiddenTextField becomeFirstResponder];
     }
     
     NSURL *launchURL = launchOptions[UIApplicationLaunchOptionsURLKey];
@@ -465,8 +465,8 @@
         }
     }
     
-    if ([self.applicationViewController.modalViewController isKindOfClass:[PasscodeViewController class]])  {
-        [((PasscodeViewController *)self.applicationViewController.modalViewController).hiddenTextField becomeFirstResponder];
+    if ([self.applicationViewController.presentedViewController isKindOfClass:[PasscodeViewController class]])  {
+        [((PasscodeViewController *)self.applicationViewController.presentedViewController).hiddenTextField becomeFirstResponder];
     }
     
 	reenteringForeground = YES;

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		66BE3A6518AD1812005F349B /* blankKey.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BE3A6318AD1812005F349B /* blankKey.png */; };
+		66BE3A6618AD1812005F349B /* blankKey@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BE3A6418AD1812005F349B /* blankKey@2x.png */; };
 		8366F4F11715EFF80057BDA3 /* CourierPrime-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8366F4E51715EFF80057BDA3 /* CourierPrime-Bold.ttf */; };
 		8366F4F21715EFF80057BDA3 /* CourierPrime.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8366F4E61715EFF80057BDA3 /* CourierPrime.ttf */; };
 		8366F4F31715EFF80057BDA3 /* SourceCodePro-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8366F4E71715EFF80057BDA3 /* SourceCodePro-Bold.ttf */; };
@@ -336,6 +338,8 @@
 		28D7ACF70DDB3853001CB0EB /* BrowserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowserViewController.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* NOTTaskPaper_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NOTTaskPaper_Prefix.pch; sourceTree = "<group>"; };
+		66BE3A6318AD1812005F349B /* blankKey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blankKey.png; sourceTree = "<group>"; };
+		66BE3A6418AD1812005F349B /* blankKey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blankKey@2x.png"; sourceTree = "<group>"; };
 		8366F4CC1715EFB60057BDA3 /* CourierPrime-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "CourierPrime-Bold.ttf"; path = "Resources/customfonts/CourierPrime-Bold.ttf"; sourceTree = "<group>"; };
 		8366F4CD1715EFB60057BDA3 /* CourierPrime.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = CourierPrime.ttf; path = Resources/customfonts/CourierPrime.ttf; sourceTree = "<group>"; };
 		8366F4CE1715EFB60057BDA3 /* SourceCodePro-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SourceCodePro-Bold.ttf"; path = "Resources/customfonts/SourceCodePro-Bold.ttf"; sourceTree = "<group>"; };
@@ -1375,6 +1379,8 @@
 		88D81274135F3DDB00FDD74D /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				66BE3A6318AD1812005F349B /* blankKey.png */,
+				66BE3A6418AD1812005F349B /* blankKey@2x.png */,
 				8850D8A11294286C00F29113 /* HelpPageTemplate.html */,
 				88CF135F1396BE0100EA0201 /* hudbackground.png */,
 				886ECA8A1386E362009CB814 /* IconTEBarButton.png */,
@@ -1865,6 +1871,7 @@
 				88571A4113858E7B002B5826 /* spinner1.png in Resources */,
 				88571A4413858E7B002B5826 /* spinner2.png in Resources */,
 				88571A4713858E7B002B5826 /* spinner3.png in Resources */,
+				66BE3A6518AD1812005F349B /* blankKey.png in Resources */,
 				88571A4A13858E7B002B5826 /* spinner4.png in Resources */,
 				88571A4D13858E7B002B5826 /* spinner5.png in Resources */,
 				88571A5013858E7B002B5826 /* spinner6.png in Resources */,
@@ -1887,6 +1894,7 @@
 				88D6FF021443592700AE0517 /* LeftArrow.png in Resources */,
 				88D6FF051443592700AE0517 /* LeftArrow@2x.png in Resources */,
 				88D6FF081443592700AE0517 /* RightArrow.png in Resources */,
+				66BE3A6618AD1812005F349B /* blankKey@2x.png in Resources */,
 				88D6FF0B1443592700AE0517 /* RightArrow@2x.png in Resources */,
 				8366F4F11715EFF80057BDA3 /* CourierPrime-Bold.ttf in Resources */,
 				8366F4F21715EFF80057BDA3 /* CourierPrime.ttf in Resources */,

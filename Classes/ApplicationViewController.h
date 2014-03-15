@@ -113,7 +113,6 @@ void DrawFadeFunction(CGContextRef context, CGRect bounds, CGColorRef background
 - (BOOL)openItem:(NSString *)aPath editingPath:(BOOL)editingPath allowAutosync:(BOOL)allowAutosync animated:(BOOL)animated;
 - (void)saveState;
 - (void)hideKeyboard;
-- (void)hideKeyboardDarnIt;
 - (void)presentError:(NSError *)error;
 - (void)reloadData;
 

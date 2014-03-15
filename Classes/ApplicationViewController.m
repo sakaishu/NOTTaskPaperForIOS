@@ -426,7 +426,7 @@ void DrawFadeFunction(CGContextRef context, CGRect bounds, CGColorRef background
 @synthesize tintCursor;
 
 - (BOOL)tintCursor {
-	return tintCursor && self.modalViewController == nil;
+	return tintCursor && self.presentedViewController == nil;
 }
 
 - (void)setTintCursor:(BOOL)aBool {
@@ -757,7 +757,7 @@ void DrawFadeFunction(CGContextRef context, CGRect bounds, CGColorRef background
 - (IBAction)showSettings:(id)sender {
 	[self hideKeyboard];
     [self resignFirstResponder];
-	[self presentModalViewController:[SettingsViewController viewControllerForDisplayingSettings] animated:YES];
+    [self presentViewController:[SettingsViewController viewControllerForDisplayingSettings] animated:YES completion:nil];
 }
 
 - (void)browser:(BrowserViewController *)browserController pushItemsForPath:(NSString *)aPath {	
@@ -875,17 +875,6 @@ void DrawFadeFunction(CGContextRef context, CGRect bounds, CGColorRef background
 
 - (void)hideKeyboard {
 	[self becomeFirstResponder];
-}
-
-- (void)hideKeyboardDarnIt {
-	[self hideKeyboard];
-	// Hide keyboard doesnt' seem to work in settings view... not sure why. But this
-	// private api seems to always work.
-	id keyboardImpl = [NSClassFromString([@"UIKe" stringByAppendingString:@"yboardImpl"]) sharedInstance];
-	SEL dismiss = NSSelectorFromString([@"dismi" stringByAppendingString:@"ssKeyboard"]);
-	if ([keyboardImpl respondsToSelector:dismiss]) {
-		[keyboardImpl performSelector:dismiss];
-	}
 }
 
 - (void)presentError:(NSError *)error {

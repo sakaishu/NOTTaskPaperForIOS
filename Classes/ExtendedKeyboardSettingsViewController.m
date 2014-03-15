@@ -22,7 +22,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
-	[APP_VIEW_CONTROLLER hideKeyboardDarnIt];
+	[APP_VIEW_CONTROLLER hideKeyboard];
 }
 
 - (void)constructTableGroups {

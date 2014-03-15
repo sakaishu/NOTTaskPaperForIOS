@@ -563,7 +563,7 @@ static NSUInteger rotateRow;
 		[mailComposeViewController setSubject:[NSString stringWithFormat:@"[%@] %@", [[NSProcessInfo processInfo] processName], [self.path lastPathComponent]]];
         [mailComposeViewController setMessageBody:[[Section sectionsToString:[sections objectEnumerator] includeTags:YES] stringByReplacingOccurrencesOfString:@"\t" withString:@"    "] isHTML:NO];
 		mailComposeViewController.mailComposeDelegate = self;
-		[APP_VIEW_CONTROLLER presentModalViewController:mailComposeViewController animated:YES];
+		[APP_VIEW_CONTROLLER presentViewController:mailComposeViewController animated:YES completion:nil];
 	}
 }
 
@@ -646,7 +646,7 @@ static NSUInteger rotateRow;
 		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"Error Emailing Document", nil), nil] message:[error localizedDescription] delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
 		[alertView show];
 	}
-	[APP_VIEW_CONTROLLER dismissModalViewControllerAnimated:YES];
+	[APP_VIEW_CONTROLLER dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark -

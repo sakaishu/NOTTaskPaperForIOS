@@ -118,7 +118,8 @@
 	UIFont *font = [APP_VIEW_CONTROLLER font];
 	
 	for (MenuViewItem *each in items) {
-		CGFloat eachWidth = [each.text sizeWithFont:font].width;
+		CGFloat eachWidth = [each.text sizeWithAttributes:@{NSFontAttributeName:font}].width;
+
 		eachWidth += (each.indentationLevel * 10) + 30;
 		if (each.checked) {
 			eachWidth += 16;

@@ -87,7 +87,7 @@
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
 	[self.hiddenTextField resignFirstResponder];
-	[APP_VIEW_CONTROLLER hideKeyboardDarnIt];
+	[APP_VIEW_CONTROLLER hideKeyboard];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation  {
@@ -222,7 +222,7 @@
 	if ([[PasscodeManager sharedPasscodeManager].passcode isEqualToString:self.hiddenTextField.text]) {
 		self.viewState = PasscodeCheck;
 		[self clearTextFeilds];
-        [self dismissModalViewControllerAnimated:NO];
+		[self dismissViewControllerAnimated:NO completion:nil];
         [APP_VIEW_CONTROLLER clearDefaultsCaches:YES];
 #ifdef TASKPAPER
         [APP_VIEW_CONTROLLER performSelector:@selector(reloadData) withObject:nil afterDelay:0];
@@ -238,7 +238,7 @@
 
 - (void)close {
 	[self clearTextFeilds];
-	[self dismissModalViewControllerAnimated:NO];
+	[self dismissViewControllerAnimated:NO completion:nil];
 }
 
 @end

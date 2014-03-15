@@ -21,37 +21,37 @@
     
     //Group One
 	IFButtonCellController *emailDeveloperCell = [[IFButtonCellController alloc] initWithLabel:@"Forums" withAction:@selector(forums) onTarget:self];
-	emailDeveloperCell.textAlignment = UITextAlignmentLeft;
+	emailDeveloperCell.textAlignment = NSTextAlignmentLeft;
 	[groupOneCells addObject:emailDeveloperCell];	
 
 	IFButtonCellController *followDeveloperCell = [[IFButtonCellController alloc] initWithLabel:@"Twitter" withAction:@selector(twitter) onTarget:self];
-	followDeveloperCell.textAlignment = UITextAlignmentLeft;
+	followDeveloperCell.textAlignment = NSTextAlignmentLeft;
 	[groupOneCells addObject:followDeveloperCell];    
 
 	IFButtonCellController *visitCell = [[IFButtonCellController alloc] initWithLabel:@"Website" withAction:@selector(website) onTarget:self];
-	visitCell.textAlignment = UITextAlignmentLeft;
+	visitCell.textAlignment = NSTextAlignmentLeft;
 	[groupOneCells addObject:visitCell];	
 
     //Group Two
 	
 	IFButtonCellController *bubblesCell = [[IFButtonCellController alloc] initWithLabel:@"Bubbles iOS" withAction:@selector(bubbles) onTarget:self];
-	bubblesCell.textAlignment = UITextAlignmentLeft;
+	bubblesCell.textAlignment = NSTextAlignmentLeft;
 	[groupTwoCells addObject:bubblesCell];	
 	
 	IFButtonCellController *markdownNoteCell = [[IFButtonCellController alloc] initWithLabel:@"PlainText iOS" withAction:@selector(plainText) onTarget:self];
-	markdownNoteCell.textAlignment = UITextAlignmentLeft;
+	markdownNoteCell.textAlignment = NSTextAlignmentLeft;
 	[groupTwoCells addObject:markdownNoteCell];	
 	
 	IFButtonCellController *taskPaperiOSCell = [[IFButtonCellController alloc] initWithLabel:@"TaskPaper iOS+Mac" withAction:@selector(taskPaper) onTarget:self];
-	taskPaperiOSCell.textAlignment = UITextAlignmentLeft;
+	taskPaperiOSCell.textAlignment = NSTextAlignmentLeft;
 	[groupTwoCells addObject:taskPaperiOSCell];	
     
 	IFButtonCellController *textileNoteCell = [[IFButtonCellController alloc] initWithLabel:@"WriteRoom iOS+Mac" withAction:@selector(writeRoom) onTarget:self];
-	textileNoteCell.textAlignment = UITextAlignmentLeft;
+	textileNoteCell.textAlignment = NSTextAlignmentLeft;
 	[groupTwoCells addObject:textileNoteCell];	
         
 	IFButtonCellController *quickCursorCell = [[IFButtonCellController alloc] initWithLabel:@"QuickCursor Mac" withAction:@selector(quickCursor) onTarget:self];
-	quickCursorCell.textAlignment = UITextAlignmentLeft;
+	quickCursorCell.textAlignment = NSTextAlignmentLeft;
 	[groupTwoCells addObject:quickCursorCell];	
     
     tableGroups = @[groupOneCells, groupTwoCells];

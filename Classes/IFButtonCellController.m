@@ -31,7 +31,7 @@
 		action = newAction;
 		target = newTarget;
 		
-        textAlignment = UITextAlignmentCenter;
+        textAlignment = NSTextAlignmentCenter;
 		accessoryType = UITableViewCellAccessoryNone;
 	}
 	return self;

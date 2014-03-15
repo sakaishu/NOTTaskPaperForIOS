@@ -51,7 +51,7 @@
     
 	if (isLinked) {
 		IFButtonCellController *dropboxStatusCell = [[IFButtonCellController alloc] initWithLabel:NSLocalizedString(@"Dropbox Status", nil) withAction:@selector(dropboxStatus) onTarget:self];
-		dropboxStatusCell.textAlignment = UITextAlignmentLeft;
+		dropboxStatusCell.textAlignment = NSTextAlignmentLeft;
 		dropboxStatusCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		[groupOneCells addObject:dropboxStatusCell];	
 		

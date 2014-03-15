@@ -114,8 +114,7 @@
 		// choice is subview in cell
 
 		cell.textLabel.text = label;
-		
-		CGSize labelSize = [label sizeWithFont:cell.textLabel.font];
+		CGSize labelSize = [label sizeWithAttributes:@{NSFontAttributeName:cell.textLabel.font}];
 		CGFloat viewWidth = 255.0f - (labelSize.width + (20.0f * indentationLevel));
 		
 		NSUInteger choiceIndex = [[model objectForKey:key] intValue];
@@ -133,7 +132,7 @@
 			[choiceLabel setFont:[UIFont systemFontOfSize:17.0f]];
 			[choiceLabel setBackgroundColor:[UIColor clearColor]];
 			[choiceLabel setHighlightedTextColor:[UIColor whiteColor]];
-			[choiceLabel setTextAlignment:UITextAlignmentRight];
+			[choiceLabel setTextAlignment:NSTextAlignmentRight];
 			[choiceLabel setTextColor:[UIColor colorWithRed:0.20f green:0.31f blue:0.52f alpha:1.0f]];
 			cell.view = choiceLabel;
 		}
@@ -145,7 +144,7 @@
 			[choiceLabel setFont:[UIFont systemFontOfSize:17.0f]];
 			[choiceLabel setBackgroundColor:[UIColor clearColor]];
 			[choiceLabel setHighlightedTextColor:[UIColor whiteColor]];
-			[choiceLabel setTextAlignment:UITextAlignmentRight];
+			[choiceLabel setTextAlignment:NSTextAlignmentRight];
 			[choiceLabel setTextColor:[UIColor colorWithRed:0.20f green:0.31f blue:0.52f alpha:1.0f]];
 			cell.view = choiceLabel;
 		}
