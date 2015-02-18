@@ -21,7 +21,7 @@
 	NSArray *elements = [self elementsForName:name];
 	if([elements count] > 0)
 	{
-		return elements[0];
+		return [elements objectAtIndex:0];
 	}
 	else
 	{
@@ -59,7 +59,7 @@
 	NSArray *elements = [self elementsForLocalName:name URI:xmlns];
 	if([elements count] > 0)
 	{
-		return elements[0];
+		return [elements objectAtIndex:0];
 	}
 	else
 	{
@@ -87,6 +87,22 @@
 }
 
 /**
+ * Shortcut to get a pretty (formatted) string representation of the element.
+**/
+- (NSString *)prettyXMLString
+{
+	return [self XMLStringWithOptions:(DDXMLNodePrettyPrint | DDXMLNodeCompactEmptyElement)];
+}
+
+/**
+ * Shortcut to get a compact string representation of the element.
+**/
+- (NSString *)compactXMLString
+{
+    return [self XMLStringWithOptions:DDXMLNodeCompactEmptyElement];
+}
+
+/**
  *	Shortcut to avoid having to manually create a DDXMLNode everytime.
 **/
 - (void)addAttributeWithName:(NSString *)name stringValue:(NSString *)string
@@ -105,9 +121,9 @@
 	uint i;
 	for(i = 0; i < [attributes count]; i++)
 	{
-		DDXMLNode *node = attributes[i];
+		DDXMLNode *node = [attributes objectAtIndex:i];
 		
-		result[[node name]] = [node stringValue];
+		[result setObject:[node stringValue] forKey:[node name]];
 	}
 	return result;
 }

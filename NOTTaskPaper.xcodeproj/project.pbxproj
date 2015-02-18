@@ -2139,7 +2139,7 @@
 				PRODUCT_NAME = NOTTaskPaper;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "armv7 armv7s";
+				VALID_ARCHS = "armv7 arm64";
 			};
 			name = Debug;
 		};
@@ -2172,7 +2172,7 @@
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
-				VALID_ARCHS = "armv7 armv7s";
+				VALID_ARCHS = "armv7 arm64";
 			};
 			name = Release;
 		};
@@ -2202,7 +2202,7 @@
 				PROVISIONING_PROFILE = "CDAED8CE-2FE8-476D-A0E3-1CF424170861";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
-				VALID_ARCHS = "armv7 armv7s";
+				VALID_ARCHS = "armv7 arm64";
 			};
 			name = Debug;
 		};
@@ -2231,7 +2231,7 @@
 				PROVISIONING_PROFILE = "2A14D8F7-AF31-463C-8F84-BA6F458ED744";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
-				VALID_ARCHS = "armv7 armv7s";
+				VALID_ARCHS = "armv7 arm64";
 			};
 			name = Release;
 		};
